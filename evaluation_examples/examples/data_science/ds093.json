@@ -1,0 +1,97 @@
+{
+  "id": "ds093",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `iris_covariance_analysis.ipynb` inside `/home/user/analysis_results/`. The dataset `iris-data.csv` is already available in that folder. In the notebook, load the dataset using pandas and compute the covariance matrix for all numeric features (sepal_length, sepal_width, petal_length, petal_width). Save this matrix as `feature_covariance.csv` with rounded values to three decimals. Then compute the determinant of the covariance matrix and save this value in a text file named `covariance_determinant.txt` in the same directory, also rounded to three decimals.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_covariance_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/iris_covariance_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds093",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_iris_covariance_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_covariance_analysis.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/feature_covariance.csv",
+        "/home/user/analysis_results/covariance_determinant.txt"
+      ],
+      "dest": [
+        "iris_covariance_analysis.ipynb",
+        "iris-data.csv",
+        "feature_covariance.csv",
+        "covariance_determinant.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "expected_file": "covariance_determinant.txt",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

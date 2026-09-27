@@ -1,0 +1,98 @@
+{
+  "id": "ds109",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `bmi_burn_relation.py` in the `/home/user/analysis_results/` directory. Connect to the SQLite database `meal.db` located in the same directory. Load the tables `meal_metadata` and `final_data`, and merge them on both `Gender` and `Workout_Type` using an inner join. For each workout type, compute the correlation between `BMI_calc` and `Calories_Burned`. Determine whether higher BMI is associated with higher or lower calorie burn per workout type, and print the correlation value (rounded to three decimals) along with its direction (Positive/Negative). Save the correlation summary to a text file named `bmi_burn_relation.txt` in the same directory.",
+  "source": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/meal.db",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/meal.db",
+            "path": "/home/user/analysis_results/meal.db"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/bmi_burn_relation.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/bmi_burn_relation.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds109",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_bmi_burn_relation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/bmi_burn_relation.py",
+        "/home/user/analysis_results/meal.db",
+        "/home/user/analysis_results/bmi_burn_relation.txt"
+      ],
+      "dest": [
+        "bmi_burn_relation.py",
+        "meal.db",
+        "bmi_burn_relation.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "db_exists": true,
+        "text_file_exists": ["bmi_burn_relation.txt"],
+        "required_libraries": ["sqlite3", "pandas", "numpy"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

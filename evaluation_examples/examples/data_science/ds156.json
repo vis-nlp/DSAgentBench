@@ -1,0 +1,95 @@
+{
+  "id": "ds156",
+  "snapshot": "data_science",
+  "instruction": "You can open Visual Studio Code and create a Python script named `cholesterol_sex_visualization.py` in the `/home/user/analysis_results/` directory. The dataset `cholesterol.csv` is already located in the same directory. In this script, load the dataset using pandas, group the data by `sex`, and create two visualizations: (1) a boxplot comparing `chol` distributions by sex (`chol_boxplot.png`), and (2) a bar chart showing the mean `num` (disease severity) for each sex (`sex_mean_num_bar.png`). Label both charts clearly and save them in the same directory.",
+  "source": "openml://204",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://204",
+            "path": "/home/user/analysis_results/cholesterol.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/cholesterol_sex_visualization.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/cholesterol_sex_visualization.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds156",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_cholesterol_sex_visualization_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/cholesterol_sex_visualization.py",
+        "/home/user/analysis_results/cholesterol.csv",
+        "/home/user/analysis_results/chol_boxplot.png",
+        "/home/user/analysis_results/sex_mean_num_bar.png"
+      ],
+      "dest": [
+        "cholesterol_sex_visualization.py",
+        "cholesterol.csv",
+        "chol_boxplot.png",
+        "sex_mean_num_bar.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": ["chol_boxplot.png", "sex_mean_num_bar.png"],
+        "required_libraries": ["pandas", "seaborn", "matplotlib"],
+        "contains_keywords": ["groupby", "mean", "boxplot", "bar", "savefig"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

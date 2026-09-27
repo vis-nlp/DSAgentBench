@@ -1,0 +1,93 @@
+{
+  "id": "ds_stock_reversal_count",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `stock_reversal_count.py` under `/home/user/analysis_results/`. The dataset `all_stocks_5yr.csv` is already in that folder. In the script, load the data using pandas. For each row compute the daily change = `close` minus `open`. Then identify **reversal events**: a reversal occurs when the product of today’s change and yesterday’s change for the **same stock** is less than zero (i.e., the sign flips). Count the total number of such reversals across all stocks and dates. Save the resulting single integer count in a text file named `reversal_count.txt` in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+            "path": "/home/user/analysis_results/all_stocks_5yr.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/stock_reversal_count.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/stock_reversal_count.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds_stock_reversal_count",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_stock_reversal_count",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/stock_reversal_count.py",
+        "/home/user/analysis_results/all_stocks_5yr.csv",
+        "/home/user/analysis_results/reversal_count.txt"
+      ],
+      "dest": [
+        "stock_reversal_count.py",
+        "all_stocks_5yr.csv",
+        "reversal_count.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "reversal_count.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

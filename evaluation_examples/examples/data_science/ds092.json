@@ -1,0 +1,94 @@
+{
+  "id": "ds092",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called `iris_zscore_outliers.ipynb` inside `/home/user/analysis_results/`. The dataset `iris-data.csv` is already available in that directory. In the notebook, load the dataset with pandas. Compute the z-score for all numeric features (e.g., sepal_length, sepal_width, petal_length, petal_width). Identify rows where any feature has an absolute z-score greater than 3. For each such row, record its index and the feature names that exceeded the threshold. Save the results as `outliers.csv` in the same directory with columns: `index, features_exceeding_threshold`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_zscore_outliers.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/iris_zscore_outliers.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds092",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_iris_zscore_outliers",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_zscore_outliers.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/outliers.csv"
+      ],
+      "dest": [
+        "iris_zscore_outliers.ipynb",
+        "iris-data.csv",
+        "outliers.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "outliers.csv",
+        "required_libraries": ["pandas", "numpy", "scipy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

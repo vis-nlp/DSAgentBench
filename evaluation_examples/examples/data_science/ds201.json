@@ -1,0 +1,87 @@
+{
+  "id": "ds201",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `heart_disease_cholesterol_diff.py` in the `/home/user/analysis_results/heart-failure-dataset/` directory. The dataset `heart.csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the mean, median, standard deviation, and count for all numerical features (`Age`, `RestingBP`, `Cholesterol`, `MaxHR`, `Oldpeak`) separately for each value of `HeartDisease` (0 and 1). Then, calculate the difference in mean `Cholesterol` between patients with and without heart disease (mean[1] - mean[0]). Save the result to a text file named `heart_disease_cholesterol_summary.txt` with one line formatted exactly as: `Mean_Cholesterol_Diff: <value>`.",
+  
+  "source": "kaggle://tan5577/heart-failure-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/heart-failure-dataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://tan5577/heart-failure-dataset",
+            "path": "/home/user/analysis_results/heart-failure-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/heart-failure-dataset/heart_disease_cholesterol_diff.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/heart-failure-dataset/heart_disease_cholesterol_diff.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds201",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_heart_disease_cholesterol_diff",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/heart-failure-dataset/heart_disease_cholesterol_diff.py",
+        "/home/user/analysis_results/heart-failure-dataset/heart.csv",
+        "/home/user/analysis_results/heart-failure-dataset/heart_disease_cholesterol_summary.txt"
+      ],
+      "dest": [
+        "heart_disease_cholesterol_diff.py",
+        "heart.csv",
+        "heart_disease_cholesterol_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas"],
+        "output_format": ["Mean_Cholesterol_Diff"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

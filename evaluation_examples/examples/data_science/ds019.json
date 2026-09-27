@@ -1,0 +1,93 @@
+{
+  "id": "ds019",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `complaints_impute.py` under `/home/user/analysis_results/`. The dataset `26k-consumer-complaints.csv` is already in that folder. In the script, load the data using pandas. Identify which columns have more than 10% missing values (for reporting only). Then impute missing values: fill missing `Sub-product` entries with the string `Unknown`, and fill missing `State` entries with the most frequent value (mode). After imputation, save only these two fully imputed columns (`Sub-product` and `State`) into a text file named `imputed_columns.txt` in the same directory. Each line of the file should contain the corresponding `Sub-product` and `State` values separated by a comma, with one row per record.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/26k-consumer-complaints.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/26k-consumer-complaints.csv",
+            "path": "/home/user/analysis_results/26k-consumer-complaints.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/complaints_impute.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/complaints_impute.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds019",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_complaints_impute",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/complaints_impute.py",
+        "/home/user/analysis_results/26k-consumer-complaints.csv",
+        "/home/user/analysis_results/imputed_columns.txt"
+      ],
+      "dest": [
+        "complaints_impute.py",
+        "26k-consumer-complaints.csv",
+        "imputed_columns.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "imputed_columns.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

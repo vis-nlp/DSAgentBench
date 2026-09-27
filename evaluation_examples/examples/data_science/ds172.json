@@ -1,0 +1,82 @@
+{
+  "id": "ds172",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `earthquake_tsunami_trend.py` in the `/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/` directory. The dataset `earthquake_data_tsunami.csv` is already located in the same directory. In this script, load the dataset using pandas. Extract the year from the event date column if available (e.g., `time` or similar). Group records by year and compute: mean magnitude, median depth, and tsunami frequency (percentage of records with `tsunami = 1`). Then, fit a simple linear regression model (using scikit-learn or numpy) with year as the independent variable and tsunami frequency as the dependent variable. Save the result to a text file named `earthquake_tsunami_trend.txt` containing a single line in the format: `Tsunami_Trend_Slope: <slope> (<direction>)`, where `<direction>` is either `Increasing` or `Decreasing` depending on the sign of the slope.",
+  "source": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+            "path": "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_tsunami_trend.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_tsunami_trend.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds172",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_earthquake_tsunami_trend",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_tsunami_trend.py",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_data_tsunami.csv",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_tsunami_trend.txt"
+      ],
+      "dest": [
+        "earthquake_tsunami_trend.py",
+        "earthquake_data_tsunami.csv",
+        "earthquake_tsunami_trend.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["groupby", "mean", "median", "tsunami", "regression", "slope"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

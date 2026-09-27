@@ -1,0 +1,96 @@
+{
+  "id": "ds146",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `amazon_feature_stats.py` in the `/home/user/analysis_results/` directory. The dataset `amazon_commerce_reviews.csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the mean, standard deviation, and coefficient of variation for every 50th numeric feature (i.e., V1, V51, V101, ...), grouped by `Class`. Save the result to a CSV file named `feature_stats_summary.csv` with the following columns: Class,Feature,Mean,Std,CV. Ensure numeric values are rounded to four decimal places and that the file contains one row per feature per class. Do not include any additional text, headers, or comments beyond the specified columns.",
+  "source": "openml://1457",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1457",
+            "path": "/home/user/analysis_results/amazon_commerce_reviews.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/amazon_feature_stats.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/amazon_feature_stats.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds146",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_amazon_feature_stats",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/amazon_feature_stats.py",
+        "/home/user/analysis_results/amazon_commerce_reviews.csv",
+        "/home/user/analysis_results/feature_stats_summary.csv"
+      ],
+      "dest": [
+        "amazon_feature_stats.py",
+        "amazon_commerce_reviews.csv",
+        "feature_stats_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "output_columns": ["Class", "Feature", "Mean", "Std", "CV"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,91 @@
+{
+  "id": "ds126",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named `titanic_rf_model.py` under `/home/user/analysis_results/`. In this script, use the `openml` library to fetch the Titanic dataset (ID 40945) with `download_all_files=True`. Load it into a pandas DataFrame, encode categorical features numerically, and split the data into 80% training and 20% testing sets. Train a `RandomForestClassifier` to predict survival (target column: 'survived' or 'class'). After training, compute Accuracy, Precision, and Recall on the test set and save these three metrics, rounded to three decimals, into a text file named `model_results.txt` in the same directory in the format `accuracy,precision,recall`.",
+  "source": "openml Titanic dataset (ID 40945)",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/titanic_rf_model.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/titanic_rf_model.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds126",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_openml_rf_model",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/titanic_rf_model.py",
+        "/home/user/analysis_results/model_results.txt"
+      ],
+      "dest": [
+        "titanic_rf_model.py",
+        "model_results.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "result_file": "model_results.txt",
+        "required_libraries": ["openml", "pandas", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

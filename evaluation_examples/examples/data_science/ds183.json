@@ -1,0 +1,99 @@
+{
+  "id": "ds183",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `bmw_transmission_comparison.py` in the `/home/user/analysis_results/bmw-worldwide-sales-records-20102024/` directory. The dataset `BMW sales data (2010-2024) (1).csv` is already located in the same directory. In this script, load the dataset using pandas. Group data by `Transmission` and compute: mean `Engine_Size_L`, mean `Price_USD`, and the ratio of mean price to mean engine size. Identify which transmission type has the higher price-to-engine-size ratio. Save the result to a text file named `bmw_transmission_summary.txt` containing a single line formatted as: `Higher_Ratio_Transmission: <transmission_type>`.",
+  "source": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/bmw-worldwide-sales-records-20102024"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+            "path": "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_transmission_comparison.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_transmission_comparison.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds183",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_bmw_transmission_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_transmission_comparison.py",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/BMW sales data (2010-2024) (1).csv",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_transmission_summary.txt"
+      ],
+      "dest": [
+        "bmw_transmission_comparison.py",
+        "BMW sales data (2010-2024) (1).csv",
+        "bmw_transmission_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["Transmission", "groupby", "mean", "ratio"],
+        "output_format": ["Higher_Ratio_Transmission"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

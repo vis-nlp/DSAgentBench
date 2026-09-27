@@ -1,0 +1,91 @@
+{
+  "id": "ds007",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called walmart_supercenter_trend.py in the /home/user/analysis_results/ directory. Load the dataset 1962_2006_walmart_store_openings.csv, group data by YEAR to calculate the proportion of Supercenters (where type_store equals 'Supercenter') each year, and plot a line chart showing this trend with a ±5% confidence band. Also, create a bar chart showing total store openings per year. Save the first chart as supercenter_trend.png and the second as store_openings_bar.png in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/1962_2006_walmart_store_openings.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/1962_2006_walmart_store_openings.csv",
+            "path": "/home/user/analysis_results/1962_2006_walmart_store_openings.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/walmart_supercenter_trend.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/walmart_supercenter_trend.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds007",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 1.0 }
+      }
+    ],
+    "func": "evaluate_walmart_supercenter_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/walmart_supercenter_trend.py",
+        "/home/user/analysis_results/supercenter_trend.png",
+        "/home/user/analysis_results/store_openings_bar.png"
+      ],
+      "dest": [
+        "walmart_supercenter_trend.py",
+        "supercenter_trend.png",
+        "store_openings_bar.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["supercenter_trend.png", "store_openings_bar.png"],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

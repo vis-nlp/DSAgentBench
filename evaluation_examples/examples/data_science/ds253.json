@@ -1,0 +1,105 @@
+{
+  "id": "ds253",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called `country_entry_count.py` in the `/home/user/analysis_results/` directory. The Climate and Energy Consumption dataset will already be downloaded as `global_climate_energy_2020_2024.csv` into the same directory. Load this file using pandas, count how many entries (rows) exist for each country, print the results, and save them into a text file named `country_entry_counts.txt` in the same directory.",
+  "source": "kaggle://emirhanakku/climate-and-energy-consumption-dataset-20202024",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://emirhanakku/climate-and-energy-consumption-dataset-20202024",
+            "path": "/home/user/analysis_results/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/country_entry_count.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/country_entry_count.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds253",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 1.0 }
+      }
+    ],
+
+    "func": "evaluate_country_entry_counts",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/country_entry_count.py",
+        "/home/user/analysis_results/global_climate_energy_2020_2024.csv",
+        "/home/user/analysis_results/country_entry_counts.txt"
+      ],
+      "dest": [
+        "country_entry_count.py",
+        "global_climate_energy_2020_2024.csv",
+        "country_entry_counts.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "file_exists": ["country_entry_counts.txt"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

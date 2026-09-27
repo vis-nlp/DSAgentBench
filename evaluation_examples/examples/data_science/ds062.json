@@ -1,0 +1,94 @@
+{
+  "id": "ds062",
+  "snapshot": "data_science",
+  "instruction": "Using a Jupyter Notebook named `diabetes_imputation.ipynb` in the `/home/user/analysis_results/` directory, load the dataset `diabetes.csv` (already present in that folder). In the notebook, identify the columns `Glucose`, `BloodPressure`, `SkinThickness`, `Insulin`, and `BMI`, and replace any zero values in each of these with the median of that column. After performing the replacements, save the resulting cleaned dataset as `filled_diabetes.csv` in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/diabetes_imputation.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/diabetes_imputation.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds062",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_diabetes_imputation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/diabetes_imputation.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/filled_diabetes.csv"
+      ],
+      "dest": [
+        "diabetes_imputation.ipynb",
+        "diabetes.csv",
+        "filled_diabetes.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "filled_diabetes.csv",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

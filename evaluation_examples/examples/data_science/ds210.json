@@ -1,0 +1,92 @@
+{
+  "id": "ds210",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `retail_markdown_impact_correlation.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset includes three files already located in the same directory: `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`. In this script, load all three datasets using pandas and merge them appropriately on `Store` and `Date`. Create a new feature `Markdown_Impact = (MarkDown1 + MarkDown2 + MarkDown3 + MarkDown4 + MarkDown5) / 5`. Filter the merged data for records where `IsHoliday = True`, and compute the Pearson correlation between `Markdown_Impact` and `Weekly_Sales`. Save the result to a text file named `retail_markdown_correlation_summary.txt` containing exactly one line formatted as: `Holiday_Markdown_Corr: <value>`.",
+  
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retaildataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retaildataset/retail_markdown_impact_correlation.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retaildataset/retail_markdown_impact_correlation.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds210",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_retail_markdown_impact_correlation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/retail_markdown_impact_correlation.py",
+        "/home/user/analysis_results/retaildataset/Features data set.csv",
+        "/home/user/analysis_results/retaildataset/sales data-set.csv",
+        "/home/user/analysis_results/retaildataset/stores data-set.csv",
+        "/home/user/analysis_results/retaildataset/retail_markdown_correlation_summary.txt"
+      ],
+      "dest": [
+        "retail_markdown_impact_correlation.py",
+        "Features data set.csv",
+        "sales data-set.csv",
+        "stores data-set.csv",
+        "retail_markdown_correlation_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["MarkDown1", "MarkDown2", "MarkDown3", "MarkDown4", "MarkDown5", "corr", "IsHoliday", "Weekly_Sales"],
+        "output_format": ["Holiday_Markdown_Corr"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

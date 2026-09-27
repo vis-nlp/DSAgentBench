@@ -1,0 +1,93 @@
+{
+  "id": "ds045",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `price_stats.py` under `/home/user/analysis_results/`. The dataset `dash-stock-ticker-demo.csv` is already in that folder. In the script, load the data using pandas. For each row (date) compute two values: (1) price range = High − Low, and (2) midpoint = (High + Low) / 2. Then compute the **average price range** over the entire dataset and the **average midpoint** over the entire dataset. Round both values to three decimals. Save them in a text file named `price_stats.txt` in the same directory, with exactly two lines: first line = the average price range, second line = the average midpoint.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+            "path": "/home/user/analysis_results/dash-stock-ticker-demo.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/price_stats.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/price_stats.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds045", 
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_price_stats",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/price_stats.py",
+        "/home/user/analysis_results/dash-stock-ticker-demo.csv",
+        "/home/user/analysis_results/price_stats.txt"
+      ],
+      "dest": [
+        "price_stats.py",
+        "dash-stock-ticker-demo.csv",
+        "price_stats.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "price_stats.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

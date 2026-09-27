@@ -1,0 +1,92 @@
+{
+  "id": "ds212",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `retail_high_sales_classifier.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset includes three files already located in the same directory: `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`. In this script, load all three datasets using pandas and merge them appropriately on `Store` and `Date`. Convert `Weekly_Sales` into a binary variable `High_Sales`, where `High_Sales = 1` if `Weekly_Sales` is greater than the median, and 0 otherwise. Encode categorical variables as needed. Train a Random Forest Classifier using all numeric and encoded categorical features. Split the data into 80% training and 20% testing sets. Compute and report `Precision`, `Recall`, and `F1-score` on the test set. Save the result to a text file named `retail_high_sales_classification_summary.txt` containing exactly one line formatted as: `Precision: <value>, Recall: <value>, F1: <value>`.",
+  
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retaildataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retaildataset/retail_high_sales_classifier.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retaildataset/retail_high_sales_classifier.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds212",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_retail_high_sales_classifier",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/retail_high_sales_classifier.py",
+        "/home/user/analysis_results/retaildataset/Features data set.csv",
+        "/home/user/analysis_results/retaildataset/sales data-set.csv",
+        "/home/user/analysis_results/retaildataset/stores data-set.csv",
+        "/home/user/analysis_results/retaildataset/retail_high_sales_classification_summary.txt"
+      ],
+      "dest": [
+        "retail_high_sales_classifier.py",
+        "Features data set.csv",
+        "sales data-set.csv",
+        "stores data-set.csv",
+        "retail_high_sales_classification_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["RandomForestClassifier", "precision_score", "recall_score", "f1_score", "train_test_split"],
+        "output_format": ["Precision", "Recall", "F1"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,93 @@
+{
+  "id": "ds046",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `adj_corr.py` under `/home/user/analysis_results/`. The dataset `dash-stock-ticker-demo.csv` is already in that folder. In the script, load the dataset using pandas. Compute the Pearson correlation coefficient between the columns `Close` and `AdjClose`. Round the result to three decimals and save it in a text file named `adj_corr.txt` in the same directory. The file should contain only the numeric correlation value (no labels or extra text).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+            "path": "/home/user/analysis_results/dash-stock-ticker-demo.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/adj_corr.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/adj_corr.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds046",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_adj_corr",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/adj_corr.py",
+        "/home/user/analysis_results/dash-stock-ticker-demo.csv",
+        "/home/user/analysis_results/adj_corr.txt"
+      ],
+      "dest": [
+        "adj_corr.py",
+        "dash-stock-ticker-demo.csv",
+        "adj_corr.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "adj_corr.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

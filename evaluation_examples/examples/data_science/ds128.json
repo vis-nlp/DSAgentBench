@@ -1,0 +1,112 @@
+{
+  "id": "ds128",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called `titanic_kaggle.py` in the `/home/user/analysis_results/` directory. The Titanic dataset will already be downloaded as `titanic.csv` into the same directory. Load this file, print the column names, and save them into a text file `titanic_kaggle_columns.txt` in the same directory.",
+  "source": "kaggle://yasserh/titanic-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://yasserh/titanic-dataset",  
+            "path": "/home/user/analysis_results/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/titanic_kaggle.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/titanic_kaggle.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds128",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+           {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_kaggle_titanic",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/titanic_kaggle.py",
+        "/home/user/analysis_results/titanic.csv",
+        "/home/user/analysis_results/titanic_kaggle_columns.txt"
+      ],
+      "dest": [
+        "titanic_kaggle.py",
+        "titanic.csv",
+        "titanic_kaggle_columns.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "file_exists": ["titanic_kaggle_columns.txt"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

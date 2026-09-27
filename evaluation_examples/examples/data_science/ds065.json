@@ -1,0 +1,94 @@
+{
+  "id": "ds065",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called `glucose_risk_analysis.ipynb` under `/home/user/analysis_results/`. The dataset `diabetes.csv` is already available in the same folder. In the notebook, read the data with pandas and create a new column named `GlucoseCategory` where: values below 100 are labeled 'Low', values between 100 and 139 are labeled 'Normal', and values of 140 or higher are labeled 'High'. Then, calculate the diabetes rate (mean of `Outcome` where `Outcome` equals 1) within each category. Save the summary table as `glucose_risk_rate.csv` with columns `GlucoseCategory` and `DiabetesRate`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/glucose_risk_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/glucose_risk_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds065",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_glucose_category_risk_rate",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/glucose_risk_analysis.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/glucose_risk_rate.csv"
+      ],
+      "dest": [
+        "glucose_risk_analysis.ipynb",
+        "diabetes.csv",
+        "glucose_risk_rate.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "glucose_risk_rate.csv",
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

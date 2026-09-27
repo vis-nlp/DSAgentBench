@@ -1,0 +1,93 @@
+{
+  "id": "ds017",
+  "snapshot": "data_science",
+  "instruction": "In Visual Studio Code, create a Python script named `squirrel_impute_group.py` in `/home/user/analysis_results/`. The dataset `2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv` is already located in that folder. In the script, load the data using pandas, impute missing values as follows: fill `Age` with its most frequent value (mode) and `Primary Fur Color` with `Unknown`. After imputation, group by `Age` and compute the percentage of each `Primary Fur Color` within each age group (rounded to one decimal). Save the grouped summary as `result.txt` in the same directory, where each line is formatted as `<Age>,<FurColor>,<Percentage>` sorted by Age and then FurColor alphabetically.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/2018_Central_Park_Squirrel_Census_-_Squirrel_Data_20250721.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/2018_Central_Park_Squirrel_Census_-_Squirrel_Data_20250721.csv",
+            "path": "/home/user/analysis_results/2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/squirrel_impute_group.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/squirrel_impute_group.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds017",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_squirrel_impute_group",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/squirrel_impute_group.py",
+        "/home/user/analysis_results/2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv",
+        "/home/user/analysis_results/result.txt"
+      ],
+      "dest": [
+        "squirrel_impute_group.py",
+        "2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv",
+        "result.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "result.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

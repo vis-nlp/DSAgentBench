@@ -1,0 +1,94 @@
+{
+  "id": "ds071",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `model_comparison.ipynb` inside `/home/user/analysis_results/`. The dataset `diabetes.csv` is already available in that folder. In the notebook, load the dataset with pandas and split it into training (80%) and test (20%) sets. Train two classifiers: Logistic Regression and RandomForestClassifier, using `Outcome` as the target and all remaining numeric features as predictors. Evaluate each model on the test set and compute Accuracy, Precision, and Recall (for the positive class). Finally, save the results in `model_comparison.csv` with columns `Model`, `Accuracy`, `Precision`, and `Recall`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/model_comparison.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/model_comparison.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds071",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_model_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/model_comparison.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/model_comparison.csv"
+      ],
+      "dest": [
+        "model_comparison.ipynb",
+        "diabetes.csv",
+        "model_comparison.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "model_comparison.csv",
+        "required_libraries": ["pandas", "numpy", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

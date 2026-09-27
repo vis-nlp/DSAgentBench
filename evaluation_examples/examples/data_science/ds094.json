@@ -1,0 +1,94 @@
+{
+  "id": "ds094",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook named `iris_anova_feature_importance.ipynb` inside `/home/user/analysis_results/`. The dataset `iris-data.csv` is already available in that directory. In the notebook, load the data using pandas and perform one-way ANOVA (F-test) for each numeric feature (sepal_length, sepal_width, petal_length, petal_width) against the class label. Record the F-statistic values for each feature, sort them in descending order by F-statistic, and save the results as `feature_importance.csv` with columns: Feature, FStatistic. Round values to three decimals before saving.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_anova_feature_importance.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/iris_anova_feature_importance.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds094",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_iris_anova_feature_importance",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_anova_feature_importance.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/feature_importance.csv"
+      ],
+      "dest": [
+        "iris_anova_feature_importance.ipynb",
+        "iris-data.csv",
+        "feature_importance.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "scipy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

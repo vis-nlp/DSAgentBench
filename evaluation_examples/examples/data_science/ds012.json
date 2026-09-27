@@ -1,0 +1,93 @@
+{
+  "id": "ds012",
+  "snapshot": "data_sccience",
+  "instruction": "Create a Python script named `ag_dependence.py` in `/home/user/analysis_results/`. The file `2011_us_ag_exports.csv` is already located in that folder. In the script, load the dataset using pandas, define a new feature `ag_dependence = total exports / (beef + pork + poultry + dairy)`. Then compute the top 3 states with the highest `ag_dependence` values. Write to `result.txt` in the same folder exactly three lines, each containing `<state>,<ag_dependence>` with the values rounded to two decimals, ordered from highest to lowest dependence.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv",
+            "path": "/home/user/analysis_results/2011_us_ag_exports.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/ag_dependence.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/ag_dependence.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds012",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_ag_dependence",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/ag_dependence.py",
+        "/home/user/analysis_results/2011_us_ag_exports.csv",
+        "/home/user/analysis_results/result.txt"
+      ],
+      "dest": [
+        "ag_dependence.py",
+        "2011_us_ag_exports.csv",
+        "result.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "result.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

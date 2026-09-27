@@ -1,0 +1,79 @@
+{
+  "id": "ds232",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `covid_global_cases_analysis.py` in the `/home/user/analysis_results/covid_data/` directory. In this script, load the global table from `https://www.worldometers.info/coronavirus/` (the “Countries where Coronavirus has spread” section), and extract the following fields for each country: `country`, `total_cases`, `total_deaths`, `total_recovered`, and `population`. Then compute `cases_per_million = (total_cases / population) * 1_000_000`. Identify the top 5 countries by highest `cases_per_million` and save the full table with the computed column to `covid_country_summary.csv` in the same directory with columns: `country`, `total_cases`, `total_deaths`, `total_recovered`, `population`, `cases_per_million`. Also save a text file named `covid_top5_cases_per_million.txt` containing exactly one line formatted as: `Top5_By_Cases_Per_Million: <country1>,<country2>,<country3>,<country4>,<country5>`.",
+  "source": "web://www.worldometers.info/coronavirus/",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/covid_data"]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/covid_data/covid_global_cases_analysis.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/covid_data/covid_global_cases_analysis.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds232",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_covid_global_cases_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/covid_data/covid_global_cases_analysis.py",
+        "/home/user/analysis_results/covid_data/covid_country_summary.csv",
+        "/home/user/analysis_results/covid_data/covid_top5_cases_per_million.txt"
+      ],
+      "dest": [
+        "covid_global_cases_analysis.py",
+        "covid_country_summary.csv",
+        "covid_top5_cases_per_million.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "requests", "beautifulsoup4"],
+        "contains_keywords": ["worldometers.info/coronavirus", "cases_per_million", "population"],
+        "output_columns": ["country", "total_cases", "total_deaths", "total_recovered", "population", "cases_per_million"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

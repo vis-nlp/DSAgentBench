@@ -1,0 +1,88 @@
+{
+  "id": "ds205",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `retail_stock_balance_smote.py` in the `/home/user/analysis_results/retail-product-dataset-with-missing-values/` directory. The dataset `synthetic_dataset.csv` is already located in the same directory. In this script, load the dataset using pandas. Assume the target column is `Stock`, which takes two possible values: `In Stock` and `Out of Stock`. First, calculate the percentage distribution of both classes and check if the class imbalance exceeds 20%. If imbalance exists, apply SMOTE oversampling (from imblearn) to balance the minority class until both classes are approximately equal. After resampling, compute and print the new ratio of `In Stock` to `Out of Stock` as a single line formatted as: `Balanced_Ratio: <ratio_value>`.",
+  
+  "source": "kaggle://himelsarder/retail-product-dataset-with-missing-values",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retail-product-dataset-with-missing-values"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://himelsarder/retail-product-dataset-with-missing-values",
+            "path": "/home/user/analysis_results/retail-product-dataset-with-missing-values/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_stock_balance_smote.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_stock_balance_smote.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds205",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_retail_stock_balance_smote",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_stock_balance_smote.py",
+        "/home/user/analysis_results/retail-product-dataset-with-missing-values/synthetic_dataset.csv",
+        "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_stock_balance_summary.txt"
+      ],
+      "dest": [
+        "retail_stock_balance_smote.py",
+        "synthetic_dataset.csv",
+        "retail_stock_balance_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "imblearn", "numpy"],
+        "contains_keywords": ["SMOTE", "value_counts", "fit_resample", "ratio", "Stock"],
+        "output_format": ["Balanced_Ratio"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

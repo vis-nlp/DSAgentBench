@@ -1,0 +1,75 @@
+{
+  "id": "ds252",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `column_count_analysis.py` in `/home/user/analysis_results/climate_data/`. The Kaggle dataset (Climate and Energy Consumption 2020–2024) will be downloaded into the same folder. Your script should load the single CSV file `global_climate_energy_2020_2024.csv` using pandas, count the number of columns in the file, and save the result into a text file named `column_counts.txt` in the same directory.",
+  "source": "kaggle://emirhanakku/climate-and-energy-consumption-dataset-20202024",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/climate_data"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://emirhanakku/climate-and-energy-consumption-dataset-20202024",
+            "path": "/home/user/analysis_results/climate_data/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/climate_data/column_count_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/climate_data/column_count_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds252",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_single_column_count",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/climate_data/column_count_analysis.py",
+        "/home/user/analysis_results/climate_data/column_counts.txt"
+      ],
+      "dest": [
+        "column_count_analysis.py",
+        "column_counts.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "file_exists": ["column_counts.txt"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

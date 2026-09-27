@@ -1,0 +1,75 @@
+{
+  "id": "ds130",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called `fraud_analysis.py` in the `/home/user/analysis_results/fraud_data/` directory. The Kaggle dataset (Fraud Detection) will be downloaded into the same folder, keeping all subdirectories. Your script should list all CSV files in this dataset, load each CSV using pandas, and save the column names of each file into a single text file `fraud_columns.txt` in the same directory.",
+  "source": "kaggle://goyaladi/fraud-detection-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/fraud_data"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://goyaladi/fraud-detection-dataset",
+            "path": "/home/user/analysis_results/fraud_data/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/fraud_data/fraud_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/fraud_data/fraud_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds130",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_kaggle_fraud",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/fraud_data/fraud_analysis.py",
+        "/home/user/analysis_results/fraud_data/fraud_columns.txt"
+      ],
+      "dest": [
+        "fraud_analysis.py",
+        "fraud_columns.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "file_exists": ["fraud_columns.txt"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

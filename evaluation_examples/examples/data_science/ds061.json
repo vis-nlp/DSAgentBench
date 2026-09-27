@@ -1,0 +1,84 @@
+{
+  "id": "ds061",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called highdebt_default_analysis.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset data.csv and create a new binary column HighDebt = 1 if DebtRatio > 0.5, else 0. Then create two visualizations: (1) highdebt_default_rate.png — a bar chart showing the proportion of SeriousDlqin2yrs = 1 within each HighDebt group, and (2) utilization_boxplot.png — a boxplot of RevolvingUtilizationOfUnsecuredLines grouped by SeriousDlqin2yrs. Ensure all charts have clear titles, axis labels, and readable legends, and save them in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/data.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/data.csv",
+            "path": "/home/user/analysis_results/data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/highdebt_default_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["python", "-m", "notebook", "/home/user/analysis_results/highdebt_default_analysis.ipynb"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds061",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_highdebt_default_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/highdebt_default_analysis.ipynb",
+        "/home/user/analysis_results/data.csv",
+        "/home/user/analysis_results/highdebt_default_rate.png",
+        "/home/user/analysis_results/utilization_boxplot.png"
+      ],
+      "dest": [
+        "highdebt_default_analysis.ipynb",
+        "data.csv",
+        "highdebt_default_rate.png",
+        "utilization_boxplot.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["highdebt_default_rate.png", "utilization_boxplot.png"],
+        "required_libraries": ["pandas", "matplotlib"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

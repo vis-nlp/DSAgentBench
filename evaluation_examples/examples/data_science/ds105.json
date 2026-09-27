@@ -1,0 +1,98 @@
+{
+  "id": "ds105",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `workout_efficiency.py` in the `/home/user/analysis_results/` directory. Connect to the SQLite database `meal.db` in the same directory. Load the tables `meal_metadata` and `final_data`, and join them on `Workout_Type` using an inner join. For each record, calculate `efficiency_index = Calories_Burned / (Session_Duration (hours) * Weight (kg))`. Then, compute the average efficiency index for each `Workout_Type`, rank them from most to least efficient, and print the top 5 workout types along with their average efficiency values. Save these top 5 results to a CSV file named `workout_efficiency.csv` in the same directory.",
+  "source": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/meal.db",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/meal.db",
+            "path": "/home/user/analysis_results/meal.db"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/workout_efficiency.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/workout_efficiency.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds105",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_workout_efficiency",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/workout_efficiency.py",
+        "/home/user/analysis_results/meal.db",
+        "/home/user/analysis_results/workout_efficiency.csv"
+      ],
+      "dest": [
+        "workout_efficiency.py",
+        "meal.db",
+        "workout_efficiency.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "db_exists": true,
+        "csv_file_exists": ["workout_efficiency.csv"],
+        "required_libraries": ["sqlite3", "pandas"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

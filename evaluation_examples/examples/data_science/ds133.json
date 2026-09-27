@@ -1,0 +1,118 @@
+{
+  "id": "ds133",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `donation_recency_visualization.py` in the `/home/user/analysis_results/` directory. The dataset `blood_transfusion.csv` is already located in the same directory. In this script, load the dataset using pandas, group donors by recency (column: V1) into bins [0–6, 7–12, 13–24, 25–36, 37+], and compute the proportion of donors with `Class = 2` in each bin. Create two visualizations showing identical information: (1) a bar chart (`donation_rate_by_recency_bar.png`), and (2) a line chart (`donation_rate_by_recency_line.png`). Label both charts with clear titles and axis labels, and save them in the same directory.",
+  "source": "openml://1464",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1464",
+            "path": "/home/user/analysis_results/blood_transfusion.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/donation_recency_visualization.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/donation_recency_visualization.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds133",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_donation_recency_visualization_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/donation_recency_visualization.py",
+        "/home/user/analysis_results/blood_transfusion.csv",
+        "/home/user/analysis_results/donation_rate_by_recency_bar.png",
+        "/home/user/analysis_results/donation_rate_by_recency_line.png"
+      ],
+      "dest": [
+        "donation_recency_visualization.py",
+        "blood_transfusion.csv",
+        "donation_rate_by_recency_bar.png",
+        "donation_rate_by_recency_line.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": [
+          "donation_rate_by_recency_bar.png",
+          "donation_rate_by_recency_line.png"
+        ],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"],
+        "contains_keywords": [
+          "pd.read_csv",
+          "bin",
+          "plt.bar",
+          "plt.plot",
+          "savefig"
+        ]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

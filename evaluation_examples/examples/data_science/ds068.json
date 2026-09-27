@@ -1,0 +1,94 @@
+{
+  "id": "ds068",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `age_group_outcome.ipynb` inside `/home/user/analysis_results/`. The dataset `diabetes.csv` is already available in that folder. In the notebook, load the data with pandas and create three age groups: '<30', '30–50', and '>50'. For each group, calculate the proportion of cases where `Outcome` equals 1 (the diabetes rate). Save the resulting table as `age_group_outcome.csv` with columns `AgeGroup` and `DiabetesRate`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/age_group_outcome.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/age_group_outcome.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds068",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_age_group_outcome",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/age_group_outcome.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/age_group_outcome.csv"
+      ],
+      "dest": [
+        "age_group_outcome.ipynb",
+        "diabetes.csv",
+        "age_group_outcome.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "age_group_outcome.csv",
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

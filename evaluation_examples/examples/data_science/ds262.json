@@ -1,0 +1,87 @@
+{
+  "id": "ds262",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `hourly_sales_variation.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset directory already contains the retail files `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`. In this script, load and merge the datasets on `Store` and `Date`, and attempt to compute the hourly variation in `Weekly_Sales` for each store. Store the outcome of your computation—either the numerical result or a brief summary of what happened—into a text file named `hourly_sales_variation_summary.txt`. The file must contain exactly one line.",
+  
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retaildataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retaildataset/hourly_sales_variation.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retaildataset/hourly_sales_variation.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds262",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+
+    "func": "evaluate_hourly_sales_variation_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/hourly_sales_variation.py",
+        "/home/user/analysis_results/retaildataset/hourly_sales_variation_summary.txt"
+      ],
+      "dest": [
+        "hourly_sales_variation.py",
+        "hourly_sales_variation_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_granularity"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

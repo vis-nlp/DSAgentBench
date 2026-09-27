@@ -1,0 +1,103 @@
+{
+  "id": "ds006",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named walmart_outlier_distance.py inside the /home/user/analysis_results/ directory. The dataset 1962_2006_walmart_store_openings.csv has already been placed in the same folder. Your task is to identify the outlier years in the YEAR column using the Interquartile Range (IQR) method. For all stores that opened in those outlier years, determine their average haversine distance (in kilometers) from the median store location, defined by the median latitude and median longitude of all stores in the dataset. Save the final average distance value in a text file called outlier_distance.txt within the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/1962_2006_walmart_store_openings.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/1962_2006_walmart_store_openings.csv",
+            "path": "/home/user/analysis_results/1962_2006_walmart_store_openings.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/walmart_outlier_distance.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/walmart_outlier_distance.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds006",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 1.0 }
+      }
+    ],
+    "func": "evaluate_outlier_distance",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/walmart_outlier_distance.py",
+        "/home/user/analysis_results/outlier_distance.txt"
+      ],
+      "dest": [
+        "walmart_outlier_distance.py",
+        "outlier_distance.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "outlier_distance.txt"
+      }
+    }
+  }
+,
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

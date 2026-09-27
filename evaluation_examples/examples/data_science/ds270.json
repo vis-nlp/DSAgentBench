@@ -1,0 +1,83 @@
+{
+  "id": "ds270",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `charging_speed_correlation.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The directory already contains `train.csv` and `test.csv`. In this script, load and merge both datasets using pandas, then attempt to compute the correlation between `charging_speed` and `battery_power`. Store the outcome—either the correlation value or a brief explanation of what happened—into a text file named `charging_speed_correlation_summary.txt`. The file must contain exactly one line.",
+  
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/charging_speed_correlation.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/charging_speed_correlation.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds270",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      }
+    ],
+
+    "func": "evaluate_charging_speed_correlation_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/charging_speed_correlation.py",
+        "/home/user/analysis_results/mobile-price-classification/charging_speed_correlation_summary.txt"
+      ],
+      "dest": [
+        "charging_speed_correlation.py",
+        "charging_speed_correlation_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_column"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

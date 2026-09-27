@@ -1,0 +1,107 @@
+{
+  "id": "ds134",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `donation_aggregation_summary.py` in the `/home/user/analysis_results/` directory. The dataset `blood_transfusion.csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the average and standard deviation of `V2` (Frequency), `V3` (Monetary), and a new feature `donation_density = V2 / V4` for each donor recency category defined as follows: Recent: V1 ≤ 6; Moderate: 7 ≤ V1 ≤ 18; Dormant: V1 > 18. For each category, also calculate the proportion of active donors (`Class = 2`). Save the result to a CSV file named `donation_aggregation_summary.csv` with the following columns: RecencyCategory,Avg_Frequency,Std_Frequency,Avg_Monetary,Std_Monetary,Avg_Density,Std_Density,Active_Rate.",
+  "source": "openml://1464",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1464",
+            "path": "/home/user/analysis_results/blood_transfusion.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/donation_aggregation_summary.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/donation_aggregation_summary.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds129",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_donation_aggregation_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/donation_aggregation_summary.py",
+        "/home/user/analysis_results/blood_transfusion.csv",
+        "/home/user/analysis_results/donation_aggregation_summary.csv"
+      ],
+      "dest": [
+        "donation_aggregation_summary.py",
+        "blood_transfusion.csv",
+        "donation_aggregation_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["groupby", "mean", "std", "donation_density", "V1", "V2", "V3", "V4", "Class"],
+        "output_columns": ["RecencyCategory", "Avg_Frequency", "Std_Frequency", "Avg_Monetary", "Std_Monetary", "Avg_Density", "Std_Density", "Active_Rate"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ds239",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `weather_stock_correlation.py` in the `/home/user/analysis_results/weather_stock/` directory. In this script: (1) Scrape or fetch daily temperature data for New York City for the past 30 days from `https://www.timeanddate.com/weather/usa/new-york/historic`. (2) Retrieve S&P 500 daily closing prices for the same period using any public endpoint (e.g., Yahoo Finance API). (3) Merge both on date and compute daily percentage changes. (4) Compute and save to a CSV file `weather_stock_correlation.csv` with columns: `date`, `temperature`, `sp500_close`, `temp_change`, `sp500_return`. (5) Compute and print the Pearson correlation between `temp_change` and `sp500_return`. Save it to a text file named `weather_stock_corr_summary.txt` formatted exactly as: `Corr_TempChange_SP500Return: <value>`.",
+  "source": "web://timeanddate.com/weather/usa/new-york/historic + finance.yahoo.com",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/weather_stock"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/weather_stock/weather_stock_correlation.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/weather_stock/weather_stock_correlation.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds239",
+  "related_apps": ["vscode","python"],
+  "evaluator": {
+    "func": "evaluate_weather_stock_correlation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/weather_stock/weather_stock_correlation.py",
+        "/home/user/analysis_results/weather_stock/weather_stock_correlation.csv",
+        "/home/user/analysis_results/weather_stock/weather_stock_corr_summary.txt"
+      ],
+      "dest": [
+        "weather_stock_correlation.py",
+        "weather_stock_correlation.csv",
+        "weather_stock_corr_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas","requests","numpy","scipy"],
+        "contains_keywords": ["temperature","sp500","correlation","merge"],
+        "output_columns": ["date","temperature","sp500_close","temp_change","sp500_return"]
+      }
+    }
+  }
+}

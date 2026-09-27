@@ -1,0 +1,103 @@
+{
+  "id": "ds188",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `student_exam_correlation_difference.py` in the `/home/user/analysis_results/student-exam-score-dataset-analysis/` directory. The dataset `student_exam_scores.csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the Pearson correlation between `hours_studied` and `exam_score` separately for two groups: students with `previous_scores` above 70 and those with `previous_scores` below or equal to 70. Report both correlations and their absolute difference. Save the results to a text file named `student_exam_correlation_summary.txt` containing one line formatted as: `HighGroup_Corr: <value>, LowGroup_Corr: <value>, Abs_Diff: <value>`.",
+  "source": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/student-exam-score-dataset-analysis"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+            "path": "/home/user/analysis_results/student-exam-score-dataset-analysis/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_correlation_difference.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_correlation_difference.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds188",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_student_exam_correlation_difference",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_correlation_difference.py",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_scores.csv",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_correlation_summary.txt"
+      ],
+      "dest": [
+        "student_exam_correlation_difference.py",
+        "student_exam_scores.csv",
+        "student_exam_correlation_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "scipy"],
+        "contains_keywords": ["corr", "previous_scores", "hours_studied", "exam_score"],
+        "output_columns": ["HighGroup_Corr", "LowGroup_Corr", "Abs_Diff"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

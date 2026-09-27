@@ -1,0 +1,93 @@
+{
+  "id": "ds167",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `credit_decision_rule.py` in the `/home/user/analysis_results/` directory. The dataset `credit_approval.csv` is already located in the same directory. In this script, load the dataset using pandas. Build a simple rule-based classifier that flags applicants as 'risky' when (A2 < 25 and A14 > 1000) or (A8 < 2). Encode the target column 'A16' so that '+' becomes 1 (approved) and '−' becomes 0 (risky). Compute the precision and recall of this decision rule compared to the true target class, treating the predicted 'risky' applicants as class 0. Save the results to a text file named `credit_decision_rule_metrics.txt` with two lines in the format: 'Precision: <value>' and 'Recall: <value>'. Round both metrics to four decimal places.",
+  "source": "openml://29",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://29",
+            "path": "/home/user/analysis_results/credit_approval.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/credit_decision_rule.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/credit_decision_rule.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds167",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_credit_decision_rule",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/credit_decision_rule.py",
+        "/home/user/analysis_results/credit_approval.csv",
+        "/home/user/analysis_results/credit_decision_rule_metrics.txt"
+      ],
+      "dest": [
+        "credit_decision_rule.py",
+        "credit_approval.csv",
+        "credit_decision_rule_metrics.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["precision_score", "recall_score", "A2", "A8", "A14"],
+        "output_keywords": ["Precision", "Recall"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

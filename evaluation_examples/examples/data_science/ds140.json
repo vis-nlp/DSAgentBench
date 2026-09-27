@@ -1,0 +1,106 @@
+{
+  "id": "ds140",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `eeg_collinearity_analysis.py` in the `/home/user/analysis_results/` directory. The dataset `eeg_eye_state.csv` is already located in the same directory. In this script, load the dataset using pandas. Identify all triplets of numeric features among V1–V14 that form nearly collinear relationships where the absolute correlation between every pair exceeds 0.95. For each such triplet, compute their combined Variance Inflation Factor (VIF). Save the results to a CSV file named `collinear_triplets_vif.csv` with the following columns: Feature1,Feature2,Feature3,Avg_Correlation,Combined_VIF.",
+  "source": "openml://1471",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1471",
+            "path": "/home/user/analysis_results/eeg_eye_state.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/eeg_collinearity_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/eeg_collinearity_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds140",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_eeg_collinearity_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/eeg_collinearity_analysis.py",
+        "/home/user/analysis_results/eeg_eye_state.csv",
+        "/home/user/analysis_results/collinear_triplets_vif.csv"
+      ],
+      "dest": [
+        "eeg_collinearity_analysis.py",
+        "eeg_eye_state.csv",
+        "collinear_triplets_vif.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "statsmodels"],
+        "output_columns": ["Feature1", "Feature2", "Feature3", "Avg_Correlation", "Combined_VIF"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

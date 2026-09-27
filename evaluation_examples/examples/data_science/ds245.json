@@ -1,0 +1,76 @@
+{
+  "id": "ds245",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named `cifar10_rgb_class_similarity.py` under `/home/user/analysis_results/`. In this script: (1) Use the `openml` library to fetch the CIFAR-10 dataset (OpenML ID 40927). (2) For each class (0–9), compute the mean RGB vector (flattened to 3072 dimensions per class). (3) Compute pairwise cosine similarities between all class-mean vectors. (4) Identify the top 3 most similar class pairs (excluding self-pairs). (5) Save a text file named `cifar10_rgb_class_similarity_summary.txt` containing one line in the exact format: `(a, b), (c, d), (e, f)` — where each tuple represents a pair of classes with the highest cosine similarity.",
+  "source": "openml://40927",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/cifar10_rgb_class_similarity.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/cifar10_rgb_class_similarity.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds245",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+
+    "func": "evaluate_cifar10_rgb_class_similarity",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/cifar10_rgb_class_similarity.py",
+        "/home/user/analysis_results/cifar10_rgb_class_similarity_summary.txt"
+      ],
+      "dest": [
+        "cifar10_rgb_class_similarity.py",
+        "cifar10_rgb_class_similarity_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["openml", "pandas", "numpy", "sklearn"],
+        "contains_keywords": ["cosine_similarity", "groupby", "mean", "argsort"],
+        "output_format": ["(a, b), (c, d), (e, f)"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false
+}

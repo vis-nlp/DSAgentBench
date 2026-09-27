@@ -1,0 +1,97 @@
+{
+  "id": "ds162",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mnist_logistic_recall.py` in the `/home/user/analysis_results/` directory. The dataset `mnist_784.csv` (digits 0–9) is already located in the same directory. In this script, load the dataset using pandas and scikit-learn. Train a Logistic Regression classifier using a one-vs-rest (OvR) scheme to classify the digits. Evaluate model performance by computing recall for each digit. Identify and save the three digits with the lowest recall to a CSV file named `lowest_recall_digits.csv` with exactly two columns: Digit,Recall. Round recall values to four decimal places and ensure that the file has exactly three rows corresponding to the lowest-recall digits.",
+  "source": "openml://554", 
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://554",
+            "path": "/home/user/analysis_results/mnist_784.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/mnist_logistic_recall.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/mnist_logistic_recall.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds162",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mnist_logistic_recall",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mnist_logistic_recall.py",
+        "/home/user/analysis_results/mnist_784.csv",
+        "/home/user/analysis_results/lowest_recall_digits.csv"
+      ],
+      "dest": [
+        "mnist_logistic_recall.py",
+        "mnist_784.csv",
+        "lowest_recall_digits.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["LogisticRegression", "one_vs_rest", "recall_score"],
+        "output_columns": ["Digit", "Recall"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

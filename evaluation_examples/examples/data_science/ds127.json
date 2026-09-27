@@ -1,0 +1,107 @@
+{
+  "id": "ds127",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `titanic_feature_importance.py` in the `/home/user/analysis_results/` directory. In this script, load the dataset `titanic.csv` using pandas. Encode all categorical columns numerically (for example, using LabelEncoder or pandas `factorize`). Train a `RandomForestClassifier` to predict survival (target column: `survived` or `class`). Compute and save the top five most important features ranked by their importance scores to a CSV file named `top_features.csv` with columns: Feature,Importance.",
+  "source": "openml://40945",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://40945",
+            "path": "/home/user/analysis_results/titanic.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/titanic_feature_importance.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/titanic_feature_importance.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds127",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_titanic_feature_importance",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/titanic_feature_importance.py",
+        "/home/user/analysis_results/titanic.csv",
+        "/home/user/analysis_results/top_features.csv"
+      ],
+      "dest": [
+        "titanic_feature_importance.py",
+        "titanic.csv",
+        "top_features.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "sklearn", "numpy"],
+        "contains_keywords": ["RandomForestClassifier", "feature_importances_", "LabelEncoder", "factorize"],
+        "output_columns": ["Feature", "Importance"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

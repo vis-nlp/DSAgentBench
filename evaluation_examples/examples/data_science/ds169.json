@@ -1,0 +1,95 @@
+{
+  "id": "ds169",
+  "snapshot": "data_science",
+  "instruction": "You can open Visual Studio Code and create a Python script named `credit_approval_visualization.py` in the `/home/user/analysis_results/` directory. The dataset `credit_approval.csv` is already located in the same directory. In this script, load the dataset using pandas and create two visualizations: (1) a bar chart showing the average `A14` (credit amount) by `A9` for each approval class (`+` or `–`), saved as `credit_amount_bar.png`; and (2) a boxplot showing the distribution of `A2` values for approved vs. rejected applications, saved as `a2_boxplot.png`. Label all axes, legends, and titles clearly, and save both charts in the same directory. Finally, create a single slide in Microsoft PowerPoint that includes both visualizations and clearly communicates the key insights and overall story shown by the charts.",
+  "source": "openml://29",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://29",
+            "path": "/home/user/analysis_results/credit_approval.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/credit_approval_visualization.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/credit_approval_visualization.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds169",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_credit_approval_visualization_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/credit_approval_visualization.py",
+        "/home/user/analysis_results/credit_approval.csv",
+        "/home/user/analysis_results/credit_amount_bar.png",
+        "/home/user/analysis_results/a2_boxplot.png"
+      ],
+      "dest": [
+        "credit_approval_visualization.py",
+        "credit_approval.csv",
+        "credit_amount_bar.png",
+        "a2_boxplot.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": ["credit_amount_bar.png", "a2_boxplot.png"],
+        "required_libraries": ["pandas", "seaborn", "matplotlib"],
+        "contains_keywords": ["groupby", "mean", "bar", "boxplot", "savefig"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

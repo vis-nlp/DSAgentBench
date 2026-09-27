@@ -1,0 +1,89 @@
+{
+  "id": "ds254",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called `earthquake_dataset_count.py` in the `/home/user/analysis_results/earthquake_data/` directory. The Earthquake and Tsunami dataset will already be downloaded from Kaggle and include a file named `earthquake_data_tsunami.csv` in the same directory. Load this file using pandas, count how many entries (rows) are in the dataset, print this number, and save it into a text file named `earthquake_dataset_count.txt` in the same directory.",
+  "source": "kaggle://zeesolver/earth-quick",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/earthquake_data"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://zeesolver/earth-quick",
+            "path": "/home/user/analysis_results/earthquake_data/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/earthquake_data/earthquake_dataset_count.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/earthquake_data/earthquake_dataset_count.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds254",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 1.0 }
+      }
+    ],
+
+    "func": "evaluate_earthquake_dataset_count",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/earthquake_data/earthquake_dataset_count.py",
+        "/home/user/analysis_results/earthquake_data/earthquake_data_tsunami.csv",
+        "/home/user/analysis_results/earthquake_data/earthquake_dataset_count.txt"
+      ],
+      "dest": [
+        "earthquake_dataset_count.py",
+        "earthquake_data_tsunami.csv",
+        "earthquake_dataset_count.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "file_exists": ["earthquake_dataset_count.txt"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

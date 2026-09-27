@@ -1,0 +1,94 @@
+{
+  "id": "ds096",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook named `iris_pairwise_distance.ipynb` under `/home/user/analysis_results/`. The dataset `iris-data.csv` is already available in that folder. In the notebook, load the dataset with pandas, select the numeric columns (sepal length, sepal width, petal length, petal width), and compute the Euclidean distance between every pair of samples. Then calculate the minimum, mean, and maximum of all distances. Save these three values (rounded to three decimals) in a text file `pairwise_distance_summary.txt` in the same directory, formatted as: `min_distance, mean_distance, max_distance`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_pairwise_distance.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/iris_pairwise_distance.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds096",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_iris_pairwise_distance_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_pairwise_distance.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/pairwise_distance_summary.txt"
+      ],
+      "dest": [
+        "iris_pairwise_distance.ipynb",
+        "iris-data.csv",
+        "pairwise_distance_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "pairwise_distance_summary.txt",
+        "required_libraries": ["pandas", "scipy", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

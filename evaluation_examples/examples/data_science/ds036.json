@@ -1,0 +1,93 @@
+{
+  "id": "ds036",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `monthly_gain_drop.py` under `/home/user/analysis_results/`. The dataset `all_stocks_5yr.csv` is already in that folder. In the script, load the dataset using pandas. Extract the month (1–12) from the `date` column. For each month, compute two averages: (1) the average of daily (close - open) values where the difference is positive (gain), and (2) the average of daily (close - open) values where the difference is negative (drop). Round both averages to three decimals. Save the final results in a CSV file named `monthly_gain_drop.csv` in the same directory, with exactly these columns: `month,avg_gain,avg_drop`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+            "path": "/home/user/analysis_results/all_stocks_5yr.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/monthly_gain_drop.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/monthly_gain_drop.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds036",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_monthly_gain_drop",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/monthly_gain_drop.py",
+        "/home/user/analysis_results/all_stocks_5yr.csv",
+        "/home/user/analysis_results/monthly_gain_drop.csv"
+      ],
+      "dest": [
+        "monthly_gain_drop.py",
+        "all_stocks_5yr.csv",
+        "monthly_gain_drop.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "monthly_gain_drop.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

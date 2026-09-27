@@ -1,0 +1,87 @@
+{
+  "id": "ds072",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called diabetes_pairplot_analysis.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset diabetes.csv and generate a pairplot (or grid of scatter plots) between the variables Glucose, BMI, Age, and Outcome to explore relationships visually. Save the plot as pairplot.png in the same directory. Ensure the chart has a title and is clearly labeled. Finally, create a single slide in Microsoft PowerPoint that includes thus visualization and clearly communicates the key insights and overall story shown by the chart.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/diabetes_pairplot_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/diabetes_pairplot_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds072",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_diabetes_pairplot_visualization",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/diabetes_pairplot_analysis.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/pairplot.png"
+      ],
+      "dest": [
+        "diabetes_pairplot_analysis.ipynb",
+        "diabetes.csv",
+        "pairplot.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["pairplot.png"],
+        "required_libraries": ["pandas", "seaborn"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

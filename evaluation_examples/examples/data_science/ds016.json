@@ -1,0 +1,97 @@
+{
+  "id": "ds016",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called aapl_ma_volatility_viz.py in the /home/user/analysis_results/ directory. The dataset 2014_apple_stock.csv is already available in the same folder. Load it using pandas and compute two new columns: MA7 (7-day moving average of AAPL_y) and Volatility7 (7-day rolling standard deviation of AAPL_y). Create two visualizations: (1) a line chart showing AAPL_y and MA7 over time, saved as aapl_trend_ma7.png, and (2) an area chart showing Volatility7 over time, saved as aapl_volatility.png.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/2014_apple_stock.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/2014_apple_stock.csv",
+            "path": "/home/user/analysis_results/2014_apple_stock.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/aapl_ma_volatility_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/aapl_ma_volatility_viz.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds016",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_aapl_ma_volatility_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/aapl_ma_volatility_viz.py",
+        "/home/user/analysis_results/aapl_trend_ma7.png",
+        "/home/user/analysis_results/aapl_volatility.png"
+      ],
+      "dest": [
+        "aapl_ma_volatility_viz.py",
+        "aapl_trend_ma7.png",
+        "aapl_volatility.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["aapl_trend_ma7.png", "aapl_volatility.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,97 @@
+{
+  "id": "ds148",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `amazon_rf_classification.py` in the `/home/user/analysis_results/` directory. The dataset `amazon_commerce_reviews.csv` is already located in the same directory. In this script, load the dataset using pandas. Train a Random Forest classifier using V1–V1000 as predictors and Class as the target. Use 5-fold cross-validation to evaluate the model. Report the mean accuracy, macro-F1 score, and top-5 accuracy across folds. Save the results to a text file named `rf_classification_results.txt`, containing one line per metric in the format: Accuracy: <value>, Macro_F1: <value>, Top5_Accuracy: <value>. Round all metric values to four decimal places.",
+  "source": "openml://1457",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1457",
+            "path": "/home/user/analysis_results/amazon_commerce_reviews.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/amazon_rf_classification.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/amazon_rf_classification.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds148",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_amazon_rf_classification",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/amazon_rf_classification.py",
+        "/home/user/analysis_results/amazon_commerce_reviews.csv",
+        "/home/user/analysis_results/rf_classification_results.txt"
+      ],
+      "dest": [
+        "amazon_rf_classification.py",
+        "amazon_commerce_reviews.csv",
+        "rf_classification_results.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "txt_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["RandomForestClassifier", "cross_val_score", "accuracy", "f1_score"],
+        "output_format": ["Accuracy", "Macro_F1", "Top5_Accuracy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,88 @@
+{
+  "id": "ds193",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `student_mahalanobis_outlier_detection.py` in the `/home/user/analysis_results/student-exam-score-dataset-analysis/` directory. The dataset `student_exam_scores.csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the Mahalanobis distance across the numeric features: `hours_studied`, `sleep_hours`, `attendance_percent`, `previous_scores`, and `exam_score`. Determine the 95th percentile threshold of these distances, flag students whose Mahalanobis distance exceeds this threshold as multivariate outliers, and count the total number of such students. Save the result to a text file named `student_mahalanobis_outlier_summary.txt` with one line formatted as: `Outlier_Count: <value>`.",
+  
+  "source": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/student-exam-score-dataset-analysis"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+            "path": "/home/user/analysis_results/student-exam-score-dataset-analysis/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/student-exam-score-dataset-analysis/student_mahalanobis_outlier_detection.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/student-exam-score-dataset-analysis/student_mahalanobis_outlier_detection.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds193",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_student_mahalanobis_outlier_detection",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_mahalanobis_outlier_detection.py",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_scores.csv",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_mahalanobis_outlier_summary.txt"
+      ],
+      "dest": [
+        "student_mahalanobis_outlier_detection.py",
+        "student_exam_scores.csv",
+        "student_mahalanobis_outlier_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "scipy"],
+        "contains_keywords": ["mahalanobis", "percentile", "cov", "mean"],
+        "output_columns": ["Outlier_Count"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

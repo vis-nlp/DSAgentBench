@@ -1,0 +1,112 @@
+{
+  "id": "ds001",
+  "snapshot":"data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called wine_correlation.py in the /home/user/analysis_results/ directory. The dataset winequality-red.csv is already in the same folder. Load it using pandas, compute the feature that has the third-highest positive correlation with the quality column, round the correlation value to two decimal places, and save both the feature name and the rounded correlation value in a text file named result.txt in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+            "path": "/home/user/analysis_results/winequality-red.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/wine_correlation.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/wine_correlation.py"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds_001",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_wine_correlation_txt",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/wine_correlation.py",
+        "/home/user/analysis_results/winequality-red.csv",
+        "/home/user/analysis_results/result.txt"
+      ],
+      "dest": [
+        "wine_correlation.py",
+        "winequality-red.csv",
+        "result.txt"
+      ]
+    }
+    ,
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "result.txt",
+        "expected_answer": "citric acid"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

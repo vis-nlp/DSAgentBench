@@ -1,0 +1,107 @@
+{
+  "id": "ds132",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `blood_model_comparison.py` in the `/home/user/analysis_results/` directory. The dataset `blood_transfusion.csv` is already located in the same directory. In this script, load the dataset using pandas, split it into 80% training and 20% testing sets, and standardize the features using `StandardScaler`. Train a `RandomForestClassifier` to predict whether a person donates blood (`Class` = 2). Evaluate the model using ROC-AUC and F1-score. Save the results to a text file named `blood_model_comparison.txt` with columns: model,roc_auc,f1_score.",
+  "source": "openml://1464",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1464",
+            "path": "/home/user/analysis_results/blood_transfusion.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/blood_model_comparison.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/blood_model_comparison.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds132",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_blood_model_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/blood_model_comparison.py",
+        "/home/user/analysis_results/blood_transfusion.csv",
+        "/home/user/analysis_results/blood_model_comparison.txt"
+      ],
+      "dest": [
+        "blood_model_comparison.py",
+        "blood_transfusion.csv",
+        "blood_model_comparison.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "txt_exists": true,
+        "required_libraries": ["pandas", "sklearn", "numpy"],
+        "contains_keywords": ["RandomForestClassifier", "roc_auc_score", "f1_score", "StandardScaler"],
+        "output_columns": ["model", "roc_auc", "f1_score"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

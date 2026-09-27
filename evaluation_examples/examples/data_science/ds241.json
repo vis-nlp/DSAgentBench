@@ -1,0 +1,67 @@
+{
+  "id": "ds241",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named `mnist_pca_reconstruction.py` under `/home/user/analysis_results/`. In this script: (1) Use the `openml` library to fetch the MNIST_784 dataset (OpenML ID 554). (2) Convert the data into a NumPy array `X` of shape (n_samples, 784). (3) Standardize it and perform PCA with 10, 50, and 100 components separately. (4) For each model, reconstruct the original data using `inverse_transform` and compute the mean-squared-error (MSE) between original and reconstructed features. (5) Save a text file named `mnist_pca_reconstruction_summary.json` in the same directory containing exactly one JSON line: `{ \"mse_10\": <value>, \"mse_50\": <value>, \"mse_100\": <value> }` with numeric values rounded to 4 decimals.",
+  "source": "openml://554",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir","-p","/home/user/analysis_results/"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch","/home/user/analysis_results/mnist_pca_reconstruction.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code","/home/user/analysis_results/mnist_pca_reconstruction.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds241",
+  "related_apps": ["vscode","python"],
+  "evaluator": {
+  "postconfig": [
+    {
+      "type": "activate_window",
+      "parameters": { "window_name": "Visual Studio Code" }
+    },
+    {
+      "type": "sleep",
+      "parameters": { "seconds": 2.0 }
+    },
+    {
+      "type": "execute",
+      "parameters": {
+        "command": [
+          "python",
+          "-c",
+          "import pyautogui; pyautogui.hotkey('ctrl','s');"
+        ]
+      }
+    }
+  ],
+  "func": "evaluate_mnist_pca_reconstruction",
+  "result": {
+    "type": "vm_file",
+    "multi": true,
+    "path": [
+      "/home/user/analysis_results/mnist_pca_reconstruction.py",
+      "/home/user/analysis_results/mnist_pca_reconstruction_summary.json"
+    ],
+    "dest": [
+      "mnist_pca_reconstruction.py",
+      "mnist_pca_reconstruction_summary.json"
+    ]
+  },
+  "expected": {
+    "type": "rule",
+    "rules": {
+      "script_exists": true,
+      "text_exists": true,
+      "required_libraries": ["openml","pandas","numpy","sklearn"],
+      "contains_keywords": ["fetch_openml","PCA","inverse_transform","mean_squared_error"],
+      "output_format": ["mse_10","mse_50","mse_100"]
+    }
+  }
+}
+}

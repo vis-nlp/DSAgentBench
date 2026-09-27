@@ -1,0 +1,94 @@
+{
+  "id": "ds059",
+  "snapshot": "data_science",
+  "instruction": "In a Jupyter Notebook named `credit_risk_xgb.ipynb` located under `/home/user/analysis_results/`, load the dataset `data.csv` using pandas. Treat `SeriousDlqin2yrs` as the target variable and use all other columns as predictors. Split the dataset into 80% training and 20% testing data. Fit an `XGBClassifier` model to predict the target and compute the following metrics on the test set: Accuracy, Precision, and Recall (for class 1). Round all three values to three decimals and save them to a text file called `model_metrics.txt` in the same folder, formatted as `accuracy,precision,recall` on a single line.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+            "path": "/home/user/analysis_results/data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/credit_risk_xgb.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/credit_risk_xgb.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds059",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_credit_risk_xgb_metrics",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/credit_risk_xgb.ipynb",
+        "/home/user/analysis_results/data.csv",
+        "/home/user/analysis_results/model_metrics.txt"
+      ],
+      "dest": [
+        "credit_risk_xgb.ipynb",
+        "data.csv",
+        "model_metrics.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "model_metrics.txt",
+        "required_libraries": ["pandas", "xgboost", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,93 @@
+{
+  "id": "ds044",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `asin_prefix_summary.py` under `/home/user/analysis_results/`. The dataset `amazon-purchases-sample.csv` is already in that folder. In the script, load the dataset using pandas. Extract the first two characters from the `ASIN/ISBN (Product Code)` column and call this new column `Prefix`. Then, group the data by this `Prefix` and compute the total `Quantity` purchased for each prefix. Save the results in a CSV file named `asin_prefix_summary.csv` in the same directory, with exactly two columns: `Prefix` and `Total_Quantity` (the sum of Quantity for each prefix).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+            "path": "/home/user/analysis_results/amazon-purchases-sample.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/asin_prefix_summary.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/asin_prefix_summary.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds044", 
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_asin_prefix_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/asin_prefix_summary.py",
+        "/home/user/analysis_results/amazon-purchases-sample.csv",
+        "/home/user/analysis_results/asin_prefix_summary.csv"
+      ],
+      "dest": [
+        "asin_prefix_summary.py",
+        "amazon-purchases-sample.csv",
+        "asin_prefix_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "asin_prefix_summary.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

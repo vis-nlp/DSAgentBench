@@ -1,0 +1,88 @@
+{
+  "id": "ds192",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `student_pseudo_causal_score.py` in the `/home/user/analysis_results/student-exam-score-dataset-analysis/` directory. The dataset `student_exam_scores.csv` is already located in the same directory. In this script, load the dataset using pandas. Standardize all numeric variables using z-score normalization. Compute a pseudo-causal score defined as `0.5*z(hours_studied) + 0.3*z(sleep_hours) + 0.2*z(attendance_percent)`. Then compute the Pearson correlation between this pseudo-causal score and standardized `exam_score`, along with the two-tailed p-value. Save the results to a text file named `student_pseudo_causal_summary.txt` containing one line formatted as: `Correlation: <value>, p_value: <value>`.",
+
+  "source": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/student-exam-score-dataset-analysis"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+            "path": "/home/user/analysis_results/student-exam-score-dataset-analysis/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/student-exam-score-dataset-analysis/student_pseudo_causal_score.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/student-exam-score-dataset-analysis/student_pseudo_causal_score.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds192",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_student_pseudo_causal_score",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_pseudo_causal_score.py",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_scores.csv",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_pseudo_causal_summary.txt"
+      ],
+      "dest": [
+        "student_pseudo_causal_score.py",
+        "student_exam_scores.csv",
+        "student_pseudo_causal_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "scipy"],
+        "contains_keywords": ["zscore", "corr", "p_value", "exam_score"],
+        "output_columns": ["Correlation", "p_value"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

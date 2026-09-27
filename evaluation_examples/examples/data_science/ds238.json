@@ -1,0 +1,68 @@
+{
+  "id": "ds238",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `tech_stock_comparison.py` in the `/home/user/analysis_results/tech_stock_analysis/` directory. In this script: 1) For the tickers AAPL, MSFT, GOOGL, AMZN, META, retrieve daily closing prices for the past 10 trading days (via accessible HTML pages or JSON endpoints). 2) Compute for each stock: daily returns (percentage change), the average return over the 10-day period, and the volatility (standard deviation of daily returns). 3) Create a CSV file named `tech_stock_comparison.csv` with columns: `ticker`, `average_return`, `volatility`. 4) Create a scatter plot of `average_return` (x-axis) vs `volatility` (y-axis), label each point with ticker, and save the plot as `return_vs_volatility.png` in the same directory.",
+  "source": "web://www.nasdaq.com/market-activity/stocks",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/tech_stock_analysis"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/tech_stock_analysis/tech_stock_comparison.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/tech_stock_analysis/tech_stock_comparison.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds238",
+  "related_apps": ["vscode","python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python","-c","import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      }
+    ],
+    "func": "evaluate_tech_stock_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/tech_stock_analysis/tech_stock_comparison.py",
+        "/home/user/analysis_results/tech_stock_analysis/tech_stock_comparison.csv",
+        "/home/user/analysis_results/tech_stock_analysis/return_vs_volatility.png"
+      ],
+      "dest": [
+        "tech_stock_comparison.py",
+        "tech_stock_comparison.csv",
+        "return_vs_volatility.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "image_exists": true,
+        "required_libraries": ["pandas","numpy","requests","matplotlib"],
+        "contains_keywords": ["AAPL","MSFT","GOOGL","AMZN","META","average_return","volatility","daily return"],
+        "output_columns": ["ticker","average_return","volatility"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false
+}

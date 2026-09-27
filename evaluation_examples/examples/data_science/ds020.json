@@ -1,0 +1,95 @@
+{
+  "id": "ds020",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called monthly_complaint_viz.py in the /home/user/analysis_results/ directory. The dataset 26k-consumer-complaints.csv is already available in that folder (with a “Date received” column). Load it using pandas. Extract a month-year (e.g. “2020-07”) from the “Date received” column. Then group by that month-year and count the number of complaints. Create a line chart of monthly complaint counts over time, and save it as monthly_complaint_volume.png.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/26k-consumer-complaints.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/26k-consumer-complaints.csv",
+            "path": "/home/user/analysis_results/26k-consumer-complaints.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/monthly_complaint_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/monthly_complaint_viz.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds020",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_monthly_complaint_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/monthly_complaint_viz.py",
+        "/home/user/analysis_results/monthly_complaint_volume.png"
+      ],
+      "dest": [
+        "monthly_complaint_viz.py",
+        "monthly_complaint_volume.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["monthly_complaint_volume.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

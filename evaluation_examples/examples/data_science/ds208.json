@@ -1,0 +1,92 @@
+{
+  "id": "ds208",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `retail_store_sales_variability.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset includes three files already located in the same directory: `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`. In this script, load the datasets using pandas and merge them appropriately on `Store`. For each store, compute the mean and standard deviation of `Weekly_Sales`, and also count the number of unique departments. Identify the store with the highest standard deviation of sales (highest variability). Save the result to a text file named `retail_sales_variability_summary.txt` in the same directory, formatted exactly as: `Highest_Variability_Store: <store_id>, Std_Sales: <value>`.",
+  
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retaildataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retaildataset/retail_store_sales_variability.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retaildataset/retail_store_sales_variability.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds208",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_retail_store_sales_variability",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/retail_store_sales_variability.py",
+        "/home/user/analysis_results/retaildataset/Features data set.csv",
+        "/home/user/analysis_results/retaildataset/sales data-set.csv",
+        "/home/user/analysis_results/retaildataset/stores data-set.csv",
+        "/home/user/analysis_results/retaildataset/retail_sales_variability_summary.txt"
+      ],
+      "dest": [
+        "retail_store_sales_variability.py",
+        "Features data set.csv",
+        "sales data-set.csv",
+        "stores data-set.csv",
+        "retail_sales_variability_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["groupby", "std", "mean", "nunique", "Weekly_Sales", "Store"],
+        "output_format": ["Highest_Variability_Store", "Std_Sales"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

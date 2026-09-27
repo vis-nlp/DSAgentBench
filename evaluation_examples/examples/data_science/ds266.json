@@ -1,0 +1,83 @@
+{
+  "id": "ds266",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `camera_quality_analysis.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The directory already contains `train.csv` and `test.csv`. In this script, load both datasets using pandas, merge them into a single DataFrame, and attempt to compute the correlation between `camera_quality` and `price_range`. Store the outcome of your computation—either the correlation value or a brief explanation of what happened—into a text file named `camera_quality_analysis_summary.txt`. The file must contain exactly one line.",
+
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/camera_quality_analysis.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/camera_quality_analysis.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds266",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      }
+    ],
+
+    "func": "evaluate_camera_quality_analysis_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/camera_quality_analysis.py",
+        "/home/user/analysis_results/mobile-price-classification/camera_quality_analysis_summary.txt"
+      ],
+      "dest": [
+        "camera_quality_analysis.py",
+        "camera_quality_analysis_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_column"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

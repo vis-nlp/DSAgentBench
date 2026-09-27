@@ -1,0 +1,75 @@
+{
+  "id": "ds237",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `goodreads_top100_rating_analysis.py` in the `/home/user/analysis_results/goodreads_books/` directory. In this script: (1) navigate to `https://www.goodreads.com/list/show/1.Best_Books_Ever` and scrape the top 100 books from that page, extracting for each: `title`, `author`, `average_rating`, and `review_count`. (2) Create a scatter-plot of `average_rating` (y-axis) vs `review_count` (x-axis), fit a simple linear regression line, and save the plot as `rating_vs_reviews.png` in the same directory. (3) Compute the correlation coefficient between review count and average rating, and decide whether books with higher review counts tend to have higher ratings. Save a CSV file named `goodreads_top100_summary.csv` with columns: `title`, `author`, `average_rating`, `review_count`. Also save a text file named `goodreads_correlation_summary.txt` containing exactly one line formatted as: `Corr_ReviewCount_Rating: <value>, Trend: <Increases/Decreases/None>` indicating if the trend is positive (Increases), negative (Decreases) or no clear trend (None).",
+  "source": "web://www.goodreads.com/list/show/1.Best_Books_Ever",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/goodreads_books"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/goodreads_books/goodreads_top100_rating_analysis.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/goodreads_books/goodreads_top100_rating_analysis.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds237",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_goodreads_top100_rating_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/goodreads_books/goodreads_top100_rating_analysis.py",
+        "/home/user/analysis_results/goodreads_books/goodreads_top100_summary.csv",
+        "/home/user/analysis_results/goodreads_books/rating_vs_reviews.png",
+        "/home/user/analysis_results/goodreads_books/goodreads_correlation_summary.txt"
+      ],
+      "dest": [
+        "goodreads_top100_rating_analysis.py",
+        "goodreads_top100_summary.csv",
+        "rating_vs_reviews.png",
+        "goodreads_correlation_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "image_exists": true,
+        "text_exists": true,
+        "required_libraries": ["requests","beautifulsoup4","pandas","matplotlib","sklearn"],
+        "contains_keywords": ["Goodreads","Best_Books_Ever","average_rating","review_count","scatter","regression","correlation"],
+        "output_columns": ["title","author","average_rating","review_count"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false
+}

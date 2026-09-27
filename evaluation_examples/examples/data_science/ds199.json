@@ -1,0 +1,89 @@
+{
+  "id": "ds199",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mobile_xgboost_gridsearch.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The dataset includes `train.csv` and `test.csv` files already located in the same directory. In this script, load the training data using pandas and train an XGBoost Classifier to predict `price_range`. Perform a grid search with 5-fold cross-validation over the parameter grid: `max_depth ∈ {3, 6, 9}` and `learning_rate ∈ {0.01, 0.1, 0.3}`. Use F1-score (macro) as the evaluation metric. Save the best parameter combination and the corresponding mean F1-score to a text file named `mobile_xgboost_gridsearch_summary.txt` in the format: `Best_Params: {parameters}, Mean_F1: <value>`. Round F1-score to four decimal places.",
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/mobile_xgboost_gridsearch.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/mobile_xgboost_gridsearch.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds199",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mobile_xgboost_gridsearch",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/mobile_xgboost_gridsearch.py",
+        "/home/user/analysis_results/mobile-price-classification/train.csv",
+        "/home/user/analysis_results/mobile-price-classification/test.csv",
+        "/home/user/analysis_results/mobile-price-classification/mobile_xgboost_gridsearch_summary.txt"
+      ],
+      "dest": [
+        "mobile_xgboost_gridsearch.py",
+        "train.csv",
+        "test.csv",
+        "mobile_xgboost_gridsearch_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "sklearn", "xgboost"],
+        "contains_keywords": ["XGBClassifier", "GridSearchCV", "f1", "max_depth", "learning_rate"],
+        "output_format": ["Best_Params", "Mean_F1"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

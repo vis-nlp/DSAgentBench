@@ -1,0 +1,88 @@
+{
+  "id": "ds194",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `student_model_comparison.py` in the `/home/user/analysis_results/student-exam-score-dataset-analysis/` directory. The dataset `student_exam_scores.csv` is already located in the same directory. In this script, load the dataset using pandas. Split data into training (80%) and testing (20%) sets. Train both a Linear Regression model and a Random Forest Regressor to predict `exam_score` using all other features. Compute and compare their R² scores on the test set. Identify which model performs better. Save the results to a text file named `student_model_comparison_summary.txt` in the same directory with one line formatted as: `R2_Linear: <value>, R2_RandomForest: <value>, Best_Model: <Linear/RandomForest>`.",
+
+  "source": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/student-exam-score-dataset-analysis"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+            "path": "/home/user/analysis_results/student-exam-score-dataset-analysis/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/student-exam-score-dataset-analysis/student_model_comparison.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/student-exam-score-dataset-analysis/student_model_comparison.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds194",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_student_model_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_model_comparison.py",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_scores.csv",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_model_comparison_summary.txt"
+      ],
+      "dest": [
+        "student_model_comparison.py",
+        "student_exam_scores.csv",
+        "student_model_comparison_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["LinearRegression", "RandomForestRegressor", "r2_score", "train_test_split"],
+        "output_columns": ["R2_Linear", "R2_RandomForest", "Best_Model"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

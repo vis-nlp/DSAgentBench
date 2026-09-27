@@ -1,0 +1,82 @@
+{
+  "id": "ds177",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `bmw_price_mileage_correlation.py` in the `/home/user/analysis_results/bmw-worldwide-sales-records-20102024/` directory. The dataset `BMW sales data (2010-2024) (1).csv` is already located in the same directory. In this script, load the dataset using pandas. For each `Region`, compute the Pearson correlation coefficient between `Price_USD` and `Mileage_KM`. Identify the region with the strongest negative correlation and save the result to a text file named `bmw_price_mileage_summary.txt` containing exactly one line formatted as: `Strongest_Negative_Correlation_Region: <region_name>`.",
+  "source": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+            "path": "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_price_mileage_correlation.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_price_mileage_correlation.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds177",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_bmw_price_mileage_correlation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_price_mileage_correlation.py",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/BMW sales data (2010-2024) (1).csv",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_price_mileage_summary.txt"
+      ],
+      "dest": [
+        "bmw_price_mileage_correlation.py",
+        "BMW sales data (2010-2024) (1).csv",
+        "bmw_price_mileage_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "scipy"],
+        "contains_keywords": ["corr", "groupby", "Price_USD", "Mileage_KM", "Region"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

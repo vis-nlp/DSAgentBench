@@ -1,0 +1,113 @@
+{
+  "id": "ds186",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `bmw_sales_visualization.py` in the `/home/user/analysis_results/bmw-worldwide-sales-records-20102024/` directory. The dataset `BMW sales data (2010-2024) (1).csv` is already located in the same directory. In this script, load the dataset using pandas and create two visualizations: (a) a boxplot showing Price_USD by Fuel_Type, saved as `price_by_fuel_boxplot.png`; and (b) a scatter plot of Engine_Size_L vs Mileage_KM, colored by Sales_Classification, saved as `engine_mileage_scatter.png`. Ensure both plots are clearly labeled and include descriptive titles.",
+  "source": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+            "path": "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_sales_visualization.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_sales_visualization.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds186",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_bmw_sales_visualization_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_sales_visualization.py",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/BMW sales data (2010-2024) (1).csv",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/price_by_fuel_boxplot.png",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/engine_mileage_scatter.png"
+      ],
+      "dest": [
+        "bmw_sales_visualization.py",
+        "BMW sales data (2010-2024) (1).csv",
+        "price_by_fuel_boxplot.png",
+        "engine_mileage_scatter.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": [
+          "price_by_fuel_boxplot.png",
+          "engine_mileage_scatter.png"
+        ],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"],
+        "contains_keywords": [
+          "plt.figure",
+          "boxplot",
+          "scatter",
+          "savefig"
+        ]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

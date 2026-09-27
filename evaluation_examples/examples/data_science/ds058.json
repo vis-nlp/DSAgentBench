@@ -1,0 +1,94 @@
+{
+  "id": "ds058",
+  "snapshot": "data_science",
+  "instruction": "Within a Jupyter Notebook titled `logistic_regression_features.ipynb` in `/home/user/analysis_results/`, load the dataset `data.csv` using pandas. Treat `SeriousDlqin2yrs` as the target variable and use all remaining numeric columns as predictors. Before fitting, standardize the predictors with `StandardScaler`. Then, train a `LogisticRegression` model and extract the top 5 predictors with the largest absolute coefficient values. Save these results as `logreg_top5_features.csv` in the same directory with two columns: `Feature` and `Coefficient` (rounded to four decimals).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+            "path": "/home/user/analysis_results/data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/logistic_regression_features.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/logistic_regression_features.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds058",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_logreg_top5_features",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/logistic_regression_features.ipynb",
+        "/home/user/analysis_results/data.csv",
+        "/home/user/analysis_results/logreg_top5_features.csv"
+      ],
+      "dest": [
+        "logistic_regression_features.ipynb",
+        "data.csv",
+        "logreg_top5_features.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "logreg_top5_features.csv",
+        "required_libraries": ["pandas", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

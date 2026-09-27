@@ -1,0 +1,93 @@
+{
+  "id": "ds024",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `antibiotic_effectiveness.py` under `/home/user/analysis_results/`. The dataset `Antibiotics.csv` is already in that folder. In the script, load the data using pandas. Then for each antibiotic, compute its mean inhibition value **separately** for Gram-positive and Gram-negative bacteria (based on a column like `GramType`). Afterwards, determine which antibiotic shows the **lowest mean inhibition** (most effective) for Gram-positive and which shows the lowest mean inhibition for Gram-negative bacteria. Save the results in a text file named `best_antibiotic_by_gram.txt` in the same directory, with two lines: the first line: `<GramType=Positive>,<AntibioticName>,<MeanInhibition>`; the second line: `<GramType=Negative>,<AntibioticName>,<MeanInhibition>`. Round the mean inhibition values to two decimals.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Antibiotics.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Antibiotics.csv",
+            "path": "/home/user/analysis_results/Antibiotics.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/antibiotic_effectiveness.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/antibiotic_effectiveness.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds024",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_antibiotic_effectiveness",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/antibiotic_effectiveness.py",
+        "/home/user/analysis_results/Antibiotics.csv",
+        "/home/user/analysis_results/best_antibiotic_by_gram.txt"
+      ],
+      "dest": [
+        "antibiotic_effectiveness.py",
+        "Antibiotics.csv",
+        "best_antibiotic_by_gram.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "best_antibiotic_by_gram.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

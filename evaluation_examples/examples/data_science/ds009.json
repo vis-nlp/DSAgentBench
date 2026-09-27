@@ -1,0 +1,93 @@
+{
+  "id": "ds009",
+  "snapshot": "data_science",
+  "instruction": "In Visual Studio Code, create a Python script named `max_route_diff.py` under `/home/user/analysis_results/`. The dataset `2011_february_aa_flight_paths.csv` is already placed in that folder. In that script, load the data via pandas, compute the great-circle (Haversine) distance in kilometres for each route (from start_lat/lon to end_lat/lon). Identify the route (airport pair) with the maximum distance. Then, for the airline operating that route, compute the average `cnt` (number of flights) across all its routes. Finally, compute the difference between the `cnt` for that longest route and the airline’s mean `cnt`. Round both the longest distance and that difference to two decimal places, and write to a file `result.txt` the following format: `<airline>,<airport1>-<airport2>,<max_distance>,<cnt_difference>`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv",
+            "path": "/home/user/analysis_results/2011_february_aa_flight_paths.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/max_route_diff.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/max_route_diff.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds009",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_max_route_diff",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/max_route_diff.py",
+        "/home/user/analysis_results/2011_february_aa_flight_paths.csv",
+        "/home/user/analysis_results/result.txt"
+      ],
+      "dest": [
+        "max_route_diff.py",
+        "2011_february_aa_flight_paths.csv",
+        "result.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "result.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

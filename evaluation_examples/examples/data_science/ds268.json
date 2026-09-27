@@ -1,0 +1,83 @@
+{
+  "id": "ds268",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `processor_speed_prediction.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The directory already contains `train.csv` and `test.csv`. In this script, load and merge both datasets using pandas, and attempt to train a regression model to predict `processor_speed` using all available numeric features. Store the outcome of your computation—either the RMSE value or a brief explanation of what happened—into a text file named `processor_speed_prediction_summary.txt`. The file must contain exactly one line.",
+
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/processor_speed_prediction.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/processor_speed_prediction.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds268",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      }
+    ],
+
+    "func": "evaluate_processor_speed_prediction_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/processor_speed_prediction.py",
+        "/home/user/analysis_results/mobile-price-classification/processor_speed_prediction_summary.txt"
+      ],
+      "dest": [
+        "processor_speed_prediction.py",
+        "processor_speed_prediction_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_column"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

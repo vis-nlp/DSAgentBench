@@ -1,0 +1,87 @@
+{
+  "id": "ds043",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called top_categories_viz.py in the /home/user/analysis_results/ directory. The dataset amazon-purchases-sample.csv is already available in the same folder. Load it using pandas. Compute total purchase value per Category and filter the top 5 categories by total value. Then create two visualizations: (1) a horizontal bar chart showing the top 5 categories by total purchase value saved as top_categories.png, and (2) a boxplot showing the price distributions across those 5 categories saved as category_boxplot.png. Ensure all charts have titles, axis labels, and legends as appropriate.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+            "path": "/home/user/analysis_results/amazon-purchases-sample.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/top_categories_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/top_categories_viz.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds043",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 1.0 }
+      }
+    ],
+    "func": "evaluate_top_categories_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/top_categories_viz.py",
+        "/home/user/analysis_results/top_categories.png",
+        "/home/user/analysis_results/category_boxplot.png"
+      ],
+      "dest": [
+        "top_categories_viz.py",
+        "top_categories.png",
+        "category_boxplot.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["top_categories.png", "category_boxplot.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

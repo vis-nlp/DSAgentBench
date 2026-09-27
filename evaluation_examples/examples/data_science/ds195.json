@@ -1,0 +1,106 @@
+{
+  "id": "ds195",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mobile_ram_price_regression.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The dataset consists of two CSV files: `train.csv` (for training) and `test.csv` (for evaluation), both located in the same directory. In this script, load the training and test data using pandas. Fit two models predicting `price_range` from `ram`: (1) a Linear Regression model, and (2) a Polynomial Regression model of degree 2 (include the squared term of `ram`). Evaluate both models on the test set and compute their R² scores. Report which model explains more variance and by how much. Save the results to a text file named `mobile_ram_price_summary.txt` with one line formatted as: `R2_Linear: <value>, R2_Polynomial: <value>, Better_Model: <Linear/Polynomial>, R2_Difference: <value>`.",
+
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/mobile-price-classification"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/mobile-price-classification/mobile_ram_price_regression.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/mobile-price-classification/mobile_ram_price_regression.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds195",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mobile_ram_price_regression",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/mobile_ram_price_regression.py",
+        "/home/user/analysis_results/mobile-price-classification/train.csv",
+        "/home/user/analysis_results/mobile-price-classification/test.csv",
+        "/home/user/analysis_results/mobile-price-classification/mobile_ram_price_summary.txt"
+      ],
+      "dest": [
+        "mobile_ram_price_regression.py",
+        "train.csv",
+        "test.csv",
+        "mobile_ram_price_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["LinearRegression", "PolynomialFeatures", "r2_score", "ram", "price_range"],
+        "output_columns": ["R2_Linear", "R2_Polynomial", "Better_Model", "R2_Difference"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

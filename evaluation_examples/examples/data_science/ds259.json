@@ -1,0 +1,87 @@
+{
+  "id": "ds259",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `merge_heart_extra.py` in the `/home/user/analysis_results/heart-failure-dataset/` directory. The files `heart.csv` and `heart_extra.csv` are assumed to be located in the same directory. In this script, load both datasets using pandas, merge them on `PatientID`, and attempt to compute the correlation between `BMI` and `Cholesterol`. Store the outcome of your computation—either the numerical result or a brief summary of what happened—in a text file named `merged_heart_report.txt`. The file must contain exactly one line.",
+  
+  "source": "kaggle://tan5577/heart-failure-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/heart-failure-dataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://tan5577/heart-failure-dataset",
+            "path": "/home/user/analysis_results/heart-failure-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/heart-failure-dataset/merge_heart_extra.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/heart-failure-dataset/merge_heart_extra.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds259",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+
+    "func": "evaluate_merge_heart_extra_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/heart-failure-dataset/merge_heart_extra.py",
+        "/home/user/analysis_results/heart-failure-dataset/merged_heart_report.txt"
+      ],
+      "dest": [
+        "merge_heart_extra.py",
+        "merged_heart_report.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_dataset"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

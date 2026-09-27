@@ -1,0 +1,100 @@
+{
+  "id": "ds219",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `retail_model_stacking.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset includes three files already located in the same directory: `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`. In this script, load and merge all datasets on `Store` and `Date`. Train three base regressors — Random Forest Regressor, Gradient Boosting Regressor, and Linear Regression — to predict `Weekly_Sales`. Stack them using a Gradient Boosting Regressor as the meta-learner. Perform 10-fold cross-validation on the stacked model and compute the mean RMSE. Save the result to a text file named `retail_stacking_summary.txt` formatted exactly as: `Base_Models: [RF, GB, LR], Meta_Model: GBR, Mean_RMSE: <value>`.",
+  
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retaildataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retaildataset/retail_model_stacking.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retaildataset/retail_model_stacking.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds219",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_retail_model_stacking",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/retail_model_stacking.py",
+        "/home/user/analysis_results/retaildataset/Features data set.csv",
+        "/home/user/analysis_results/retaildataset/sales data-set.csv",
+        "/home/user/analysis_results/retaildataset/stores data-set.csv",
+        "/home/user/analysis_results/retaildataset/retail_stacking_summary.txt"
+      ],
+      "dest": [
+        "retail_model_stacking.py",
+        "Features data set.csv",
+        "sales data-set.csv",
+        "stores data-set.csv",
+        "retail_stacking_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": [
+          "RandomForestRegressor",
+          "GradientBoostingRegressor",
+          "LinearRegression",
+          "StackingRegressor",
+          "KFold",
+          "cross_val_score",
+          "mean_squared_error"
+        ],
+        "output_format": ["Base_Models", "Meta_Model", "Mean_RMSE"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

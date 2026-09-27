@@ -1,0 +1,83 @@
+{
+  "id": "ds269",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `brand_price_relationship.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The directory already contains `train.csv` and `test.csv`. In this script, load and merge both datasets using pandas, then attempt to compute the average `price_range` for each mobile `brand`. Store the outcome—either the resulting table or a brief one-line summary—into a text file named `brand_price_relationship_summary.txt`. The file must contain exactly one line.",
+
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/brand_price_relationship.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/brand_price_relationship.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds269",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      }
+    ],
+
+    "func": "evaluate_brand_price_relationship_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/brand_price_relationship.py",
+        "/home/user/analysis_results/mobile-price-classification/brand_price_relationship_summary.txt"
+      ],
+      "dest": [
+        "brand_price_relationship.py",
+        "brand_price_relationship_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_column"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

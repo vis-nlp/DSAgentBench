@@ -1,0 +1,100 @@
+{
+  "id": "ds014",
+  "snapshot": "data_science",
+    "instruction": "Using Visual Studio Code, create a new Python script called region_exports_viz.py in the /home/user/analysis_results/ directory. The dataset 2011_us_ag_exports.csv is already in the same folder and contains U.S. state agricultural export data (including 'corn', 'wheat', and 'total exports'). Map each U.S. state to one of four regions (West, Midwest, South, Northeast) based on a standard classification. Then group by region to compute (a) the average corn and wheat exports per region and (b) the total exports per region. Produce two visualizations: (1) a grouped bar chart comparing average corn and wheat exports by region (save as region_crops.png), and (2) a pie chart showing each region’s share of total agricultural exports (save as region_total_share.png).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv",
+            "path": "/home/user/analysis_results/2011_us_ag_exports.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/region_exports_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/region_exports_viz.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds014",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_region_exports_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/region_exports_viz.py",
+        "/home/user/analysis_results/2011_us_ag_exports.csv",
+        "/home/user/analysis_results/region_crops.png",
+        "/home/user/analysis_results/region_total_share.png"
+      ],
+      "dest": [
+        "region_exports_viz.py",
+        "2011_us_ag_exports.csv",
+        "region_crops.png",
+        "region_total_share.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": ["region_crops.png", "region_total_share.png"],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

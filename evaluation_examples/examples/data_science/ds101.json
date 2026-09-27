@@ -1,0 +1,89 @@
+{
+  "id": "ds101",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called iris_outlier_visualization.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset iris-data.csv which is already available in that directory and visually explore spread and outliers across all numeric features. Perform the following: (1) create a grid of boxplots for all numeric features and save it as feature_boxgrid.png; (2) create a grid of stripplots overlayed on the same numeric features and save it as feature_stripgrid.png. Ensure both charts include clear titles, axis labels, and are neatly formatted for comparison.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_outlier_visualization.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/iris_outlier_visualization.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds101",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_iris_outlier_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_outlier_visualization.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/feature_boxgrid.png",
+        "/home/user/analysis_results/feature_stripgrid.png"
+      ],
+      "dest": [
+        "iris_outlier_visualization.ipynb",
+        "iris-data.csv",
+        "feature_boxgrid.png",
+        "feature_stripgrid.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["feature_boxgrid.png", "feature_stripgrid.png"],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

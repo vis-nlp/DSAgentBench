@@ -1,0 +1,97 @@
+{
+  "id": "ds018",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called squirrel_fur_shift_viz.py in the /home/user/analysis_results/ directory. The dataset 2018_Central_Park_Squirrel_Data.csv (or the file name at that URL) is already available in that folder. Load it using pandas. Then: 1. Create a pie chart showing the distribution of Primary Fur Color (i.e. count of each color) and save it as furcolor_pie.png. 2. Create a bar chart showing the total number of sightings per Shift (e.g. AM, PM) and save it as shift_bar.png. Make sure axes, labels, legends, and titles are clear and readable.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/2018_Central_Park_Squirrel_Census_-_Squirrel_Data_20250721.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/2018_Central_Park_Squirrel_Census_-_Squirrel_Data_20250721.csv",
+            "path": "/home/user/analysis_results/2018_Central_Park_Squirrel_Data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/squirrel_fur_shift_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/squirrel_fur_shift_viz.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds018",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_squirrel_fur_shift_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/squirrel_fur_shift_viz.py",
+        "/home/user/analysis_results/furcolor_pie.png",
+        "/home/user/analysis_results/shift_bar.png"
+      ],
+      "dest": [
+        "squirrel_fur_shift_viz.py",
+        "furcolor_pie.png",
+        "shift_bar.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["furcolor_pie.png", "shift_bar.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

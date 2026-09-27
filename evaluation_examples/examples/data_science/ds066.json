@@ -1,0 +1,95 @@
+{
+  "id": "ds066",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook called `bmi_age_analysis.ipynb` under `/home/user/analysis_results/`. The dataset `diabetes.csv` is already located in the same folder. In the notebook, load the dataset using pandas and create a new feature `BMIxAge` defined as `BMI * Age`. Then compute the mean value of this feature separately for both classes of `Outcome` (0 and 1). Save the results as `bmixage_comparison.csv` with two rows showing each `Outcome` and its corresponding average `BMIxAge` value.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/bmi_age_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/bmi_age_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds066",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_bmixage_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/bmi_age_analysis.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/bmixage_comparison.csv"
+      ],
+      "dest": [
+        "bmi_age_analysis.ipynb",
+        "diabetes.csv",
+        "bmixage_comparison.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "bmixage_comparison.csv",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}
+

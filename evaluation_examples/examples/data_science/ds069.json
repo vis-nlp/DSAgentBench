@@ -1,0 +1,95 @@
+{
+  "id": "ds069",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called glucose_bmi_viz.py in the /home/user/analysis_results/ directory. Load the dataset diabetes.csv (already available in that folder). Then create two visualizations: (1) `glucose_bmi_scatter.png` — a scatter plot of Glucose vs BMI, color-coded by Outcome; (2) `glucose_hist.png` — a histogram comparing Glucose distributions for diabetic (Outcome = 1) and non-diabetic (Outcome = 0) individuals. Ensure both charts include clear titles, axis labels, and a legend where appropriate.Finally, create a single slide in Microsoft PowerPoint that includes both visualizations and clearly communicates the key insights and overall story shown by the charts.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/glucose_bmi_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/glucose_bmi_viz.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds069",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_glucose_bmi_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/glucose_bmi_viz.py",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/glucose_bmi_scatter.png",
+        "/home/user/analysis_results/glucose_hist.png"
+      ],
+      "dest": [
+        "glucose_bmi_viz.py",
+        "diabetes.csv",
+        "glucose_bmi_scatter.png",
+        "glucose_hist.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["glucose_bmi_scatter.png", "glucose_hist.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

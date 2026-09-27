@@ -1,0 +1,92 @@
+{
+  "id": "ds215",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `retail_gradient_boosting_tuning.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset includes three files already located in the same directory: `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`. In this script, load all three datasets using pandas and merge them appropriately on `Store` and `Date`. Perform a two-phase hyperparameter tuning for a Gradient Boosting Regressor model to predict `Weekly_Sales`: (1) Phase 1 — Random search over `max_depth ∈ {3, 5, 7, 9}` and `learning_rate ∈ {0.01, 0.1, 0.2}` using 3-fold cross-validation; (2) Phase 2 — Take the top two configurations and fine-tune `subsample ∈ {0.6, 0.8, 1.0}` and `min_samples_split ∈ {2, 5, 10}`. Select the configuration that minimizes validation RMSE. Save the final result to a text file named `retail_gradient_boosting_summary.txt` formatted exactly as: `Best_Config: {max_depth: <value>, learning_rate: <value>, subsample: <value>, min_samples_split: <value>}, RMSE: <value>`.",
+  
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retaildataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retaildataset/retail_gradient_boosting_tuning.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retaildataset/retail_gradient_boosting_tuning.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds215",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_retail_gradient_boosting_tuning",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/retail_gradient_boosting_tuning.py",
+        "/home/user/analysis_results/retaildataset/Features data set.csv",
+        "/home/user/analysis_results/retaildataset/sales data-set.csv",
+        "/home/user/analysis_results/retaildataset/stores data-set.csv",
+        "/home/user/analysis_results/retaildataset/retail_gradient_boosting_summary.txt"
+      ],
+      "dest": [
+        "retail_gradient_boosting_tuning.py",
+        "Features data set.csv",
+        "sales data-set.csv",
+        "stores data-set.csv",
+        "retail_gradient_boosting_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "sklearn", "numpy"],
+        "contains_keywords": ["GradientBoostingRegressor", "RandomizedSearchCV", "GridSearchCV"],
+        "output_format": ["Best_Config", "RMSE"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

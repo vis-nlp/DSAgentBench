@@ -1,0 +1,111 @@
+{
+  "id": "ds003",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called alcohol_outlier_analysis.py in the /home/user/analysis_results/ directory. The dataset winequality-red.csv is already in the same folder. Load it using pandas, then use the Interquartile Range (IQR) method to detect outliers in the alcohol column. An outlier is any value below Q1 - 1.5 × IQR or above Q3 + 1.5 × IQR. Report the count of wines detected as outliers and the minimum alcohol value among them. Round the minimum value to two decimal places, and save both results in a text file named result.txt in the same directory in this format: outlier_count, min_outlier_value. For example: 12, 7.10.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+            "path": "/home/user/analysis_results/winequality-red.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/alcohol_outlier_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/alcohol_outlier_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds_003",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_alcohol_outliers_iqr",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/alcohol_outlier_analysis.py",
+        "/home/user/analysis_results/winequality-red.csv",
+        "/home/user/analysis_results/result.txt"
+      ],
+      "dest": [
+        "alcohol_outlier_analysis.py",
+        "winequality-red.csv",
+        "result.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "result.txt"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

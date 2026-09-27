@@ -1,0 +1,97 @@
+{
+  "id": "ds166",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `credit_outlier_detection.py` in the `/home/user/analysis_results/` directory. The dataset `credit_approval.csv` is already located in the same directory. In this script, load the dataset using pandas. Identify potential outliers in columns A2 (age-like) and A14 (credit amount) using the interquartile range (IQR) method, where a record is flagged as an outlier if its value is below Q1 - 1.5*IQR or above Q3 + 1.5*IQR in either column. Report the total number of unique records flagged as outliers across both columns. Save the result to a CSV file named `credit_outlier_summary.csv` with exactly one row and two columns: Metric,Value. The Metric column should contain 'Total_Outliers' and Value should contain the total count of outliers detected.",
+  "source": "openml://29",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://29",
+            "path": "/home/user/analysis_results/credit_approval.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/credit_outlier_detection.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/credit_outlier_detection.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds166",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_credit_outlier_detection",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/credit_outlier_detection.py",
+        "/home/user/analysis_results/credit_approval.csv",
+        "/home/user/analysis_results/credit_outlier_summary.csv"
+      ],
+      "dest": [
+        "credit_outlier_detection.py",
+        "credit_approval.csv",
+        "credit_outlier_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["quantile", "iqr", "outlier", "A2", "A14"],
+        "output_columns": ["Metric", "Value"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

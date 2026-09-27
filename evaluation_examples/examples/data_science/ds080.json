@@ -1,0 +1,94 @@
+{
+  "id": "ds080",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook named `region_polarization_analysis.ipynb` inside `/home/user/analysis_results/`. The dataset `district_density.csv` is already present in that directory. In the notebook, load the dataset using pandas and group the data by `region`. For each region, compute the following statistics: (1) the average of `dem_margin`, (2) the average of `gop_perc`, and (3) the average of the absolute value of `swing` to measure electoral volatility. Save the resulting table as `region_polarization.csv` in the same directory, with columns: `region`, `avg_dem_margin`, `avg_gop_perc`, `avg_abs_swing` (rounded to three decimals).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/district_density.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/district_density.csv",
+            "path": "/home/user/analysis_results/district_density.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/region_polarization_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/region_polarization_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds080",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_region_polarization",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/region_polarization_analysis.ipynb",
+        "/home/user/analysis_results/district_density.csv",
+        "/home/user/analysis_results/region_polarization.csv"
+      ],
+      "dest": [
+        "region_polarization_analysis.ipynb",
+        "district_density.csv",
+        "region_polarization.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "region_polarization.csv",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

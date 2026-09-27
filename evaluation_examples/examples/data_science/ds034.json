@@ -1,0 +1,93 @@
+{
+  "id": "ds034",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `high_volume_ratio.py` under `/home/user/analysis_results/`. The dataset `all_stocks_5yr.csv` is already in that folder. In the script, load the dataset using pandas. For each stock separately, compute the 5-day rolling average of `volume` (use a window size of 5 and require at least 5 valid observations). Then, for each day, calculate the Volume Ratio = volume / rolling_avg_volume. Identify the top 3 days with the highest volume ratio across all stocks. Save the results as `high_volume_ratio.csv` in the same directory with exactly these columns: `date,volume_ratio`. Round the volume_ratio to two decimal places.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+            "path": "/home/user/analysis_results/all_stocks_5yr.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/high_volume_ratio.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/high_volume_ratio.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds034",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_high_volume_ratio",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/high_volume_ratio.py",
+        "/home/user/analysis_results/all_stocks_5yr.csv",
+        "/home/user/analysis_results/high_volume_ratio.csv"
+      ],
+      "dest": [
+        "high_volume_ratio.py",
+        "all_stocks_5yr.csv",
+        "high_volume_ratio.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "high_volume_ratio.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,98 @@
+{
+  "id": "ds181",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `bmw_region_price_variance.py` in the `/home/user/analysis_results/bmw-worldwide-sales-records-20102024/` directory. The dataset `BMW sales data (2010-2024) (1).csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the variance of `Price_USD` for each `Region`, then perform a one-way ANOVA test across regions using scipy. Identify which region shows the highest price variability. Save the result to a text file named `bmw_region_variance_summary.txt` containing one line formatted as: `Highest_Variance_Region: <region_name>`.",
+  "source": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/bmw-worldwide-sales-records-20102024"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+            "path": "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_region_price_variance.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_region_price_variance.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds181",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_bmw_region_price_variance",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_region_price_variance.py",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/BMW sales data (2010-2024) (1).csv",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_region_variance_summary.txt"
+      ],
+      "dest": [
+        "bmw_region_price_variance.py",
+        "BMW sales data (2010-2024) (1).csv",
+        "bmw_region_variance_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "scipy"],
+        "contains_keywords": ["Price_USD", "Region", "var", "f_oneway", "anova"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

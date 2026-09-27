@@ -1,0 +1,94 @@
+{
+  "id": "ds060",
+  "snapshot": "data_science",
+  "instruction": "In a Jupyter Notebook named `highrisk_analysis.ipynb` inside `/home/user/analysis_results/`, load the dataset `data.csv` using pandas. Identify all rows where both `RevolvingUtilizationOfUnsecuredLines` exceed 0.9 and `DebtRatio` exceed 0.8. Count the total number of such high-risk entries and save this count as a single numeric value in a text file named `highrisk_count.txt` in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+            "path": "/home/user/analysis_results/data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/highrisk_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/highrisk_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds060", 
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_highrisk_count",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/highrisk_analysis.ipynb",
+        "/home/user/analysis_results/data.csv",
+        "/home/user/analysis_results/highrisk_count.txt"
+      ],
+      "dest": [
+        "highrisk_analysis.ipynb",
+        "data.csv",
+        "highrisk_count.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "highrisk_count.txt",
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

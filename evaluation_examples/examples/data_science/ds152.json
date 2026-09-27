@@ -1,0 +1,97 @@
+{
+  "id": "ds152",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `correlation_with_target.py` in the `/home/user/analysis_results/` directory. The dataset `cholesterol.csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the Pearson correlation coefficients between the target variable `num` and all other numeric predictors. Identify the top 2 strongest positive correlations (highest correlation values). Save the results to a CSV file named `top_target_correlations.csv` with exactly two rows and two columns: Feature,Correlation. Round all correlation values to four decimal places.",
+  "source": "openml://204",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://204",
+            "path": "/home/user/analysis_results/cholesterol.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/correlation_with_target.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/correlation_with_target.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds152",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_correlation_with_target",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/correlation_with_target.py",
+        "/home/user/analysis_results/cholesterol.csv",
+        "/home/user/analysis_results/top_target_correlations.csv"
+      ],
+      "dest": [
+        "correlation_with_target.py",
+        "cholesterol.csv",
+        "top_target_correlations.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["corr", "num", "sort_values"],
+        "output_columns": ["Feature", "Correlation"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

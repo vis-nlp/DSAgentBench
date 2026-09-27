@@ -1,0 +1,87 @@
+{
+  "id": "ds263",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `customer_sales_correlation.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset directory already contains the files `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`, and assumes an additional file named `customers.csv`. In this script, load all four datasets using pandas, merge them on `Store`, and attempt to compute the correlation between `Customer_Count` and `Weekly_Sales`. Store the outcome of your computation—either the numerical result or a brief summary of what happened—into a text file named `customer_sales_correlation_summary.txt`. The file must contain exactly one line.",
+  
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retaildataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retaildataset/customer_sales_correlation.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retaildataset/customer_sales_correlation.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds263",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+
+    "func": "evaluate_customer_sales_correlation_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/customer_sales_correlation.py",
+        "/home/user/analysis_results/retaildataset/customer_sales_correlation_summary.txt"
+      ],
+      "dest": [
+        "customer_sales_correlation.py",
+        "customer_sales_correlation_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_dataset"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,89 @@
+{
+  "id": "ds226",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `bbc_tech_news_summary.py` inside `/home/user/analysis_results/web_scraping/`. First, open Google Chrome and navigate to `https://www.bbc.com/news/technology`. Scrape the top five news articles, extracting each article's headline and the first 100 words of its main content. Use any NLP text summarization model (such as Hugging Face `transformers` or `sumy`) to rewrite each article summary into a single concise sentence. Save all results to a CSV file named `tech_news_summary.csv` with exactly two columns: `headline` and `article_first_100_words`. Ensure each row corresponds to one unique article, and text fields are properly quoted and clean.",
+  
+  "source": "web://bbc.com/news/technology",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/web_scraping"] }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["google-chrome", "--new-window", "https://www.bbc.com/news/technology"]
+      }
+    },
+    {
+      "type": "sleep",
+      "parameters": { "seconds": 5.0 }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/web_scraping/bbc_tech_news_summary.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/web_scraping/bbc_tech_news_summary.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds226",
+  "related_apps": ["chrome", "vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_bbc_tech_news_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/web_scraping/bbc_tech_news_summary.py",
+        "/home/user/analysis_results/web_scraping/tech_news_summary.csv"
+      ],
+      "dest": [
+        "bbc_tech_news_summary.py",
+        "tech_news_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "requests", "bs4", "transformers"],
+        "contains_keywords": ["BeautifulSoup", "pipeline", "to_csv"],
+        "output_columns": ["headline", "article_first_100_words"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "high"
+}

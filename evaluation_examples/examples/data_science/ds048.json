@@ -1,0 +1,91 @@
+{
+  "id": "ds048",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called stock_adj_trends_viz.py in the /home/user/analysis_results/ directory. The dataset dash-stock-ticker-demo.csv is already available in that folder. Load it using pandas. Then create two visualizations: (1) a line chart showing AdjClose over time saved as adjclose_trend.png, and (2) a bar chart showing AdjVolume over time saved as volume_trend.png. Label axes, add titles, and ensure both charts are clearly readable.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+            "path": "/home/user/analysis_results/dash-stock-ticker-demo.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/stock_adj_trends_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/stock_adj_trends_viz.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds048",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 1.0 }
+      }
+    ],
+    "func": "evaluate_stock_adj_trends_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/stock_adj_trends_viz.py",
+        "/home/user/analysis_results/adjclose_trend.png",
+        "/home/user/analysis_results/volume_trend.png"
+      ],
+      "dest": [
+        "stock_adj_trends_viz.py",
+        "adjclose_trend.png",
+        "volume_trend.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["adjclose_trend.png", "volume_trend.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

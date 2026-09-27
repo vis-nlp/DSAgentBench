@@ -1,0 +1,82 @@
+{
+  "id": "ds173",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `earthquake_tsunami_risk_index.py` in the `/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/` directory. The dataset `earthquake_data_tsunami.csv` is already located in the same directory. In this script, load the dataset using pandas. Create three intermediate indices: `Energy_Index = magnitude**2 * sig`, `Proximity_Index = 1 / (depth + 1)`, and `Intensity_Index = mmi * cdi`. Combine these into a `Composite_Tsunami_Risk = (0.5 * Energy_Index + 0.3 * Proximity_Index + 0.2 * Intensity_Index)` and normalize it between 0 and 1. Compute the mean of this risk index for `tsunami = 1` and `tsunami = 0`. Then perform a Welch’s t-test to determine if the difference in means is statistically significant. Save the result to a text file named `earthquake_tsunami_risk_summary.txt` with a single line formatted as: `Welch_t_statistic: <value>, p_value: <value>`.",
+  "source": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+            "path": "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_tsunami_risk_index.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_tsunami_risk_index.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds173",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_earthquake_tsunami_risk_index",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_tsunami_risk_index.py",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_data_tsunami.csv",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_tsunami_risk_summary.txt"
+      ],
+      "dest": [
+        "earthquake_tsunami_risk_index.py",
+        "earthquake_data_tsunami.csv",
+        "earthquake_tsunami_risk_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "scipy"],
+        "contains_keywords": ["magnitude", "depth", "sig", "mmi", "cdi", "ttest_ind", "mean"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

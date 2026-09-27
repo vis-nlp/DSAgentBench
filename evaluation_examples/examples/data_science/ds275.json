@@ -1,0 +1,106 @@
+{
+  "id": "ds275",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `wildfire_spread_baseline_model.py` in the `/home/user/analysis_results/next_day_wildfire/` directory. The Next Day Wildfire Spread dataset in that directory includes a tabular training file (for example `train.csv`) with per-cell features and a binary target column indicating whether a grid cell will burn the next day (e.g., `fire_spread`). In this script, load the main training CSV file with pandas, drop rows with missing values in the target column, and select a subset of numeric features such as elevation, temperature, humidity, wind speed, precipitation, drought index, and population density (using the real column names present in the file). Split the data into 80% training and 20% test sets, stratifying by the binary target. Standardize all numeric feature columns. Train an `XGBClassifier` (from `xgboost`) with a reasonable number of estimators (e.g., 200) as a baseline wildfire spread model. Evaluate on the test set and compute `Accuracy`, `Precision`, `Recall`, `F1-score`, and `ROC-AUC`. Save the metrics to a text file named `wildfire_spread_baseline_metrics.txt` containing exactly one line formatted as: `Accuracy: <value>, Precision: <value>, Recall: <value>, F1: <value>, ROC_AUC: <value>`.",
+  "source": "kaggle://fantineh/next-day-wildfire-spread",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/next_day_wildfire"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://fantineh/next-day-wildfire-spread",
+            "path": "/home/user/analysis_results/next_day_wildfire/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/next_day_wildfire/wildfire_spread_baseline_model.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/next_day_wildfire/wildfire_spread_baseline_model.py"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds305",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_wildfire_spread_baseline_model",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/next_day_wildfire/wildfire_spread_baseline_model.py",
+        "/home/user/analysis_results/next_day_wildfire/wildfire_spread_baseline_metrics.txt"
+      ],
+      "dest": [
+        "wildfire_spread_baseline_model.py",
+        "wildfire_spread_baseline_metrics.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn", "xgboost"],
+        "contains_keywords": [
+          "XGBClassifier",
+          "train_test_split",
+          "StandardScaler",
+          "precision_score",
+          "recall_score",
+          "f1_score",
+          "accuracy_score",
+          "roc_auc_score"
+        ],
+        "output_format": ["Accuracy", "Precision", "Recall", "F1", "ROC_AUC"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

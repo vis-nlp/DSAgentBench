@@ -1,0 +1,94 @@
+{
+  "id": "ds074",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `outlier_count_diabetes.ipynb` under `/home/user/analysis_results/`. The dataset `diabetes.csv` is already present in that folder. In the notebook, load the dataset using pandas and identify rows where any of the following conditions hold: `Glucose > 200`, `BMI > 50`, or `Insulin > 500`. Count the total number of such outlier rows and write this count to a text file named `outlier_count.txt` in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/outlier_count_diabetes.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/outlier_count_diabetes.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds074",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_outlier_count_diabetes",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/outlier_count_diabetes.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/outlier_count.txt"
+      ],
+      "dest": [
+        "outlier_count_diabetes.ipynb",
+        "diabetes.csv",
+        "outlier_count.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "outlier_count.txt",
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

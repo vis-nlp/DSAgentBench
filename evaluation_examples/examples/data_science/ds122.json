@@ -1,0 +1,98 @@
+{
+  "id": "ds122",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `price_segment_performance.py` in the `/home/user/analysis_results/` directory. Download the SQLite database `retail_data.db` from the provided source URL. Connect to this database and load the tables `sales` and `products`. Divide products into three price segments based on their price: Low (bottom 33%), Medium (middle 33%), and High (top 33%). For each segment, calculate total revenue and average quantity sold. Save the results to a CSV file named `price_segment_performance.csv` in the same directory.",
+  "source": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/retail_data.db",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/retail_data.db",
+            "path": "/home/user/analysis_results/retail_data.db"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/price_segment_performance.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/price_segment_performance.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds122",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_price_segment_performance",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/price_segment_performance.py",
+        "/home/user/analysis_results/retail_data.db",
+        "/home/user/analysis_results/price_segment_performance.csv"
+      ],
+      "dest": [
+        "price_segment_performance.py",
+        "retail_data.db",
+        "price_segment_performance.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "db_exists": true,
+        "csv_file_exists": ["price_segment_performance.csv"],
+        "required_libraries": ["sqlite3", "pandas", "numpy"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

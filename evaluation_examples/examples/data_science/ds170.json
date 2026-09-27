@@ -1,0 +1,78 @@
+{
+  "id": "ds170",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `earthquake_depth_correlation.py` in the `/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/` directory. The dataset `earthquake_data_tsunami.csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the Pearson correlation between `magnitude` and `mmi` for each of three depth groups: `Shallow` (depth < 50 km), `Intermediate` (50 ≤ depth ≤ 300 km), and `Deep` (depth > 300 km). Identify which group shows the strongest correlation (highest absolute value). Save the result in a text file named `earthquake_depth_summary.txt` containing a single line in the format: `Strongest_Correlation_Group: <group_name>`.",
+  "source": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+            "path": "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_depth_correlation.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_depth_correlation.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds170",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_earthquake_depth_correlation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_depth_correlation.py",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_data_tsunami.csv",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_depth_summary.txt"
+      ],
+      "dest": [
+        "earthquake_depth_correlation.py",
+        "earthquake_data_tsunami.csv",
+        "earthquake_depth_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["corr", "groupby", "depth", "magnitude", "mmi"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

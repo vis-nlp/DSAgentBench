@@ -1,0 +1,90 @@
+{
+  "id": "ds099",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called iris_correlation_analysis.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset iris-data.csv which is already available in that directory and explore correlations among all numeric features. Perform the following: (1) create a heatmap of the correlation matrix and save it as correlation_heatmap.png; (2) create a pairplot of all numeric columns colored by class and save it as pairplot.png. Ensure both charts include proper titles, labels, and are clearly readable.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_correlation_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/iris_correlation_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds099",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_iris_correlation_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_correlation_analysis.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/correlation_heatmap.png",
+        "/home/user/analysis_results/pairplot.png"
+      ],
+      "dest": [
+        "iris_correlation_analysis.ipynb",
+        "iris-data.csv",
+        "correlation_heatmap.png",
+        "pairplot.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["correlation_heatmap.png", "pairplot.png"],
+        "required_libraries": ["pandas", "seaborn", "matplotlib"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}
+

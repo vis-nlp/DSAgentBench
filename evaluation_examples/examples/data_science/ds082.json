@@ -1,0 +1,89 @@
+{
+  "id": "ds082",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called region_vote_share_analysis.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset district_density.csv which is already in that folder and compute, for each region, the mean dem_perc and mean gop_perc. Then create two visualizations: (1) region_vote_share.png — a grouped bar chart comparing mean dem_perc and mean gop_perc for each region, and (2) overall_vote_pie.png — a pie chart showing the total Democratic vs Republican vote share across all regions. Ensure both charts include titles, axis labels, and legends, and save them in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/district_density.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/district_density.csv",
+            "path": "/home/user/analysis_results/district_density.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/region_vote_share_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/region_vote_share_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds082",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_region_vote_share_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/region_vote_share_analysis.ipynb",
+        "/home/user/analysis_results/district_density.csv",
+        "/home/user/analysis_results/region_vote_share.png",
+        "/home/user/analysis_results/overall_vote_pie.png"
+      ],
+      "dest": [
+        "region_vote_share_analysis.ipynb",
+        "district_density.csv",
+        "region_vote_share.png",
+        "overall_vote_pie.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["region_vote_share.png", "overall_vote_pie.png"],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

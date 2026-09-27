@@ -1,0 +1,69 @@
+{
+  "id": "ds010",
+  "snapshot": "data_science",
+  "instruction": "Create a Python script named route_xgb_classifier.py in /home/user/analysis_results/. Using 2011_february_aa_flight_paths.csv, create a binary target high_traffic = 1 if cnt > mean(cnt), else 0. Train an xgboost.XGBClassifier using start_lat, start_lon, end_lat, end_lon, and airline (encoded numerically). Split the last 10% of rows as validation. Compute accuracy, precision, and recall (rounded to three decimals) on the validation set and save them in xgb_route_metrics.txt in the format: accuracy, precision, recall (comma separated, same line).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv",
+            "path": "/home/user/analysis_results/2011_february_aa_flight_paths.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/route_xgb_classifier.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/route_xgb_classifier.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds011",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_xgb_route_metrics",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/route_xgb_classifier.py",
+        "/home/user/analysis_results/xgb_route_metrics.txt"
+      ],
+      "dest": [
+        "route_xgb_classifier.py",
+        "xgb_route_metrics.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "expected_file": "xgb_route_metrics.txt",
+        "required_libraries": ["pandas", "xgboost", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

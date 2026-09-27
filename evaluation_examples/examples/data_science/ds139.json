@@ -1,0 +1,117 @@
+{
+  "id": "ds139",
+  "snapshot": "data_science",
+  "instruction": "You can open Visual Studio Code and create a Python script named `steel_fault_type_analysis.py` in the `/home/user/analysis_results/` directory. The dataset `steel_plates_fault.csv` is already located in the same directory. In this script, load the dataset using pandas, and group the data by `V12` and `V13` (steel type indicators). For each steel type combination, compute the mean of `V5` (Pixels_Areas), `V26` (Luminosity_Index), and the proportion of rows where `Class = 1`. Then, create two visualizations: (1) a bar chart showing the average `V5` and `V26` per steel type combination (`steel_type_means.png`), and (2) a heatmap showing the proportion of `Class = 1` across steel type combinations (`fault_rate_heatmap.png`). Label all charts clearly with titles, axis labels, and legends, and save them in the same directory.",
+  "source": "openml://1504",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1504",
+            "path": "/home/user/analysis_results/steel_plates_fault.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/steel_fault_type_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/steel_fault_type_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds139",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_steel_fault_type_visualization_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/steel_fault_type_analysis.py",
+        "/home/user/analysis_results/steel_plates_fault.csv",
+        "/home/user/analysis_results/steel_type_means.png",
+        "/home/user/analysis_results/fault_rate_heatmap.png"
+      ],
+      "dest": [
+        "steel_fault_type_analysis.py",
+        "steel_plates_fault.csv",
+        "steel_type_means.png",
+        "fault_rate_heatmap.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": [
+          "steel_type_means.png",
+          "fault_rate_heatmap.png"
+        ],
+        "required_libraries": ["pandas", "matplotlib"],
+        "contains_keywords": [
+          "groupby",
+          "mean",
+          "Class",
+          "savefig"
+        ]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

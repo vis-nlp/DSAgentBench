@@ -1,0 +1,97 @@
+{
+  "id": "ds164",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `credit_missing_imputation.py` in the `/home/user/analysis_results/` directory. The dataset `credit_approval.csv` is already located in the same directory. In this script, load the dataset using pandas. Detect and count all missing values. For numeric columns (A2, A3, A8, A11, A13, A14), perform median imputation, and for categorical columns (A1, A4, A5, A6, A7, A9, A10, A12, A15), perform mode imputation. After imputation, count missing values again to confirm all have been filled. Save the results to a CSV file named `missing_value_summary.csv` with exactly two rows and two columns: Stage,Missing_Count. The first row should represent 'Before_Imputation' and the second 'After_Imputation'.",
+  "source": "openml://29",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://29",
+            "path": "/home/user/analysis_results/credit_approval.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/credit_missing_imputation.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/credit_missing_imputation.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds164",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_credit_missing_imputation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/credit_missing_imputation.py",
+        "/home/user/analysis_results/credit_approval.csv",
+        "/home/user/analysis_results/missing_value_summary.csv"
+      ],
+      "dest": [
+        "credit_missing_imputation.py",
+        "credit_approval.csv",
+        "missing_value_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["fillna", "median", "mode", "isnull", "sum"],
+        "output_columns": ["Stage", "Missing_Count"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

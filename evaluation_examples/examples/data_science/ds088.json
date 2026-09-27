@@ -1,0 +1,89 @@
+{
+  "id": "ds088",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called turnout_gap_analysis.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset european_turnout.csv which is already in that directory and compute a new column turnout_gap = nat_turnout - euro_turnout for each country. Then create two visualizations: (1) turnout_gap_bar.png — a bar chart of countries sorted by turnout_gap in descending order; (2) turnout_gap_region_box.png — a box plot showing turnout_gap distributions grouped by region. Ensure both charts include proper titles, axis labels, and are clearly formatted.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/european_turnout.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/european_turnout.csv",
+            "path": "/home/user/analysis_results/european_turnout.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/turnout_gap_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/turnout_gap_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds088",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_turnout_gap_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/turnout_gap_analysis.ipynb",
+        "/home/user/analysis_results/european_turnout.csv",
+        "/home/user/analysis_results/turnout_gap_bar.png",
+        "/home/user/analysis_results/turnout_gap_region_box.png"
+      ],
+      "dest": [
+        "turnout_gap_analysis.ipynb",
+        "european_turnout.csv",
+        "turnout_gap_bar.png",
+        "turnout_gap_region_box.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["turnout_gap_bar.png", "turnout_gap_region_box.png"],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

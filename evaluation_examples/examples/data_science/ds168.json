@@ -1,0 +1,93 @@
+{
+  "id": "ds168",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `credit_model_comparison.py` in the `/home/user/analysis_results/` directory. The dataset `credit_approval.csv` is already located in the same directory. In this script, load the dataset using pandas and encode the target column 'A16' so that '+' becomes 1 and '−' becomes 0. Train and compare three models — Logistic Regression, Random Forest, and XGBoost — to predict the target class. Use 5-fold cross-validation and compute the mean Accuracy, F1-score, and AUC for each model. Save the results to a CSV file named `credit_model_comparison.csv` with columns: Model,Accuracy,F1_Score,AUC. Also, print or save the name of the best-performing model (based on highest AUC). Round all metric values to four decimal places.",
+  "source": "openml://29",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://29",
+            "path": "/home/user/analysis_results/credit_approval.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/credit_model_comparison.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/credit_model_comparison.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds168",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_credit_model_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/credit_model_comparison.py",
+        "/home/user/analysis_results/credit_approval.csv",
+        "/home/user/analysis_results/credit_model_comparison.csv"
+      ],
+      "dest": [
+        "credit_model_comparison.py",
+        "credit_approval.csv",
+        "credit_model_comparison.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn", "xgboost"],
+        "contains_keywords": ["LogisticRegression", "RandomForestClassifier", "XGBClassifier", "cross_val_score", "roc_auc_score"],
+        "output_columns": ["Model", "Accuracy", "F1_Score", "AUC"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

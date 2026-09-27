@@ -1,0 +1,74 @@
+{
+  "id": "ds233",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `nobel_laureates_by_country.py` in the `/home/user/analysis_results/nobel_data/` directory. In this script: (1) Load the Wikipedia page at `https://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_country`. (2) Extract each country and count its total number of Nobel laureates. If available, also compute the share of laureates by prize category (e.g., Peace, Literature, Physics, Chemistry, Medicine, Economics) for each country. (3) Identify the top 10 countries by total laureates. (4) Produce a bar plot showing the top 10 countries with their laureate counts, saved as `top10_nobel_countries.png` in the same directory. (5) Save a CSV file named `nobel_country_summary.csv` with columns: `country`, `total_laureates`, `Peace_share`, `Literature_share`, `Physics_share`, `Chemistry_share`, `Medicine_share`, `Economics_share` (shares can be empty or zero if unavailable).",
+  "source": "web://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_country",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/nobel_data"]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/nobel_data/nobel_laureates_by_country.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/nobel_data/nobel_laureates_by_country.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds233",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python","-c","import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      }
+    ],
+    "func": "evaluate_nobel_laureates_by_country",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/nobel_data/nobel_laureates_by_country.py",
+        "/home/user/analysis_results/nobel_data/nobel_country_summary.csv",
+        "/home/user/analysis_results/nobel_data/top10_nobel_countries.png"
+      ],
+      "dest": [
+        "nobel_laureates_by_country.py",
+        "nobel_country_summary.csv",
+        "top10_nobel_countries.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "image_exists": true,
+        "required_libraries": ["pandas","requests","beautifulsoup4","matplotlib"],
+        "contains_keywords": ["List_of_Nobel_laureates_by_country","laureates","country","share","Peace","Physics"],
+        "output_columns": ["country","total_laureates","Peace_share","Literature_share","Physics_share","Chemistry_share","Medicine_share","Economics_share"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false
+}

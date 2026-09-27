@@ -1,0 +1,92 @@
+{
+  "id": "ds077",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook named `insulin_resistance_analysis.ipynb` inside `/home/user/analysis_results/`. The dataset `diabetes.csv` (or equivalent with Glucose, BMI, Insulin, and Outcome columns) is already in that directory. In the notebook, create a new derived feature called `InsulinResistanceIndex`, defined as:\n\nInsulinResistanceIndex = (Glucose * BMI) / 100\n\nNext, fill zero values in `Insulin` and `Glucose` using the median of non-zero entries for each column. Compute the Pearson correlation between `InsulinResistanceIndex` and `Insulin`, and save it (rounded to three decimals) in a text file named `insulin_corr.txt`. Then, group patients by `Outcome` (0 or 1) and compute the mean `InsulinResistanceIndex` for each group. Save this summary to `insulin_index_summary.csv` with columns: Outcome, MeanInsulinResistanceIndex (rounded to three decimals).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/insulin_resistance_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/insulin_resistance_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds077",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_insulin_resistance_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/insulin_resistance_analysis.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/insulin_corr.txt",
+        "/home/user/analysis_results/insulin_index_summary.csv"
+      ],
+      "dest": [
+        "insulin_resistance_analysis.ipynb",
+        "diabetes.csv",
+        "insulin_corr.txt",
+        "insulin_index_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_files": ["insulin_corr.txt", "insulin_index_summary.csv"],
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,93 @@
+{
+  "id": "ds021",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `animal_impute.py` under `/home/user/analysis_results/`. The dataset `311_Animals_short.csv` is already in that folder. In the script, load the data using pandas. Then perform the following: (1) Identify rows where `Closed Date` is missing. For those rows: if `Status` == \"In Progress\" then set `Closed Date` = \"Pending\" else set `Closed Date` = \"Unknown\". (2) For rows where `Location Type` is missing, fill the missing `Location Type` with the mode of `Location Type` within the same `Borough`. Finally, save the resulting two columns — `Closed Date` and `Location Type` — into a text file `result.txt` in the same directory. Each line should contain the two values separated by a comma: `<Closed Date>,<Location Type>`, one row per record.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/311_Animals_short.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/311_Animals_short.csv",
+            "path": "/home/user/analysis_results/311_Animals_short.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/animal_impute.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/animal_impute.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds021",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_animal_impute",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/animal_impute.py",
+        "/home/user/analysis_results/311_Animals_short.csv",
+        "/home/user/analysis_results/result.txt"
+      ],
+      "dest": [
+        "animal_impute.py",
+        "311_Animals_short.csv",
+        "result.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "result.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

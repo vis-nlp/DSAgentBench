@@ -1,0 +1,101 @@
+{
+  "id": "ds272",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `shark_fatality_risk_model.py` in the `/home/user/analysis_results/shark_attacks/` directory. The Kaggle dataset in that directory (Global Shark Attacks) contains a CSV file with incident records, including columns similar to `Fatal (Y/N)`, `Country`, `Activity`, `Sex`, and `Age`. In this script, load the main CSV file with pandas, remove rows with missing values in the `Fatal (Y/N)` column, and map `Fatal (Y/N)` to a binary target column `Fatal` where `Y` → 1 and all other values → 0. Select a feature set including encoded `Country`, `Activity`, `Sex`, and numeric `Age` (after filling missing ages with the median). One-hot encode the categorical features, then split the data into 75% training and 25% testing sets, stratifying by `Fatal`. Train a `RandomForestClassifier` with at least 200 trees. Compute `Precision`, `Recall`, `F1-score`, and `ROC-AUC` on the test set. Save the metrics to a text file named `shark_fatality_risk_metrics.txt` containing exactly one line formatted as: `Precision: <value>, Recall: <value>, F1: <value>, ROC_AUC: <value>`.",
+  "source": "kaggle://teajay/global-shark-attacks",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/shark_attacks"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://teajay/global-shark-attacks",
+            "path": "/home/user/analysis_results/shark_attacks/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/shark_attacks/shark_fatality_risk_model.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/shark_attacks/shark_fatality_risk_model.py"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds302",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_shark_fatality_risk_model",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/shark_attacks/shark_fatality_risk_model.py",
+        "/home/user/analysis_results/shark_attacks/shark_fatality_risk_metrics.txt"
+      ],
+      "dest": [
+        "shark_fatality_risk_model.py",
+        "shark_fatality_risk_metrics.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": [
+          "RandomForestClassifier",
+          "train_test_split",
+          "precision_score",
+          "recall_score",
+          "f1_score",
+          "roc_auc_score",
+          "OneHotEncoder"
+        ],
+        "output_format": ["Precision", "Recall", "F1", "ROC_AUC"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,97 @@
+{
+  "id": "ds161",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `boston_gb_tuning.py` in the `/home/user/analysis_results/` directory. The dataset `boston.csv` is already located in the same directory. In this script, load the dataset using pandas. Train a Gradient Boosting Regressor to predict `MEDV` using all other features. Perform hyperparameter tuning using grid search over the following ranges: n_estimators = [50, 100, 200], learning_rate = [0.01, 0.05, 0.1], and max_depth = [3, 5, 7]. Use 5-fold cross-validation and select the best parameters based on mean R². Save the results in a text file named `gb_best_params.txt`, containing two lines: the first line should list the best parameter values, and the second line should report the best validation R² (rounded to four decimal places).",
+  "source": "openml://531",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://531",
+            "path": "/home/user/analysis_results/boston.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/boston_gb_tuning.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/boston_gb_tuning.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds161",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_boston_gb_tuning",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/boston_gb_tuning.py",
+        "/home/user/analysis_results/boston.csv",
+        "/home/user/analysis_results/gb_best_params.txt"
+      ],
+      "dest": [
+        "boston_gb_tuning.py",
+        "boston.csv",
+        "gb_best_params.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "txt_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["GradientBoostingRegressor", "GridSearchCV", "r2"],
+        "output_format": ["best parameters", "validation r2"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

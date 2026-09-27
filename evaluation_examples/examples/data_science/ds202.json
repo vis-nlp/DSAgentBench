@@ -1,0 +1,87 @@
+{
+  "id": "ds202",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `heart_chestpain_spearman_corr.py` in the `/home/user/analysis_results/heart-failure-dataset/` directory. The dataset `heart.csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the Spearman correlation between `Age` and `MaxHR` within each chest pain type (`TA`, `ATA`, `NAP`, `ASY`). Identify which chest pain type has the strongest negative correlation (lowest Spearman coefficient). Save the result to a text file named `heart_chestpain_corr_summary.txt` with one line formatted exactly as: `Strongest_Negative_Type: <type>, Correlation: <value>`.",
+  
+  "source": "kaggle://tan5577/heart-failure-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/heart-failure-dataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://tan5577/heart-failure-dataset",
+            "path": "/home/user/analysis_results/heart-failure-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/heart-failure-dataset/heart_chestpain_spearman_corr.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/heart-failure-dataset/heart_chestpain_spearman_corr.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds202",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_heart_chestpain_spearman_corr",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/heart-failure-dataset/heart_chestpain_spearman_corr.py",
+        "/home/user/analysis_results/heart-failure-dataset/heart.csv",
+        "/home/user/analysis_results/heart-failure-dataset/heart_chestpain_corr_summary.txt"
+      ],
+      "dest": [
+        "heart_chestpain_spearman_corr.py",
+        "heart.csv",
+        "heart_chestpain_corr_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "scipy"],
+        "output_format": ["Strongest_Negative_Type", "Correlation"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

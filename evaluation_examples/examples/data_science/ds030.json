@@ -1,0 +1,91 @@
+{
+  "id": "ds030",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called continent_emission_growth_viz.py in the /home/user/analysis_results/ directory. The dataset 'Emissions Data.csv' is already available in that folder. Load it using pandas. For each continent, compute the year-over-year (YoY) emission growth rate (%) using the formula: ((Emission_t - Emission_{t-1}) / Emission_{t-1}) * 100. Then calculate the average growth rate per continent. Create two visualizations: (1) a line chart showing average emissions per continent over years (smooth trend) saved as continent_trend_line.png, and (2) a boxplot showing the distribution of yearly growth rates (%) across continents (to show volatility) saved as continent_growth_boxplot.png. Ensure all axes, legends, and labels are clear and readable.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Emissions%20Data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Emissions%20Data.csv",
+            "path": "/home/user/analysis_results/Emissions_Data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/continent_emission_growth_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/continent_emission_growth_viz.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds030",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 1.0 }
+      }
+    ],
+    "func": "evaluate_continent_emission_growth_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/continent_emission_growth_viz.py",
+        "/home/user/analysis_results/continent_trend_line.png",
+        "/home/user/analysis_results/continent_growth_boxplot.png"
+      ],
+      "dest": [
+        "continent_emission_growth_viz.py",
+        "continent_trend_line.png",
+        "continent_growth_boxplot.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["continent_trend_line.png", "continent_growth_boxplot.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

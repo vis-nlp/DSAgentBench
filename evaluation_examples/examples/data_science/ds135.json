@@ -1,0 +1,107 @@
+{
+  "id": "ds135",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `steel_feature_correlation.py` in the `/home/user/analysis_results/` directory. The dataset `steel_plates_fault.csv` is already located in the same directory. In this script, load the dataset using pandas. Compute the correlation matrix among all numeric features (V1–V27). Identify the top three most correlated feature pairs by absolute correlation value. For each of these pairs, perform an independent t-test comparing the feature values between samples with Class = 1 and Class = 0. Save the results to a CSV file named `top_correlated_features.csv` with the following columns: Feature1,Feature2,Correlation,t_statistic,p_value.",
+  "source": "openml://1504",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1504",
+            "path": "/home/user/analysis_results/steel_plates_fault.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/steel_feature_correlation.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/steel_feature_correlation.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds135",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_steel_feature_correlation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/steel_feature_correlation.py",
+        "/home/user/analysis_results/steel_plates_fault.csv",
+        "/home/user/analysis_results/top_correlated_features.csv"
+      ],
+      "dest": [
+        "steel_feature_correlation.py",
+        "steel_plates_fault.csv",
+        "top_correlated_features.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "scipy"],
+        "contains_keywords": ["corr", "sort_values","Class"],
+        "output_columns": ["Feature1", "Feature2", "Correlation", "t_statistic", "p_value"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

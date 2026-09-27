@@ -1,0 +1,57 @@
+{
+  "id": "ds249",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named `cifar10_rgb_feature_skewness.py` under `/home/user/analysis_results/`. In this script: (1) Use the `openml` library to fetch the CIFAR-10 dataset (OpenML ID 40927). (2) Treat the dataset as containing 3072 flattened RGB pixel features per image. (3) Compute the skewness for each feature across all samples using scipy.stats or pandas. (4) Identify the top 5 features (pixel indices) with the highest absolute skewness values. (5) Save the result in a JSON file named `cifar10_rgb_feature_skewness_summary.json` formatted exactly as `{ \"top_skewed_features\": [index1, index2, index3, index4, index5] }`.",
+  "source": "openml://40927",
+
+  "config": [
+    { "type": "command", "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/"] } },
+    { "type": "command", "parameters": { "command": ["touch", "/home/user/analysis_results/cifar10_rgb_feature_skewness.py"] } },
+    { "type": "launch", "parameters": { "command": ["code", "/home/user/analysis_results/cifar10_rgb_feature_skewness.py"] } }
+  ],
+
+  "trajectory": "trajectories/ds249",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      { "type": "activate_window", "parameters": { "window_name": "Visual Studio Code" } },
+      { "type": "sleep", "parameters": { "seconds": 2.0 } },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      }
+    ],
+
+    "func": "evaluate_cifar10_rgb_feature_skewness",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/cifar10_rgb_feature_skewness.py",
+        "/home/user/analysis_results/cifar10_rgb_feature_skewness_summary.json"
+      ],
+      "dest": [
+        "cifar10_rgb_feature_skewness.py",
+        "cifar10_rgb_feature_skewness_summary.json"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["openml", "numpy", "scipy", "pandas"],
+        "contains_keywords": ["skew", "argsort", "numpy"],
+        "output_format": ["top_skewed_features"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false
+}

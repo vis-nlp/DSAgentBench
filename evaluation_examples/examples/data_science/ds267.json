@@ -1,0 +1,87 @@
+{
+  "id": "ds267",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `screen_resolution_effect.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The directory already contains `train.csv` and `test.csv`. In this script, load and merge both datasets using pandas, then attempt to calculate the Pearson correlation between `screen_resolution` and `battery_power`. Store the outcome of your computation—either the correlation value or a brief explanation of what happened—into a text file named `screen_resolution_effect_summary.txt`. The file must contain exactly one line.",
+  
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/screen_resolution_effect.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/screen_resolution_effect.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds267",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+
+    "func": "evaluate_screen_resolution_effect_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/screen_resolution_effect.py",
+        "/home/user/analysis_results/mobile-price-classification/screen_resolution_effect_summary.txt"
+      ],
+      "dest": [
+        "screen_resolution_effect.py",
+        "screen_resolution_effect_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_column"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

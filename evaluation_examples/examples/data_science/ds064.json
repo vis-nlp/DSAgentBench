@@ -1,0 +1,96 @@
+{
+  "id": "ds064",
+  "snapshot": "data_science",
+  "instruction": "Using a Jupyter Notebook titled `correlation_analysis.ipynb` in the `/home/user/analysis_results/` folder, open the dataset `diabetes.csv` with pandas. Compute the Pearson correlation matrix for all numeric columns and save it as `correlation_matrix.csv`. Then, determine which two variables have the strongest (non-self) correlation in absolute value, and write their names along with the correlation value to a text file named `strongest_corr.txt`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/correlation_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/correlation_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds064",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_correlation_matrix",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/correlation_analysis.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/correlation_matrix.csv",
+        "/home/user/analysis_results/strongest_corr.txt"
+      ],
+      "dest": [
+        "correlation_analysis.ipynb",
+        "diabetes.csv",
+        "correlation_matrix.csv",
+        "strongest_corr.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_files": ["correlation_matrix.csv", "strongest_corr.txt"],
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

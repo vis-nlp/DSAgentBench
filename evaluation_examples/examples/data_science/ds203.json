@@ -1,0 +1,88 @@
+{
+  "id": "ds203",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `heart_downslope_heartdisease_percent.py` in the `/home/user/analysis_results/heart-failure-dataset/` directory. The dataset `heart.csv` is already located in the same directory. In this script, load the dataset using pandas. Convert categorical features into numeric codes as follows: `Sex: M→1, F→0`; `ExerciseAngina: Y→1, N→0`; `ChestPainType: TA→3, ATA→2, NAP→1, ASY→0`; `ST_Slope: Up→2, Flat→1, Down→0`; `RestingECG: Normal→0, ST→1, LVH→2`. After encoding, compute the percentage of patients where `ST_Slope = 0` (Down) and `HeartDisease = 1`. Save the result to a text file named `heart_downslope_summary.txt` containing one line in the exact format: `DownSlope_HeartDisease_Percent: <value>`.",
+  
+  "source": "kaggle://tan5577/heart-failure-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/heart-failure-dataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://tan5577/heart-failure-dataset",
+            "path": "/home/user/analysis_results/heart-failure-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/heart-failure-dataset/heart_downslope_heartdisease_percent.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/heart-failure-dataset/heart_downslope_heartdisease_percent.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds203",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_heart_downslope_heartdisease_percent",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/heart-failure-dataset/heart_downslope_heartdisease_percent.py",
+        "/home/user/analysis_results/heart-failure-dataset/heart.csv",
+        "/home/user/analysis_results/heart-failure-dataset/heart_downslope_summary.txt"
+      ],
+      "dest": [
+        "heart_downslope_heartdisease_percent.py",
+        "heart.csv",
+        "heart_downslope_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas"],
+        "contains_keywords": ["map", "HeartDisease", "ST_Slope"],
+        "output_format": ["DownSlope_HeartDisease_Percent"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,94 @@
+{
+  "id": "ds040",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `price_outlier_detection.py` under `/home/user/analysis_results/`. The dataset `amazon-purchases-sample.csv` is already in that folder. In the script, load the dataset using pandas. For each `Category`, compute the interquartile range (IQR) of `Purchase Price Per Unit` as (Q3 − Q1). Then identify all items whose price lies outside 1.5×IQR from the lower (Q1 − 1.5×IQR) or upper (Q3 + 1.5×IQR) bounds for their respective category. Save only these outlier rows to a new file named `price_outliers.csv` in the same directory, keeping all original columns.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+            "path": "/home/user/analysis_results/amazon-purchases-sample.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/price_outlier_detection.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/price_outlier_detection.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds040",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_price_outlier_detection",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/price_outlier_detection.py",
+        "/home/user/analysis_results/amazon-purchases-sample.csv",
+        "/home/user/analysis_results/price_outliers.csv"
+      ],
+      "dest": [
+        "price_outlier_detection.py",
+        "amazon-purchases-sample.csv",
+        "price_outliers.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "price_outliers.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}
+

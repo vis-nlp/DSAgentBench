@@ -1,0 +1,86 @@
+{
+  "id": "ds089",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook named `iris_strongest_corr.ipynb` under `/home/user/analysis_results/`. The dataset `iris-data.csv` (from the URL provided) is already in that directory. In the notebook, load the data using pandas, then compute the Pearson correlation matrix between **all numeric features**. Identify the **pair of features** that has the highest correlation (in absolute value). Save a text file named `strongest_correlation.txt` containing the two feature names and their correlation value (rounded to three decimals).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_strongest_corr.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/iris_strongest_corr.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds089",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_iris_strongest_correlation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_strongest_corr.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/strongest_correlation.txt"
+      ],
+      "dest": [
+        "iris_strongest_corr.ipynb",
+        "iris-data.csv",
+        "strongest_correlation.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "strongest_correlation.txt",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

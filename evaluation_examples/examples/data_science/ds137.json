@@ -1,0 +1,106 @@
+{
+  "id": "ds137",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `steel_fault_risk_analysis.py` in the `/home/user/analysis_results/` directory. The dataset `steel_plates_fault.csv` is already located in the same directory. In this script, load the dataset using pandas. Create a new feature `Fault_Risk_Index = (V5 * V26) / (V15 + 0.01)`. Then, for records where `Class = 1` and `Class = 0`, compute and compare the mean and variance of this new feature. Save the results to a CSV file named `fault_risk_summary.csv` with the following columns: Class,Mean_Fault_Risk,Variance_Fault_Risk.",
+  "source": "openml://1504",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1504",
+            "path": "/home/user/analysis_results/steel_plates_fault.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/steel_fault_risk_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/steel_fault_risk_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds137",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_steel_fault_risk_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/steel_fault_risk_analysis.py",
+        "/home/user/analysis_results/steel_plates_fault.csv",
+        "/home/user/analysis_results/fault_risk_summary.csv"
+      ],
+      "dest": [
+        "steel_fault_risk_analysis.py",
+        "steel_plates_fault.csv",
+        "fault_risk_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "output_columns": ["Class", "Mean_Fault_Risk", "Variance_Fault_Risk"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

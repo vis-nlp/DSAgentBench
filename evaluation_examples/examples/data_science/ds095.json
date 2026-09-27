@@ -1,0 +1,97 @@
+{
+  "id": "ds095",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook named `iris_pca_analysis.ipynb` under `/home/user/analysis_results/`. The dataset `iris-data.csv` is already present in that directory. In the notebook, load the data using pandas, perform PCA (Principal Component Analysis) retaining the first two principal components on the numeric columns (sepal length, sepal width, petal length, petal width), and compute the variance explained by each component. Save the explained variances in `pca_variance.txt` and the transformed data (first two principal components) in `pca_projection.csv` with columns: PC1, PC2.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_pca_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/iris_pca_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds095",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_iris_pca_projection",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_pca_analysis.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/pca_variance.txt",
+        "/home/user/analysis_results/pca_projection.csv"
+      ],
+      "dest": [
+        "iris_pca_analysis.ipynb",
+        "iris-data.csv",
+        "pca_variance.txt",
+        "pca_projection.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "expected_file": "pca_variance.txt",
+        "required_libraries": ["pandas", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

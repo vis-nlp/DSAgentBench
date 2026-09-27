@@ -1,0 +1,70 @@
+{
+  "id": "ds246",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named `cifar10_rgb_variance_ratios.py` under `/home/user/analysis_results/`. In this script: (1) Use the `openml` library to fetch the CIFAR-10 dataset (OpenML ID 40927). (2) Assume each image has three color channels (R, G, B) flattened into 3072-dimensional vectors. (3) Compute the total variance for each channel by summing the per-feature variances. (4) Calculate and save the following ratios in a JSON file named `cifar10_rgb_variance_summary.json`, formatted exactly as `{ \"variance_r_g\": <value>, \"variance_g_b\": <value>, \"variance_r_b\": <value> }`.",
+  "source": "openml://40927",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/cifar10_rgb_variance_ratios.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/cifar10_rgb_variance_ratios.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds246",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      { "type": "activate_window", "parameters": { "window_name": "Visual Studio Code" } },
+      { "type": "sleep", "parameters": { "seconds": 2.0 } },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+
+    "func": "evaluate_cifar10_rgb_variance_ratios",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/cifar10_rgb_variance_ratios.py",
+        "/home/user/analysis_results/cifar10_rgb_variance_summary.json"
+      ],
+      "dest": [
+        "cifar10_rgb_variance_ratios.py",
+        "cifar10_rgb_variance_summary.json"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["openml", "numpy", "pandas"],
+        "contains_keywords": ["var", "sum", "ratio"],
+        "output_format": ["variance_r_g", "variance_g_b", "variance_r_b"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false
+}

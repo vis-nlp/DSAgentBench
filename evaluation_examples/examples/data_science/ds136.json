@@ -1,0 +1,106 @@
+{
+  "id": "ds136",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `steel_outlier_detection.py` in the `/home/user/analysis_results/` directory. The dataset `steel_plates_fault.csv` is already located in the same directory. In this script, load the dataset using pandas. Detect outliers in `V5` and `V26` using the z-score method (|z| > 3). Report how many outliers exist in each column and how many instances are outliers in both metrics simultaneously. Save the results to a CSV file named `outlier_summary.csv` with the following columns: Column,Outlier_Count,Common_Outliers.",
+  "source": "openml://1504",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1504",
+            "path": "/home/user/analysis_results/steel_plates_fault.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/steel_outlier_detection.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/steel_outlier_detection.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds136",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_steel_outlier_detection",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/steel_outlier_detection.py",
+        "/home/user/analysis_results/steel_plates_fault.csv",
+        "/home/user/analysis_results/outlier_summary.csv"
+      ],
+      "dest": [
+        "steel_outlier_detection.py",
+        "steel_plates_fault.csv",
+        "outlier_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "scipy"],
+        "output_columns": ["Column", "Outlier_Count", "Common_Outliers"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

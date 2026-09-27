@@ -1,0 +1,87 @@
+{
+  "id": "ds041",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called state_sales_viz.py in the /home/user/analysis_results/ directory. The dataset amazon-purchases-sample.csv is already available in that folder. Load it using pandas. Compute total purchase amount per Shipping Address State. Then create two visualizations: (1) a bar chart of total sales per state saved as state_sales.png, and (2) a pie chart showing each state's percentage share of total purchases saved as state_share.png. Ensure all charts include titles, labels, and readable legends.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+            "path": "/home/user/analysis_results/amazon-purchases-sample.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/state_sales_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/state_sales_viz.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds041",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 1.0 }
+      }
+    ],
+    "func": "evaluate_state_sales_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/state_sales_viz.py",
+        "/home/user/analysis_results/state_sales.png",
+        "/home/user/analysis_results/state_share.png"
+      ],
+      "dest": [
+        "state_sales_viz.py",
+        "state_sales.png",
+        "state_share.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["state_sales.png", "state_share.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

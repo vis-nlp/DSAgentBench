@@ -1,0 +1,87 @@
+{
+  "id": "ds206",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `retail_outlier_removal_iqr.py` in the `/home/user/analysis_results/retail-product-dataset-with-missing-values/` directory. The dataset `synthetic_dataset.csv` is already located in the same directory. In this script, load the dataset using pandas. Detect outliers in the columns `Price` and `Discount` using the Interquartile Range (IQR) method. Remove all rows where either column is identified as an outlier. After cleaning, calculate the percentage of rows removed relative to the original 4,362 records. Save the result to a text file named `retail_outlier_removal_summary.txt` containing exactly one line formatted as: `Outlier_Removal_Percent: <value>`.",
+  "source": "kaggle://himelsarder/retail-product-dataset-with-missing-values",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retail-product-dataset-with-missing-values"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://himelsarder/retail-product-dataset-with-missing-values",
+            "path": "/home/user/analysis_results/retail-product-dataset-with-missing-values/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_outlier_removal_iqr.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_outlier_removal_iqr.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds206",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_retail_outlier_removal_iqr",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_outlier_removal_iqr.py",
+        "/home/user/analysis_results/retail-product-dataset-with-missing-values/synthetic_dataset.csv",
+        "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_outlier_removal_summary.txt"
+      ],
+      "dest": [
+        "retail_outlier_removal_iqr.py",
+        "synthetic_dataset.csv",
+        "retail_outlier_removal_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["IQR", "quantile", "Price", "Discount"],
+        "output_format": ["Outlier_Removal_Percent"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

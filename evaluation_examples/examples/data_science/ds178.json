@@ -1,0 +1,82 @@
+{
+  "id": "ds178",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `bmw_efficiency_price_ratio.py` in the `/home/user/analysis_results/bmw-worldwide-sales-records-20102024/` directory. The dataset `BMW sales data (2010-2024) (1).csv` is already located in the same directory. In this script, load the dataset using pandas. Calculate a new column `Efficiency_Index = (Mileage_KM / Engine_Size_L) * 100`. Then, group by `Fuel_Type` and compute the mean `Efficiency_Index` and mean `Price_USD`. For each fuel type, compute the ratio `(mean Efficiency_Index / mean Price_USD)` and identify the `Fuel_Type` with the highest ratio. Save the result in a text file named `bmw_efficiency_summary.txt` containing exactly one line formatted as: `Most_Efficient_Fuel_Type: <fuel_type>`.",
+  "source": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmadrazakashif/bmw-worldwide-sales-records-20102024",
+            "path": "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_efficiency_price_ratio.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_efficiency_price_ratio.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds178",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_bmw_efficiency_price_ratio",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_efficiency_price_ratio.py",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/BMW sales data (2010-2024) (1).csv",
+        "/home/user/analysis_results/bmw-worldwide-sales-records-20102024/bmw_efficiency_summary.txt"
+      ],
+      "dest": [
+        "bmw_efficiency_price_ratio.py",
+        "BMW sales data (2010-2024) (1).csv",
+        "bmw_efficiency_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["Mileage_KM", "Engine_Size_L", "Fuel_Type", "Efficiency_Index", "Price_USD", "groupby"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

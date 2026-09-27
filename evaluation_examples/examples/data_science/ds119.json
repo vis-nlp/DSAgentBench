@@ -1,0 +1,98 @@
+{
+  "id": "ds119",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `product_stability.py` in the `/home/user/analysis_results/` directory. Download the SQLite database `retail_data.db` from the provided source URL. Connect to this database and load the tables `sales` and `products`. For each product, compute the standard deviation of monthly sales quantities over time. A lower standard deviation indicates more stable demand. Identify the five most stable products (lowest standard deviation) and save the results to a CSV file named `product_stability.csv` in the same directory.",
+  "source": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/retail_data.db",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/retail_data.db",
+            "path": "/home/user/analysis_results/retail_data.db"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/product_stability.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/product_stability.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds119",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_product_stability",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/product_stability.py",
+        "/home/user/analysis_results/retail_data.db",
+        "/home/user/analysis_results/product_stability.csv"
+      ],
+      "dest": [
+        "product_stability.py",
+        "retail_data.db",
+        "product_stability.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "db_exists": true,
+        "csv_file_exists": ["product_stability.csv"],
+        "required_libraries": ["sqlite3", "pandas", "numpy"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

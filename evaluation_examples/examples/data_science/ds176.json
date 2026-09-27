@@ -1,0 +1,93 @@
+{
+  "id": "ds176",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `earthquake_hotspot_visualization.py` in the `/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/` directory. The dataset `earthquake_data_tsunami.csv` is already located in the same directory. In this script, load the dataset using pandas and create two visualizations: (a) a 3D scatter plot with magnitude (x), depth (y), and sig (z), colored by tsunami, saved as `earthquake_3d_scatter.png`; and (b) a heatmap showing the mean tsunami frequency by latitude bins (10°) and longitude bins (20°), saved as `earthquake_tsunami_heatmap.png`. Both charts should highlight geographic and intensity-based tsunami hotspots with clear labels, titles, and colorbars.",
+  "source": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+            "path": "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_hotspot_visualization.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_hotspot_visualization.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds176",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_earthquake_hotspot_visualization_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_hotspot_visualization.py",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_data_tsunami.csv",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_3d_scatter.png",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_tsunami_heatmap.png"
+      ],
+      "dest": [
+        "earthquake_hotspot_visualization.py",
+        "earthquake_data_tsunami.csv",
+        "earthquake_3d_scatter.png",
+        "earthquake_tsunami_heatmap.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": [
+          "earthquake_3d_scatter.png",
+          "earthquake_tsunami_heatmap.png"
+        ],
+        "required_libraries": ["pandas", "matplotlib", "seaborn", "plotly"],
+        "contains_keywords": [
+          "plt.figure",
+          "scatter",
+          "heatmap",
+          "savefig"
+        ]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

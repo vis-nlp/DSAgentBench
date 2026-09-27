@@ -1,0 +1,102 @@
+{
+  "id": "ds273",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `fitbit_calories_regressor.py` in the `/home/user/analysis_results/fitbit/` directory. The Fitbit Fitness Tracker dataset in that directory includes a file named `dailyActivity_merged.csv`. In this script, load `dailyActivity_merged.csv` with pandas and keep only the following columns: `TotalSteps`, `TotalDistance`, `VeryActiveMinutes`, `FairlyActiveMinutes`, `LightlyActiveMinutes`, `SedentaryMinutes`, and `Calories`. Drop rows with missing values in any of these columns. Treat `Calories` as the regression target and the other columns as numeric features. Split the data into 80% training and 20% test sets. Standardize all feature columns using `StandardScaler`. Train a `RandomForestRegressor` (at least 300 trees) to predict `Calories`. Evaluate the model on the test set by computing `MAE` (mean absolute error), `RMSE` (root mean squared error), and `R2` (coefficient of determination). Save the metrics to a text file named `fitbit_calories_regression_summary.txt` in the same directory, containing exactly one line formatted as: `MAE: <value>, RMSE: <value>, R2: <value>`.",
+  "source": "kaggle://nnekaekwemuka/fitbit-fitness-tracker-dataset",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/fitbit"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://nnekaekwemuka/fitbit-fitness-tracker-dataset",
+            "path": "/home/user/analysis_results/fitbit/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/fitbit/fitbit_calories_regressor.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/fitbit/fitbit_calories_regressor.py"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds303",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_fitbit_calories_regressor",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/fitbit/fitbit_calories_regressor.py",
+        "/home/user/analysis_results/fitbit/dailyActivity_merged.csv",
+        "/home/user/analysis_results/fitbit/fitbit_calories_regression_summary.txt"
+      ],
+      "dest": [
+        "fitbit_calories_regressor.py",
+        "dailyActivity_merged.csv",
+        "fitbit_calories_regression_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": [
+          "RandomForestRegressor",
+          "train_test_split",
+          "StandardScaler",
+          "mean_absolute_error",
+          "mean_squared_error",
+          "r2_score"
+        ],
+        "output_format": ["MAE", "RMSE", "R2"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,75 @@
+{
+  "id": "ds255",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called `earthquake_min_max.py` in the `/home/user/analysis_results/earthquake_data/` directory. The Earthquake & Tsunami dataset will already be downloaded as `earthquake_data_tsunami.csv` into the same directory. Load this file using pandas, compute the maximum and minimum value for each column, print the results, and save them into a text file named `earthquake_min_max.txt` in the same directory.",
+  "source": "kaggle://zeesolver/earth-quick",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/earthquake_data"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://zeesolver/earth-quick",
+            "path": "/home/user/analysis_results/earthquake_data/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/earthquake_data/earthquake_min_max.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/earthquake_data/earthquake_min_max.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds255",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      { "type": "activate_window", "parameters": { "window_name": "Visual Studio Code" } },
+      { "type": "sleep", "parameters": { "seconds": 2.0 } },
+      { "type": "execute", "parameters": { "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"] } },
+      { "type": "sleep", "parameters": { "seconds": 1.0 } }
+    ],
+
+    "func": "evaluate_earthquake_min_max",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/earthquake_data/earthquake_min_max.py",
+        "/home/user/analysis_results/earthquake_data/earthquake_data_tsunami.csv",
+        "/home/user/analysis_results/earthquake_data/earthquake_min_max.txt"
+      ],
+      "dest": [
+        "earthquake_min_max.py",
+        "earthquake_data_tsunami.csv",
+        "earthquake_min_max.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "file_exists": ["earthquake_min_max.txt"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,66 @@
+{
+  "id": "ds248",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named `cifar10_rgb_pca_reconstruction.py` under `/home/user/analysis_results/`. In this script: (1) Use the `openml` library to fetch the CIFAR-10 dataset (OpenML ID 40927). (2) Apply PCA with 50, 200, and 500 components separately on the flattened 3072-dimensional RGB data. (3) For each PCA fit, compute the mean squared reconstruction error between the original and reconstructed data. (4) Save the results in a JSON file named `cifar10_rgb_pca_reconstruction_summary.json` in the format `{ \"mse_50\": <value>, \"mse_200\": <value>, \"mse_500\": <value> }`.",
+  "source": "openml://40927",
+
+  "config": [
+     {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mnist_rgb_pca_reconstruction.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mnist_rgb_pca_reconstruction.py"] }
+    }
+   ],
+
+  "trajectory": "trajectories/ds248",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      { "type": "activate_window", "parameters": { "window_name": "Visual Studio Code" } },
+      { "type": "sleep", "parameters": { "seconds": 2.0 } },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      }
+    ],
+
+    "func": "evaluate_cifar10_rgb_pca_reconstruction",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/cifar10_rgb_pca_reconstruction.py",
+        "/home/user/analysis_results/cifar10_rgb_pca_reconstruction_summary.json"
+      ],
+      "dest": [
+        "cifar10_rgb_pca_reconstruction.py",
+        "cifar10_rgb_pca_reconstruction_summary.json"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["openml", "numpy", "sklearn", "pandas"],
+        "contains_keywords": ["PCA", "inverse_transform", "mean_squared_error"],
+        "output_format": ["mse_50", "mse_200", "mse_500"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false
+}

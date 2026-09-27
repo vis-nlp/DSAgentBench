@@ -1,0 +1,109 @@
+{
+  "id": "ds274",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `olist_delivery_delay_classifier.py` in the `/home/user/analysis_results/olist_ecommerce/` directory. The Brazilian E-Commerce Public Dataset by Olist in that directory includes `olist_orders_dataset.csv` and `olist_order_items_dataset.csv`. In this script, load both CSVs using pandas and merge them on `order_id`. Create a numeric column `delivery_delay_days` as the difference in days between `order_delivered_customer_date` and `order_estimated_delivery_date` (use datetime parsing and drop rows where either date is missing). Then create a binary target column `Late_Delivery` where `Late_Delivery = 1` if `delivery_delay_days > 0`, and 0 otherwise. Use as features: `price`, `freight_value`, and the purchase month extracted from `order_purchase_timestamp` (month encoded as an integer 1–12). Drop rows with missing feature values. Split the data into 70% training and 30% test sets, stratifying by `Late_Delivery`. Train a `LogisticRegression` classifier (with solver that supports L2 regularization on large datasets, such as `liblinear` or `lbfgs`). Evaluate on the test set and compute `Accuracy`, `Precision`, `Recall`, and `F1-score`. Save the metrics to a text file named `olist_delivery_delay_classification_report.txt` containing exactly one line formatted as: `Accuracy: <value>, Precision: <value>, Recall: <value>, F1: <value>`.",
+  "source": "kaggle://olistbr/brazilian-ecommerce",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/olist_ecommerce"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://olistbr/brazilian-ecommerce",
+            "path": "/home/user/analysis_results/olist_ecommerce/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/olist_ecommerce/olist_delivery_delay_classifier.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/olist_ecommerce/olist_delivery_delay_classifier.py"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds304",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_olist_delivery_delay_classifier",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/olist_ecommerce/olist_delivery_delay_classifier.py",
+        "/home/user/analysis_results/olist_ecommerce/olist_orders_dataset.csv",
+        "/home/user/analysis_results/olist_ecommerce/olist_order_items_dataset.csv",
+        "/home/user/analysis_results/olist_ecommerce/olist_delivery_delay_classification_report.txt"
+      ],
+      "dest": [
+        "olist_delivery_delay_classifier.py",
+        "olist_orders_dataset.csv",
+        "olist_order_items_dataset.csv",
+        "olist_delivery_delay_classification_report.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": [
+          "LogisticRegression",
+          "train_test_split",
+          "precision_score",
+          "recall_score",
+          "f1_score",
+          "accuracy_score",
+          "pd.to_datetime"
+        ],
+        "output_format": ["Accuracy", "Precision", "Recall", "F1"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

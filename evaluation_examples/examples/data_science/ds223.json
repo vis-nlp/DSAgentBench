@@ -1,0 +1,99 @@
+{
+  "id": "ds223",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `tesla_stock_fetch_analysis.py` in the `/home/user/analysis_results/finance_data/` directory. The task is to open Google Chrome, search for “Tesla stock close price”, and retrieve the closing price for November 12, 2025. Record this price along with the current timestamp into a CSV file named `tesla_stock_latest.csv` with two columns: `Timestamp` and `Close_Price`. Then, fetch the previous 5 trading days of Tesla closing prices using Yahoo Finance API (via `yfinance` or `requests`), compute their mean closing price, and append a new line to the CSV with columns: `Timestamp`, `5Day_Mean_Close`. Save both entries in the same file in chronological order. Finally, open Microsoft Excel to verify the generated CSV file.",
+  
+  "source": "web+api://finance/tesla-yahoo",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/finance_data"] }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["google-chrome", "--new-window", "https://www.google.com/search?q=Tesla+stock+close+price"]
+      }
+    },
+    {
+      "type": "sleep",
+      "parameters": { "seconds": 4.0 }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/finance_data/tesla_stock_fetch_analysis.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/finance_data/tesla_stock_fetch_analysis.py"]
+      }
+    },
+    {
+      "type": "sleep",
+      "parameters": { "seconds": 2.0 }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["excel", "/home/user/analysis_results/finance_data/tesla_stock_latest.csv"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds223",
+  "related_apps": ["chrome", "excel", "vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_tesla_stock_fetch_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/finance_data/tesla_stock_fetch_analysis.py",
+        "/home/user/analysis_results/finance_data/tesla_stock_latest.csv"
+      ],
+      "dest": [
+        "tesla_stock_fetch_analysis.py",
+        "tesla_stock_latest.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "datetime", "yfinance", "requests"],
+        "contains_keywords": ["yfinance", "datetime", "to_csv", "mean", "append"],
+        "output_columns": ["Timestamp", "Close_Price", "5Day_Mean_Close"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "medium"
+}

@@ -1,0 +1,97 @@
+{
+  "id": "ds160",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `boston_rf_gb_comparison.py` in the `/home/user/analysis_results/` directory. The dataset `boston.csv` is already located in the same directory. In this script, load the dataset using pandas. Predict the target variable `MEDV` using all other features. Perform 5-fold cross-validation to compute the mean R² score for both Random Forest Regressor and Gradient Boosting Regressor models. Save the results to a CSV file named `rf_gb_results.csv` with three columns: Model,Mean_R2,Better. The Better column should indicate which model performs best based on mean R². Round all R² values to four decimal places.",
+  "source": "openml://531",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://531",
+            "path": "/home/user/analysis_results/boston.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/boston_rf_gb_comparison.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/boston_rf_gb_comparison.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds160",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_boston_rf_gb_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/boston_rf_gb_comparison.py",
+        "/home/user/analysis_results/boston.csv",
+        "/home/user/analysis_results/rf_gb_results.csv"
+      ],
+      "dest": [
+        "boston_rf_gb_comparison.py",
+        "boston.csv",
+        "rf_gb_results.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["RandomForestRegressor", "GradientBoostingRegressor", "cross_val_score", "r2"],
+        "output_columns": ["Model", "Mean_R2", "Better"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

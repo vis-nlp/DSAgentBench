@@ -1,0 +1,87 @@
+{
+  "id": "ds264",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `store_profit_model.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset directory already contains the retail files `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`. In this script, load and merge the datasets on `Store` and `Date`, then attempt to train a regression model to predict `Profit` using available numeric columns. Store the outcome of your computation—either the RMSE value or a brief summary of what happened—into a text file named `store_profit_model_summary.txt`. The file must contain exactly one line.",
+
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retaildataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retaildataset/store_profit_model.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retaildataset/store_profit_model.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds264",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+
+    "func": "evaluate_store_profit_model_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/store_profit_model.py",
+        "/home/user/analysis_results/retaildataset/store_profit_model_summary.txt"
+      ],
+      "dest": [
+        "store_profit_model.py",
+        "store_profit_model_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_column"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

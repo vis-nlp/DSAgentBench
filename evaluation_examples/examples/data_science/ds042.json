@@ -1,0 +1,93 @@
+{
+  "id": "ds042",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `price_quantity_corr.py` under `/home/user/analysis_results/`. The dataset `amazon-purchases-sample.csv` is already in that folder. In the script, load the dataset using pandas. Compute the Pearson correlation coefficient between `Purchase Price Per Unit` and `Quantity`. Round the result to three decimals and save it in a text file named `price_quantity_corr.txt` in the same directory. The text file should contain only the numeric correlation value.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+            "path": "/home/user/analysis_results/amazon-purchases-sample.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/price_quantity_corr.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/price_quantity_corr.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds042",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_price_quantity_corr",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/price_quantity_corr.py",
+        "/home/user/analysis_results/amazon-purchases-sample.csv",
+        "/home/user/analysis_results/price_quantity_corr.txt"
+      ],
+      "dest": [
+        "price_quantity_corr.py",
+        "amazon-purchases-sample.csv",
+        "price_quantity_corr.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "price_quantity_corr.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

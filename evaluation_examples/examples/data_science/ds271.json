@@ -1,0 +1,103 @@
+{
+  "id": "ds271",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `coffee_quality_high_score_classifier.py` in the `/home/user/analysis_results/coffee_quality/` directory. The Kaggle dataset in that directory contains at least `arabica_data_cleaned.csv`. In this script, load `arabica_data_cleaned.csv` with pandas, drop rows with missing `Total.Cup.Points`, and create a binary target column `High_Score` where `High_Score = 1` if `Total.Cup.Points` is greater than or equal to 85, and 0 otherwise. Use all remaining numeric features plus one-hot-encoded categorical features (drop the original categorical columns after encoding). Split the data into 80% training and 20% test sets, stratifying by `High_Score`. Standardize numeric features only (do not standardize the one-hot features). Train a `GradientBoostingClassifier` on the training set. Evaluate on the test set and compute `Accuracy`, `ROC-AUC`, and `F1-score`. Save the metrics to a text file named `coffee_quality_high_score_metrics.txt` in the same directory, containing exactly one line formatted as: `Accuracy: <value>, ROC_AUC: <value>, F1: <value>`.",
+  "source": "kaggle://volpatto/coffee-quality-database-from-cqi",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/coffee_quality"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://volpatto/coffee-quality-database-from-cqi",
+            "path": "/home/user/analysis_results/coffee_quality/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/coffee_quality/coffee_quality_high_score_classifier.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/coffee_quality/coffee_quality_high_score_classifier.py"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds301",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_coffee_quality_high_score_classifier",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/coffee_quality/coffee_quality_high_score_classifier.py",
+        "/home/user/analysis_results/coffee_quality/arabica_data_cleaned.csv",
+        "/home/user/analysis_results/coffee_quality/coffee_quality_high_score_metrics.txt"
+      ],
+      "dest": [
+        "coffee_quality_high_score_classifier.py",
+        "arabica_data_cleaned.csv",
+        "coffee_quality_high_score_metrics.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": [
+          "GradientBoostingClassifier",
+          "train_test_split",
+          "accuracy_score",
+          "roc_auc_score",
+          "f1_score",
+          "OneHotEncoder",
+          "ColumnTransformer"
+        ],
+        "output_format": ["Accuracy", "ROC_AUC", "F1"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,87 @@
+{
+  "id": "ds265",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `product_sales_relationship.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset directory already contains the files `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`. In this script, load the three datasets using pandas, merge them on `ProductID`, and attempt to compute the Pearson correlation between `Product_Price` and `Weekly_Sales`. Store the outcome of your computation—either the numerical result or a brief summary of what happened—into a text file named `product_sales_relationship_summary.txt`. The file must contain exactly one line.",
+  
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retaildataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retaildataset/product_sales_relationship.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retaildataset/product_sales_relationship.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds265",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+
+    "func": "evaluate_product_sales_relationship_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/product_sales_relationship.py",
+        "/home/user/analysis_results/retaildataset/product_sales_relationship_summary.txt"
+      ],
+      "dest": [
+        "product_sales_relationship.py",
+        "product_sales_relationship_summary.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_column"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

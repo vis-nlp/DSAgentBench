@@ -1,0 +1,93 @@
+{
+  "id": "ds049",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `bullish_crossover.py` under `/home/user/analysis_results/`. The dataset `dash-stock-ticker-demo.csv` is already in that folder. In the script, load the dataset using pandas. Compute two new columns: `MA5` (5-day rolling average of `AdjClose`) and `MA10` (10-day rolling average of `AdjClose`). Identify all rows (dates) where `MA5` crosses above `MA10` — i.e., where `MA5` was less than or equal to `MA10` on the previous day but greater on the current day. Save these crossover dates into a CSV file named `bullish_crossover.csv` in the same directory, with exactly two columns: `Date` and `Stock`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+            "path": "/home/user/analysis_results/dash-stock-ticker-demo.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/bullish_crossover.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/bullish_crossover.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds049",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_bullish_crossover",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/bullish_crossover.py",
+        "/home/user/analysis_results/dash-stock-ticker-demo.csv",
+        "/home/user/analysis_results/bullish_crossover.csv"
+      ],
+      "dest": [
+        "bullish_crossover.py",
+        "dash-stock-ticker-demo.csv",
+        "bullish_crossover.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "bullish_crossover.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

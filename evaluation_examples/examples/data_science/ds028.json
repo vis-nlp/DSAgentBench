@@ -1,0 +1,93 @@
+{
+  "id": "ds028",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `emission_stats.py` under `/home/user/analysis_results/`. The dataset `Emissions Data.csv` is already in that folder. In the script, load the data using pandas. Then group the data by `Continent`, and for each continent compute: (1) the count of years recorded, (2) the mean of `Emission`, (3) the median of `Emission`, (4) the maximum `Emission`, and (5) the minimum `Emission`. Round the mean, median, max and min values to **two decimal places**. Save the results in a CSV file named `continent_emission_stats.csv` in the same directory, with exactly these columns: `Continent,Count,Mean,Median,Max,Min`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Emissions%20Data.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Emissions%20Data.csv",
+            "path": "/home/user/analysis_results/Emissions_Data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/emission_stats.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/emission_stats.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds028", 
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+      "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_emission_stats",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/emission_stats.py",
+        "/home/user/analysis_results/Emissions_Data.csv",
+        "/home/user/analysis_results/continent_emission_stats.csv"
+      ],
+      "dest": [
+        "emission_stats.py",
+        "Emissions_Data.csv",
+        "continent_emission_stats.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "continent_emission_stats.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

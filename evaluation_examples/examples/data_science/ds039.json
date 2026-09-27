@@ -1,0 +1,93 @@
+{
+  "id": "ds039",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `missing_value_imputation.py` under `/home/user/analysis_results/`. The dataset `amazon-purchases-sample.csv` (from https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv) is already in that folder. In the script, load the dataset using pandas. Identify all rows where **either** the `Category` or `Title` column is missing (NaN or empty). For those rows: fill missing `Category` values using the most frequent `Category` **within the same `Shipping Address State`**, and fill missing `Title` values with the string `Unknown Product`. Then save **only the imputed rows** (after filling) to a new CSV file named `imputed_rows.csv` in the same directory, preserving all original columns for those rows.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/amazon-purchases-sample.csv",
+            "path": "/home/user/analysis_results/amazon-purchases-sample.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/missing_value_imputation.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/missing_value_imputation.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds039",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_missing_value_imputation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/missing_value_imputation.py",
+        "/home/user/analysis_results/amazon-purchases-sample.csv",
+        "/home/user/analysis_results/imputed_rows.csv"
+      ],
+      "dest": [
+        "missing_value_imputation.py",
+        "amazon-purchases-sample.csv",
+        "imputed_rows.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "imputed_rows.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

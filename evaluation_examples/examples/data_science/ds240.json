@@ -1,0 +1,50 @@
+{
+  "id": "ds240",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `premier_league_team_regression.py` in the `/home/user/analysis_results/sports_stats/` directory. In this script: (1) Scrape team statistics from `https://fbref.com/en/comps/9/Premier-League-Stats` for the ongoing season — include columns: `Team`, `Goals`, `Assists`, `Shots`, `Possession%`, `Pass%`. (2) Fit a linear regression model predicting `Points` (or Wins if Points not available) using the numeric stats. (3) Save a CSV named `premier_league_team_summary.csv` with the extracted data and predicted points. (4) Compute model R² and RMSE, saving them in a text file named `premier_league_regression_summary.txt` formatted exactly as: `R2: <value>, RMSE: <value>`.",
+  "source": "web://fbref.com/en/comps/9/Premier-League-Stats",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir","-p","/home/user/analysis_results/sports_stats"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch","/home/user/analysis_results/sports_stats/premier_league_team_regression.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code","/home/user/analysis_results/sports_stats/premier_league_team_regression.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds240",
+  "related_apps": ["vscode","python"],
+  "evaluator": {
+    "func": "evaluate_premier_league_team_regression",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/sports_stats/premier_league_team_regression.py",
+        "/home/user/analysis_results/sports_stats/premier_league_team_summary.csv",
+        "/home/user/analysis_results/sports_stats/premier_league_regression_summary.txt"
+      ],
+      "dest": [
+        "premier_league_team_regression.py",
+        "premier_league_team_summary.csv",
+        "premier_league_regression_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas","numpy","sklearn","requests","beautifulsoup4"],
+        "contains_keywords": ["LinearRegression","R2","RMSE","fbref"],
+        "output_columns": ["Team","Goals","Assists","Shots","Possession%","Pass%","Predicted_Points"]
+      }
+    }
+  }
+}

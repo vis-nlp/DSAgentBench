@@ -1,0 +1,82 @@
+{
+  "id": "ds175",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `earthquake_feature_interpretation.py` in the `/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/` directory. The dataset `earthquake_data_tsunami.csv` is already located in the same directory. In this script, load the dataset using pandas. Perform a GridSearchCV on a RandomForestClassifier with the following hyperparameters: n_estimators = [50, 100, 200], max_depth = [3, 5, 10], and max_features = ['sqrt', 'log2']. Fit the best model and compute feature importances using SHAP values (preferred) or permutation importances (if SHAP not available). Identify two features that exhibit clear non-linear dependency with tsunami probability (e.g., depth–magnitude interaction or sig–mmi curve shape). Save the results to a text file named `earthquake_feature_interpretation.txt` with exactly one line formatted as: `Nonlinear_Features: <feature1>, <feature2>`.",
+  "source": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+            "path": "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_feature_interpretation.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_feature_interpretation.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds175",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_earthquake_feature_interpretation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_feature_interpretation.py",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_data_tsunami.csv",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_feature_interpretation.txt"
+      ],
+      "dest": [
+        "earthquake_feature_interpretation.py",
+        "earthquake_data_tsunami.csv",
+        "earthquake_feature_interpretation.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn", "shap"],
+        "contains_keywords": ["GridSearchCV", "RandomForestClassifier", "SHAP", "feature_importances_", "depth", "magnitude"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

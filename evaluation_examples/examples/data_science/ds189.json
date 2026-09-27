@@ -1,0 +1,103 @@
+{
+  "id": "ds189",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `student_exam_efficiency_analysis.py` in the `/home/user/analysis_results/student-exam-score-dataset-analysis/` directory. The dataset `student_exam_scores.csv` is already located in the same directory. In this script, load the dataset using pandas. Define a new column `efficiency = exam_score / (hours_studied * (attendance_percent / 100))`. Identify the student (row) with the highest efficiency and compute the ratio of that student's `exam_score` to the overall dataset mean of `exam_score`. Save the results to a text file named `student_efficiency_summary.txt` containing a single line formatted as: `Top_Student_Efficiency: <value>, ExamScore_Ratio: <value>`.",
+  "source": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/student-exam-score-dataset-analysis"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+            "path": "/home/user/analysis_results/student-exam-score-dataset-analysis/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_efficiency_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_efficiency_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds189",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_student_exam_efficiency_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_efficiency_analysis.py",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_scores.csv",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_efficiency_summary.txt"
+      ],
+      "dest": [
+        "student_exam_efficiency_analysis.py",
+        "student_exam_scores.csv",
+        "student_efficiency_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["efficiency", "exam_score", "hours_studied", "attendance_percent"],
+        "output_columns": ["Top_Student_Efficiency", "ExamScore_Ratio"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

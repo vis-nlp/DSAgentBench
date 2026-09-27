@@ -1,0 +1,89 @@
+{
+  "id": "ds100",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called iris_dimensionality_reduction.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset iris-data.csv which is already available in that directory and explore feature relationships using dimensionality reduction. Perform the following steps: (1) apply PCA with 2 components and plot a scatter plot of PC1 vs PC2 colored by class, saving it as pca_scatter.png; (2) apply t-SNE (with 2 components) to the same features and plot the t-SNE embedding colored by class, saving it as tsne_scatter.png. Ensure both charts have clear titles, axis labels, and legends.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_dimensionality_reduction.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/iris_dimensionality_reduction.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds100",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_iris_dimensionality_reduction_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_dimensionality_reduction.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/pca_scatter.png",
+        "/home/user/analysis_results/tsne_scatter.png"
+      ],
+      "dest": [
+        "iris_dimensionality_reduction.ipynb",
+        "iris-data.csv",
+        "pca_scatter.png",
+        "tsne_scatter.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["pca_scatter.png", "tsne_scatter.png"],
+        "required_libraries": ["pandas", "matplotlib", "seaborn", "sklearn"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

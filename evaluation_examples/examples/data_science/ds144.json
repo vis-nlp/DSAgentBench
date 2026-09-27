@@ -1,0 +1,117 @@
+{
+  "id": "ds144",
+  "snapshot": "data_science",
+  "instruction": "You can open Visual Studio Code and create a Python script named `eeg_feature_group_analysis.py` in the `/home/user/analysis_results/` directory. The dataset `eeg_eye_state.csv` is already located in the same directory. In this script, load the dataset using pandas, and group the data by `V12` and `V13`. For each (V12, V13) combination, compute the mean of `V5` and `V10`, and the proportion of rows where `Class = 1`. Then, create two visualizations: (1) a bar chart showing the average `V5` and `V10` per (V12, V13) combination (`feature_means.png`), and (2) a heatmap showing the proportion of `Class = 1` across (V12, V13) combinations (`class_proportion_heatmap.png`). Label both charts clearly with titles, axis labels, and legends, and save them in the same directory.",
+  "source": "openml://1471",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1471",
+            "path": "/home/user/analysis_results/eeg_eye_state.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/eeg_feature_group_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/eeg_feature_group_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds144",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_eeg_feature_group_visualization_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/eeg_feature_group_analysis.py",
+        "/home/user/analysis_results/eeg_eye_state.csv",
+        "/home/user/analysis_results/feature_means.png",
+        "/home/user/analysis_results/class_proportion_heatmap.png"
+      ],
+      "dest": [
+        "eeg_feature_group_analysis.py",
+        "eeg_eye_state.csv",
+        "feature_means.png",
+        "class_proportion_heatmap.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": [
+          "feature_means.png",
+          "class_proportion_heatmap.png"
+        ],
+        "required_libraries": ["pandas", "matplotlib"],
+        "contains_keywords": [
+          "groupby",
+          "mean",
+          "Class",
+          "savefig"
+        ]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,106 @@
+{
+  "id": "ds141",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `steel_fault_cooccurrence.py` in the `/home/user/analysis_results/` directory. The dataset `steel_plates_fault.csv` is already located in the same directory. In this script, load the dataset using pandas. Use the columns V28–V33 (fault indicators) to create a co-occurrence matrix that counts how often each pair of faults occurs together across all samples. Normalize the matrix by dividing each count by the total number of samples to obtain co-occurrence proportions. Then, identify the top three fault pairs with the highest co-occurrence values. Save these results to a CSV file named `top_fault_pairs.csv` with the following columns: Fault1,Fault2,Cooccurrence.",
+  "source": "openml://1504",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1504",
+            "path": "/home/user/analysis_results/steel_plates_fault.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/steel_fault_cooccurrence.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/steel_fault_cooccurrence.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds141",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_steel_fault_cooccurrence",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/steel_fault_cooccurrence.py",
+        "/home/user/analysis_results/steel_plates_fault.csv",
+        "/home/user/analysis_results/top_fault_pairs.csv"
+      ],
+      "dest": [
+        "steel_fault_cooccurrence.py",
+        "steel_plates_fault.csv",
+        "top_fault_pairs.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "itertools"],
+        "output_columns": ["Fault1", "Fault2", "Cooccurrence"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

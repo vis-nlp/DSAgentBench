@@ -1,0 +1,94 @@
+{
+  "id": "ds067",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `logreg_feature_importance.ipynb` in `/home/user/analysis_results/`. The dataset `diabetes.csv` is already present in the same folder. In the notebook, use pandas to load the data and train a `LogisticRegression` model with `Outcome` as the target variable and all other numeric columns as predictors. Standardize the features using `StandardScaler` before fitting the model. After training, identify the top five features ranked by the absolute magnitude of their coefficients and save them as `top5_features.csv` with columns `Feature` and `Coefficient`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/logreg_feature_importance.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/logreg_feature_importance.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds067",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_logistic_top5_features",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/logreg_feature_importance.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/top5_features.csv"
+      ],
+      "dest": [
+        "logreg_feature_importance.ipynb",
+        "diabetes.csv",
+        "top5_features.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "top5_features.csv",
+        "required_libraries": ["pandas", "numpy", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,94 @@
+{
+  "id": "ds087",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `pres_influence_summary.ipynb` under `/home/user/analysis_results/`. The dataset `european_turnout.csv` is already available in that folder. In the notebook, load the dataset using pandas. Split the data into two groups based on the column `pres_more` (TRUE/FALSE). For each group, compute: (1) the average `euro_turnout`, (2) the average `nat_turnout`, and (3) the average turnout gap defined as (`nat_turnout - euro_turnout`). Save the summarized results as `pres_influence_summary.csv` with columns: `pres_more, avg_euro_turnout, avg_nat_turnout, avg_turnout_gap`, rounding all numeric values to two decimals.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/european_turnout.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/european_turnout.csv",
+            "path": "/home/user/analysis_results/european_turnout.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/pres_influence_summary.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/pres_influence_summary.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds087",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_pres_influence_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/pres_influence_summary.ipynb",
+        "/home/user/analysis_results/european_turnout.csv",
+        "/home/user/analysis_results/pres_influence_summary.csv"
+      ],
+      "dest": [
+        "pres_influence_summary.ipynb",
+        "european_turnout.csv",
+        "pres_influence_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "pres_influence_summary.csv",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

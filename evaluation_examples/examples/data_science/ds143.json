@@ -1,0 +1,97 @@
+{
+  "id": "ds143",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `steel_rf_eval.py` in the `/home/user/analysis_results/` directory. The dataset `steel_plates_fault.csv` is already located in the same directory. In this script, load the dataset using pandas. Train a `RandomForestClassifier` using V1–V27 as predictors and `Class` as the target. Evaluate the model by calculating **Accuracy** and **F1-score** for one class. Save the results to a CSV file named `rf_results.csv` with exactly two rows and two columns: Metric,Value. The first row should contain `Accuracy,<value>` and the second row should contain `F1,<value>`. Round all values to four decimal places and ensure they are between 0 and 1. Do not include any extra text, headers, or comments in the file.",
+  "source": "openml://1504",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1504",
+            "path": "/home/user/analysis_results/steel_plates_fault.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/steel_rf_eval.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/steel_rf_eval.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds143",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_rf_accuracy_f1",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/steel_rf_eval.py",
+        "/home/user/analysis_results/steel_plates_fault.csv",
+        "/home/user/analysis_results/rf_results.csv"
+      ],
+      "dest": [
+        "steel_rf_eval.py",
+        "steel_plates_fault.csv",
+        "rf_results.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "sklearn"],
+        "output_columns": ["Metric", "Value"],
+        "contains_keywords": ["RandomForestClassifier", "accuracy_score", "f1_score"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

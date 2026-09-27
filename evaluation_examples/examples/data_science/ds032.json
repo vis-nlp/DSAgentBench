@@ -1,0 +1,93 @@
+{
+  "id": "ds020",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called mta_ridership_trends_viz.py in the /home/user/analysis_results/ directory. The dataset MTA_Ridership_by_DATA_NY_GOV.csv is already available in the same folder. Load it using pandas. Convert the `Date` column to datetime format. Then create two time-series line charts: (1) for Subways: plot `Subways: Total Estimated Ridership` on the y-axis and `Date` on the x-axis, and save as `subway_trend.png`; (2) for Buses: plot `Buses: Total Estimated Ridership` on the y-axis and `Date` on the x-axis, and save as `bus_trend.png`. Ensure both charts have clear titles, axis labels, and gridlines.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/MTA_Ridership_by_DATA_NY_GOV.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/MTA_Ridership_by_DATA_NY_GOV.csv",
+            "path": "/home/user/analysis_results/MTA_Ridership_by_DATA_NY_GOV.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/mta_ridership_trends_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/mta_ridership_trends_viz.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds_020",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_mta_ridership_trends_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mta_ridership_trends_viz.py",
+        "/home/user/analysis_results/subway_trend.png",
+        "/home/user/analysis_results/bus_trend.png"
+      ],
+      "dest": [
+        "mta_ridership_trends_viz.py",
+        "subway_trend.png",
+        "bus_trend.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["subway_trend.png", "bus_trend.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

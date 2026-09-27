@@ -1,0 +1,94 @@
+{
+  "id": "ds037",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `moving_average_crossover.py` under `/home/user/analysis_results/`. The dataset `all_stocks_5yr.csv` is already in that folder. In the script, load the dataset using pandas. For each stock, compute two moving averages of the `close` price: a 5-day moving average (MA5) and a 10-day moving average (MA10). Identify dates where MA5 crosses **above** MA10 (i.e., the previous day MA5 ≤ MA10, and the current day MA5 > MA10) — this represents a bullish crossover signal. Save only the **first 5 crossover records** with columns `stock,date` and append one final line showing the total number of crossovers found in the entire dataset, formatted as `Total_Crossovers,<number>`. Save the file as `bullish_crossovers.csv` in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+            "path": "/home/user/analysis_results/all_stocks_5yr.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/moving_average_crossover.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/moving_average_crossover.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds037",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_moving_average_crossover",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/moving_average_crossover.py",
+        "/home/user/analysis_results/all_stocks_5yr.csv",
+        "/home/user/analysis_results/bullish_crossovers.csv"
+      ],
+      "dest": [
+        "moving_average_crossover.py",
+        "all_stocks_5yr.csv",
+        "bullish_crossovers.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "bullish_crossovers.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}
+

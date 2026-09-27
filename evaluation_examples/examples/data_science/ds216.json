@@ -1,0 +1,88 @@
+{
+  "id": "ds216",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `heart_disease_model_comparison.py` in the `/home/user/analysis_results/heart-failure-dataset/` directory. The dataset `heart.csv` is already located in the same directory. In this script, load the dataset using pandas and prepare the data for modeling. Train two models — Logistic Regression and Random Forest Classifier — to predict `HeartDisease`. Evaluate both models using 5-fold cross-validation and compute the mean of Accuracy, Precision, Recall, F1, and ROC-AUC across folds. Identify which model performs best on average across all metrics. Save the result to a text file named `heart_disease_model_comparison_summary.txt` containing exactly one line formatted as: `Best_Model: <model_name>, Mean_Metric_Score: <value>`.",
+  
+  "source": "kaggle://tan5577/heart-failure-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/heart-failure-dataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://tan5577/heart-failure-dataset",
+            "path": "/home/user/analysis_results/heart-failure-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/heart-failure-dataset/heart_disease_model_comparison.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/heart-failure-dataset/heart_disease_model_comparison.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds216",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_heart_disease_model_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/heart-failure-dataset/heart_disease_model_comparison.py",
+        "/home/user/analysis_results/heart-failure-dataset/heart.csv",
+        "/home/user/analysis_results/heart-failure-dataset/heart_disease_model_comparison_summary.txt"
+      ],
+      "dest": [
+        "heart_disease_model_comparison.py",
+        "heart.csv",
+        "heart_disease_model_comparison_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "sklearn", "numpy"],
+        "contains_keywords": ["LogisticRegression", "RandomForestClassifier", "cross_val_score", "roc_auc_score"],
+        "output_format": ["Best_Model", "Mean_Metric_Score"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

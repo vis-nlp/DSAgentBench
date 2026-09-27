@@ -1,0 +1,93 @@
+{
+  "id": "ds227",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `worldbank_canada_gdp_inflation_analysis.py` inside `/home/user/analysis_results/worldbank_data/`. First, open Google Chrome and navigate to `https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation`. Review the correct API request format. Then, construct two API endpoints using the official World Bank API structure: (1) `https://api.worldbank.org/v2/country/CA/indicator/NY.GDP.MKTP.CD?format=json&per_page=500` for Canada GDP, and (2) `https://api.worldbank.org/v2/country/CA/indicator/FP.CPI.TOTL.ZG?format=json&per_page=500` for Canada Inflation. Use `requests` to retrieve data from both endpoints, handle pagination if present, and extract the last five available years and their values. Create one DataFrame with columns: `year`, `gdp`, and `inflation`. Compute the correlation between GDP and inflation, and determine the year with the maximum divergence defined as `|GDP_t − mean(GDP)| + |Inflation_t − mean(Inflation)|`. Save the result to a text file named `canada_gdp_inflation_summary.txt` formatted exactly as: `Correlation: <value>, Max_Divergence_Year: <year>`.",
+  
+  "source": "web",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/worldbank_data"] }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["google-chrome", "--new-window", "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation"]
+      }
+    },
+    {
+      "type": "sleep",
+      "parameters": { "seconds": 5.0 }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/worldbank_data/worldbank_canada_gdp_inflation_analysis.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/worldbank_data/worldbank_canada_gdp_inflation_analysis.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds227",
+  "related_apps": ["chrome", "vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_worldbank_canada_gdp_inflation_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/worldbank_data/worldbank_canada_gdp_inflation_analysis.py",
+        "/home/user/analysis_results/worldbank_data/canada_gdp_inflation_summary.txt"
+      ],
+      "dest": [
+        "worldbank_canada_gdp_inflation_analysis.py",
+        "canada_gdp_inflation_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "requests"],
+        "contains_keywords": [
+          "https://api.worldbank.org/v2/country/CA/indicator/NY.GDP.MKTP.CD",
+          "https://api.worldbank.org/v2/country/CA/indicator/FP.CPI.TOTL.ZG",
+          "requests.get",
+          "json",
+          "DataFrame",
+          "corr",
+          "abs"
+        ],
+        "output_format": ["Correlation", "Max_Divergence_Year"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "medium"
+}

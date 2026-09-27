@@ -1,0 +1,96 @@
+{
+  "id": "ds084",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook called `high_magnitude_earthquakes.ipynb` in `/home/user/analysis_results/`. The dataset `earthquakes-23k.csv` is already in that folder. In the notebook, load the dataset using pandas. Filter all records where `Magnitude ≥ 7.0`. Count how many such earthquakes occurred and save this count to `highmag_count.txt`. Then compute the average latitude and longitude of these filtered earthquakes and save them to `highmag_location.csv` with columns: `AvgLatitude`, `AvgLongitude` (rounded to three decimals).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/earthquakes-23k.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/earthquakes-23k.csv",
+            "path": "/home/user/analysis_results/earthquakes-23k.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/high_magnitude_earthquakes.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/high_magnitude_earthquakes.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds084",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_high_magnitude_earthquakes",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/high_magnitude_earthquakes.ipynb",
+        "/home/user/analysis_results/earthquakes-23k.csv",
+        "/home/user/analysis_results/highmag_count.txt",
+        "/home/user/analysis_results/highmag_location.csv"
+      ],
+      "dest": [
+        "high_magnitude_earthquakes.ipynb",
+        "earthquakes-23k.csv",
+        "highmag_count.txt",
+        "highmag_location.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_files": ["highmag_count.txt", "highmag_location.csv"],
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

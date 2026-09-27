@@ -1,0 +1,89 @@
+{
+  "id": "ds085",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called earthquake_visualization.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset earthquakes-23k.csv which is already in that directory and: (1) plot all earthquake locations on a world map (save as earthquake_map.png) using latitude and longitude; (2) create a histogram of earthquake magnitudes (save as magnitude_hist.png). Ensure both charts include titles, axis labels (or legend for map), and are clearly readable.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/earthquakes-23k.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/earthquakes-23k.csv",
+            "path": "/home/user/analysis_results/earthquakes-23k.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/earthquake_visualization.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/earthquake_visualization.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds085",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_earthquake_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/earthquake_visualization.ipynb",
+        "/home/user/analysis_results/earthquakes-23k.csv",
+        "/home/user/analysis_results/earthquake_map.png",
+        "/home/user/analysis_results/magnitude_hist.png"
+      ],
+      "dest": [
+        "earthquake_visualization.ipynb",
+        "earthquakes-23k.csv",
+        "earthquake_map.png",
+        "magnitude_hist.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["earthquake_map.png", "magnitude_hist.png"],
+        "required_libraries": ["pandas", "matplotlib", "seaborn", "plotly"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

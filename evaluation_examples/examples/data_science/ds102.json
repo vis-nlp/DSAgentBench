@@ -1,0 +1,89 @@
+{
+  "id": "ds102",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called iris_comparative_feature_range.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset iris-data.csv which is already available in that directory and compare statistical summaries visually. Perform the following: (1) create a bar chart showing the mean feature values per class and save it as mean_feature_bar.png; (2) create a bar chart showing the standard deviation of each feature per class and save it as std_feature_bar.png. Ensure both charts have clear titles, labeled axes, and legends.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_comparative_feature_range.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/iris_comparative_feature_range.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds102",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_iris_comparative_feature_range_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_comparative_feature_range.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/mean_feature_bar.png",
+        "/home/user/analysis_results/std_feature_bar.png"
+      ],
+      "dest": [
+        "iris_comparative_feature_range.ipynb",
+        "iris-data.csv",
+        "mean_feature_bar.png",
+        "std_feature_bar.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["mean_feature_bar.png", "std_feature_bar.png"],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

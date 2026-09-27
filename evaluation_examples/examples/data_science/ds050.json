@@ -1,0 +1,70 @@
+{
+  "id": "ds050",
+  "snapshot": "data_science",
+  "instruction": "Create a Python script named stock_linear_regression.py in /home/user/analysis_results/. Using dash-stock-ticker-demo.csv, train a linear regression model (sklearn.linear_model.LinearRegression) to predict AdjClose from AdjOpen, AdjHigh, and AdjLow. Split the last 20% of rows as validation. Compute the Mean Absolute Error (MAE) on the validation set, rounded to three decimals, and save it in model_mae.txt.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+            "path": "/home/user/analysis_results/dash-stock-ticker-demo.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/stock_linear_regression.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/stock_linear_regression.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds050",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_stock_regression_mae",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/stock_linear_regression.py",
+        "/home/user/analysis_results/model_mae.txt"
+      ],
+      "dest": [
+        "stock_linear_regression.py",
+        "model_mae.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "expected_file": "model_mae.txt",
+        "required_libraries": ["pandas", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}
+

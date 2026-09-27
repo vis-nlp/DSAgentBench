@@ -1,0 +1,98 @@
+{
+  "id": "ds112",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `fitness_clusters.py` in the `/home/user/analysis_results/` directory. Connect to the SQLite database `meal.db` located in the same directory. Load the tables `meal_metadata` and `final_data`, and merge them on `Workout_Type` using an inner join. Select the numeric features `Calories_Burned`, `Fat_Percentage`, `BMI_calc`, `Water_Intake (liters)`, `cal_balance`, `lean_mass_kg`, and `expected_burn`. Normalize these features using standard scaling, apply K-Means clustering with `k=3`, and label the resulting clusters as `Balanced`, `Calorie Deficit`, and `Overtrained`. Finally, save the cluster centroids and cluster counts to a CSV file named `fitness_clusters.csv` in the same directory.",
+  "source": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/meal.db",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/meal.db",
+            "path": "/home/user/analysis_results/meal.db"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/fitness_clusters.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/fitness_clusters.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds112",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_fitness_clusters",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/fitness_clusters.py",
+        "/home/user/analysis_results/meal.db",
+        "/home/user/analysis_results/fitness_clusters.csv"
+      ],
+      "dest": [
+        "fitness_clusters.py",
+        "meal.db",
+        "fitness_clusters.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "db_exists": true,
+        "csv_file_exists": ["fitness_clusters.csv"],
+        "required_libraries": ["sqlite3", "pandas", "numpy", "sklearn"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

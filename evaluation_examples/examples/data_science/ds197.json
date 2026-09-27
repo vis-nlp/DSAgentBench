@@ -1,0 +1,90 @@
+{
+  "id": "ds197",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mobile_connectivity_correlation.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The dataset includes two files: `train.csv` and `test.csv`, both located in the same directory. In this script, load both files using pandas and merge them into a single DataFrame. Define a new binary feature `connectivity_score = three_g + four_g + wifi`. For each unique value of `connectivity_score`, compute the mean `ram` and mean `price_range`. Then, compute the Pearson correlation between `connectivity_score` and `price_range`. Save the result to a text file named `mobile_connectivity_summary.txt` containing one line formatted as: `Corr_Connectivity_Price: <value>`. Round the correlation to four decimal places.",
+  
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/mobile_connectivity_correlation.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/mobile_connectivity_correlation.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds197",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mobile_connectivity_correlation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/mobile_connectivity_correlation.py",
+        "/home/user/analysis_results/mobile-price-classification/train.csv",
+        "/home/user/analysis_results/mobile-price-classification/test.csv",
+        "/home/user/analysis_results/mobile-price-classification/mobile_connectivity_summary.txt"
+      ],
+      "dest": [
+        "mobile_connectivity_correlation.py",
+        "train.csv",
+        "test.csv",
+        "mobile_connectivity_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["connectivity_score", "corr", "three_g", "four_g", "wifi", "price_range"],
+        "output_format": ["Corr_Connectivity_Price"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

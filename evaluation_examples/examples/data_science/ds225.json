@@ -1,0 +1,85 @@
+{
+  "id": "ds225",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `meta_stock_trend_forecast.py` inside `/home/user/analysis_results/finance_data/`. First, open Google Chrome and search for 'Meta stock closing price on November 12 2025'. Retrieve the closing price for that date and store it in a CSV file named `meta_stock_forecast_summary.csv` with columns: `Timestamp` and `Close_2025_11_12`. Next, use `yfinance` to download Meta Platforms Inc. (`META`) stock data for the past 60 trading days. Compute: (1) 7-day rolling average of closing prices, (2) daily return volatility (standard deviation of daily percentage change), and (3) fit a linear regression model predicting next-day close from the past 7-day average and current volatility. Evaluate on the last 10 days and compute `R2` and `RMSE`. Append a new row to the same CSV with columns: `Timestamp`, `Rolling7_Avg_LastDay`, `Volatility_LastDay`, `R2`, and `RMSE`. Ensure rows appear in chronological order.",
+  
+  "source": "web",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/finance_data"] }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["google-chrome", "--new-window", "https://www.google.com/search?q=Meta+stock+closing+price+on+November+12+2025"]
+      }
+    },
+    {
+      "type": "sleep",
+      "parameters": { "seconds": 4.0 }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/finance_data/meta_stock_trend_forecast.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/finance_data/meta_stock_trend_forecast.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds225",
+  "related_apps": ["chrome", "vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_meta_stock_trend_forecast",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/finance_data/meta_stock_trend_forecast.py",
+        "/home/user/analysis_results/finance_data/meta_stock_forecast_summary.csv"
+      ],
+      "dest": [
+        "meta_stock_trend_forecast.py",
+        "meta_stock_forecast_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn", "yfinance"],
+        "contains_keywords": ["rolling", "LinearRegression", "std", "mean", "to_csv"],
+        "output_columns": ["Timestamp", "Close_2025_11_12", "Rolling7_Avg_LastDay", "Volatility_LastDay", "R2", "RMSE"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "medium"
+}

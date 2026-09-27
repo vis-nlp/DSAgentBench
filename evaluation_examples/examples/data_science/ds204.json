@@ -1,0 +1,88 @@
+{
+  "id": "ds204",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `retail_missing_value_imputation.py` in the `/home/user/analysis_results/retail-product-dataset-with-missing-values/` directory. The dataset `synthetic_dataset.csv` is already located in the same directory. In this script, load the dataset using pandas. Detect all missing entries. Impute missing values in `Price` using the median and in `Rating` using the mean. For `Discount`, perform model-based imputation by fitting a linear regression model predicting `Discount` from `Price` and `Rating`. After all imputations, compute the total number of previously missing cells that were successfully filled. Save the result to a text file named `retail_missing_value_summary.txt` containing exactly one line formatted as: `Total_Imputed_Cells: <value>`.",
+
+  "source": "kaggle://himelsarder/retail-product-dataset-with-missing-values",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/retail-product-dataset-with-missing-values"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://himelsarder/retail-product-dataset-with-missing-values",
+            "path": "/home/user/analysis_results/retail-product-dataset-with-missing-values/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_missing_value_imputation.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_missing_value_imputation.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds204",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_retail_missing_value_imputation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_missing_value_imputation.py",
+        "/home/user/analysis_results/retail-product-dataset-with-missing-values/synthetic_dataset.csv",
+        "/home/user/analysis_results/retail-product-dataset-with-missing-values/retail_missing_value_summary.txt"
+      ],
+      "dest": [
+        "retail_missing_value_imputation.py",
+        "synthetic_dataset.csv",
+        "retail_missing_value_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "sklearn"],
+        "contains_keywords": ["fillna", "LinearRegression", "isnull", "median", "mean"],
+        "output_format": ["Total_Imputed_Cells"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

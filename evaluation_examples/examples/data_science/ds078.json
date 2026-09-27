@@ -1,0 +1,95 @@
+{
+  "id": "ds078",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook named `age_segment_auc.ipynb` under `/home/user/analysis_results/`. The dataset `diabetes.csv` is already available in the same directory. In the notebook, divide the dataset into three age groups: Group 1 (Age < 30), Group 2 (30 ≤ Age < 50), and Group 3 (Age ≥ 50). For each subgroup, train a separate LogisticRegression model to predict `Outcome` using all other numeric features. Compute the Area Under the ROC Curve (AUC) for each group and save the results into `age_segment_auc.csv` with columns: AgeGroup, AUC (rounded to three decimals).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/age_segment_auc.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/age_segment_auc.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds078",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_age_segment_auc",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/age_segment_auc.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/age_segment_auc.csv"
+      ],
+      "dest": [
+        "age_segment_auc.ipynb",
+        "diabetes.csv",
+        "age_segment_auc.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "expected_file": "age_segment_auc.csv",
+        "required_libraries": ["pandas", "numpy", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

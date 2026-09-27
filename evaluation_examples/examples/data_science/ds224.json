@@ -1,0 +1,85 @@
+{
+  "id": "ds224",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `tesla_stock_volatility.py` inside `/home/user/analysis_results/finance_data/`. First, open Google Chrome and search for 'Tesla stock price on October 10 2025'. Retrieve the closing price for that date and save it into a CSV file named `tesla_volatility_metrics.csv` with columns: `Timestamp` and `Close_2025_10_10`. Next, fetch Tesla's last 10 trading days of closing prices using Yahoo Finance (`yfinance`). Compute: (a) the 10-day mean return, (b) the 10-day volatility (standard deviation of daily returns). Append a new row to the same CSV with columns: `Timestamp`, `TenDay_Mean_Return`, and `TenDay_Volatility`. Ensure the rows appear in chronological order.",
+  
+  "source": "web",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/finance_data"] }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["google-chrome", "--new-window", "https://www.google.com/search?q=Tesla+stock+price+on+October+10+2025"]
+      }
+    },
+    {
+      "type": "sleep",
+      "parameters": { "seconds": 4.0 }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/finance_data/tesla_stock_volatility.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/finance_data/tesla_stock_volatility.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds224",
+  "related_apps": ["chrome", "vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_tesla_stock_volatility",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/finance_data/tesla_stock_volatility.py",
+        "/home/user/analysis_results/finance_data/tesla_volatility_metrics.csv"
+      ],
+      "dest": [
+        "tesla_stock_volatility.py",
+        "tesla_volatility_metrics.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "yfinance", "datetime", "numpy"],
+        "contains_keywords": ["yfinance", "pct_change", "std", "mean", "to_csv"],
+        "output_columns": ["Timestamp", "Close_2025_10_10", "TenDay_Mean_Return", "TenDay_Volatility"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "medium"
+}

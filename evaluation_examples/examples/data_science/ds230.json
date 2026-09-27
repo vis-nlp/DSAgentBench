@@ -1,0 +1,73 @@
+{
+  "id": "ds229",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `github_trending_analysis.py` in the `/home/user/analysis_results/github_trending/` directory. In this script, open the URL `https://github.com/trending` for each of the three languages: Python, JavaScript, and C++. From each language’s trending page select the top 20 repositories and extract the repository name, author, star count, and programming language. Combine all into a single DataFrame and save as `github_trending_repos.csv` in the same directory with columns: `repo_name`, `author`, `stars`, `language`. Then compute the average number of stars per language and produce a horizontal bar chart of these averages saved as `avg_stars_by_language.png` in the same directory.",
+  "source": "web",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/github_trending"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/github_trending/github_trending_analysis.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/github_trending/github_trending_analysis.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds229",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_github_trending_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/github_trending/github_trending_analysis.py",
+        "/home/user/analysis_results/github_trending/github_trending_repos.csv",
+        "/home/user/analysis_results/github_trending/avg_stars_by_language.png"
+      ],
+      "dest": [
+        "github_trending_analysis.py",
+        "github_trending_repos.csv",
+        "avg_stars_by_language.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "image_exists": true,
+        "required_libraries": ["pandas", "requests", "beautifulsoup4", "matplotlib"],
+        "contains_keywords": ["Trending", "repo_name", "stars", "language", "barh", "plot"],
+        "output_columns": ["repo_name", "author", "stars", "language"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,98 @@
+{
+  "id": "ds113",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `category_revenue.py` in the `/home/user/analysis_results/` directory. Download the SQLite database `retail_data.db` from the source URL. Connect to this database, load the tables `sales`, `products` and `category`. Compute total revenue per category as `sum(quantity * price)` for all sales joined with product price, then identify the category with the highest total revenue. Print the full summary (category_name and revenue) and mark the top category. Save the summary to a text file named `category_revenue.txt` in the same directory.",
+  "source": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/retail_data.db",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/retail_data.db",
+            "path": "/home/user/analysis_results/retail_data.db"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/category_revenue.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/category_revenue.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds113",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_category_revenue",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/category_revenue.py",
+        "/home/user/analysis_results/retail_data.db",
+        "/home/user/analysis_results/category_revenue.txt"
+      ],
+      "dest": [
+        "category_revenue.py",
+        "retail_data.db",
+        "category_revenue.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "db_exists": true,
+        "text_file_exists": ["category_revenue.txt"],
+        "required_libraries": ["sqlite3", "pandas"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

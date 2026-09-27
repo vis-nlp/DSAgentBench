@@ -1,0 +1,117 @@
+{
+  "id": "ds150",
+  "snapshot": "data_science",
+  "instruction": "You can open Visual Studio Code and create a Python script named `amazon_reviews_pca_kmeans.py` in the `/home/user/analysis_results/` directory. The dataset `amazon_commerce_reviews.csv` is already located in the same directory. In this script, load the dataset using pandas, apply PCA to reduce dimensionality while retaining 95% of the variance, and then perform K-Means clustering with 5 clusters on the PCA-reduced data. Create two visualizations: (1) a scatter plot showing the first two PCA components colored by cluster (`cluster_scatter.png`), and (2) a bar chart showing the number of samples in each cluster (`cluster_distribution.png`). Label both charts clearly and save them in the same directory.",
+  "source": "openml://1457",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://1457",
+            "path": "/home/user/analysis_results/amazon_commerce_reviews.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/amazon_reviews_pca_kmeans.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/amazon_reviews_pca_kmeans.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds150",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_amazon_reviews_pca_kmeans_visualization_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/amazon_reviews_pca_kmeans.py",
+        "/home/user/analysis_results/amazon_commerce_reviews.csv",
+        "/home/user/analysis_results/cluster_scatter.png",
+        "/home/user/analysis_results/cluster_distribution.png"
+      ],
+      "dest": [
+        "amazon_reviews_pca_kmeans.py",
+        "amazon_commerce_reviews.csv",
+        "cluster_scatter.png",
+        "cluster_distribution.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": [
+          "cluster_scatter.png",
+          "cluster_distribution.png"
+        ],
+        "required_libraries": ["pandas", "sklearn", "matplotlib"],
+        "contains_keywords": [
+          "PCA",
+          "KMeans",
+          "fit_transform",
+          "savefig"
+        ]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

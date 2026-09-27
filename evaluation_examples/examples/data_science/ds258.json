@@ -1,0 +1,87 @@
+{
+  "id": "ds258",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `hourly_ecg_variation.py` in the `/home/user/analysis_results/heart-failure-dataset/` directory. The dataset `heart.csv` is already located in the same directory. In this script, load the dataset using pandas and attempt to compute the hourly variation of `RestingECG` values across the monitoring period. Store the outcome of your computation—either the numerical result or a brief summary of what happened—in a text file named `hourly_ecg_variation.txt`. The file must contain exactly one line.",
+  
+  "source": "kaggle://tan5577/heart-failure-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/heart-failure-dataset"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://tan5577/heart-failure-dataset",
+            "path": "/home/user/analysis_results/heart-failure-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/heart-failure-dataset/hourly_ecg_variation.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/heart-failure-dataset/hourly_ecg_variation.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds258",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+
+    "func": "evaluate_hourly_ecg_infeasible",
+
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/heart-failure-dataset/hourly_ecg_variation.py",
+        "/home/user/analysis_results/heart-failure-dataset/hourly_ecg_variation.txt"
+      ],
+      "dest": [
+        "hourly_ecg_variation.py",
+        "hourly_ecg_variation.txt"
+      ]
+    },
+
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "summary_exists": true,
+        "reason": "missing_granularity"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

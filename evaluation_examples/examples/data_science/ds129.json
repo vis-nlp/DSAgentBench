@@ -1,0 +1,117 @@
+{
+  "id": "ds129",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called `lifestyle_kaggle.py` in the `/home/user/analysis_results/` directory. The Life Style dataset will already be downloaded from Kaggle (`jockeroika/life-style-data`) and placed into the same directory. Load all CSV files in that folder, print their column names, and save them into a text file `lifestyle_kaggle_columns.txt` in the same directory.",
+  "source": "kaggle://jockeroika/life-style-data",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://jockeroika/life-style-data",  
+            "path": "/home/user/analysis_results/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/lifestyle_kaggle.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/lifestyle_kaggle.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds129",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_kaggle_lifestyle",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/lifestyle_kaggle.py",
+        "/home/user/analysis_results/Final_data.csv",
+        "/home/user/analysis_results/expanded_fitness_data.csv",
+        "/home/user/analysis_results/lifestyle_kaggle_columns.txt"
+      ],
+      "dest": [
+        "lifestyle_kaggle.py",
+        "Final_data.csv",
+        "expanded_fitness_data.csv",
+        "lifestyle_kaggle_columns.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "file_exists": [
+          "Final_data.csv",
+          "expanded_fitness_data.csv",
+          "lifestyle_kaggle_columns.txt"
+        ],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

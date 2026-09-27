@@ -1,0 +1,90 @@
+{
+  "id": "ds222",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mnist_pca_logistic_metrics.py` in the `/home/user/analysis_results/mnist-in-csv/` directory. The dataset includes two CSV files already located in the same directory: `mnist_train.csv` and `mnist_test.csv`. In this script, load both datasets using pandas and combine them for PCA preprocessing. Apply PCA to retain components explaining at least 95% of the variance, then split the data back into train and test sets. Train a Logistic Regression classifier on the PCA-reduced training data and evaluate it on the test set. Compute per-class metrics including Precision, Recall, F1-score, and Support, along with the overall Accuracy. Save the results to a CSV file named `mnist_metrics_summary.csv` in the same directory with the following columns: `Digit,Precision,Recall,F1,Support,Overall_Accuracy`.",
+  
+  "source": "kaggle://oddrationale/mnist-in-csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mnist-in-csv"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://oddrationale/mnist-in-csv",
+            "path": "/home/user/analysis_results/mnist-in-csv/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mnist-in-csv/mnist_pca_logistic_metrics.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mnist-in-csv/mnist_pca_logistic_metrics.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds222",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mnist_pca_logistic_metrics",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mnist-in-csv/mnist_pca_logistic_metrics.py",
+        "/home/user/analysis_results/mnist-in-csv/mnist_train.csv",
+        "/home/user/analysis_results/mnist-in-csv/mnist_test.csv",
+        "/home/user/analysis_results/mnist-in-csv/mnist_metrics_summary.csv"
+      ],
+      "dest": [
+        "mnist_pca_logistic_metrics.py",
+        "mnist_train.csv",
+        "mnist_test.csv",
+        "mnist_metrics_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["LogisticRegression", "PCA", "classification_report", "accuracy_score"],
+        "output_columns": ["Digit", "Precision", "Recall", "F1", "Support", "Overall_Accuracy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

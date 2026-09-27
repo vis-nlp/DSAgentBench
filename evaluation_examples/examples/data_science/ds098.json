@@ -1,0 +1,89 @@
+{
+  "id": "ds098",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called iris_petal_distribution.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset iris-data.csv  which is already available in that directory and compare per-class feature distributions using two visualization techniques: (1) create a boxplot of petal_length grouped by class and save as petal_boxplot.png; (2) create a violin plot of petal_length grouped by class and save as petal_violin.png. Ensure both charts include clear titles, axis labels, and appropriate legends. Finally, create a single slide in Microsoft PowerPoint that includes both visualizations and clearly communicates the key insights and overall story shown by the charts.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/iris_petal_distribution.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/iris_petal_distribution.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds098",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_iris_petal_distribution_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/iris_petal_distribution.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/petal_boxplot.png",
+        "/home/user/analysis_results/petal_violin.png"
+      ],
+      "dest": [
+        "iris_petal_distribution.ipynb",
+        "iris-data.csv",
+        "petal_boxplot.png",
+        "petal_violin.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["petal_boxplot.png", "petal_violin.png"],
+        "required_libraries": ["pandas", "seaborn", "matplotlib"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

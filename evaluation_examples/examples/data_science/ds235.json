@@ -1,0 +1,69 @@
+{
+  "id": "ds235",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `soccer_scoreboard_summary.py` in the `/home/user/analysis_results/soccer_scores/` directory. In this script: load the page `https://www.espn.com/soccer/scoreboard` and scrape today’s completed matches, extracting for each match: `league`, `home_team`, `away_team`, `home_score`, `away_score`. Then compute (a) the average number of goals per match for each league, and (b) identify the single highest-scoring match (i.e., sum of home_score + away_score). Save a CSV file named `soccer_results_summary.csv` in the same directory with columns: `league`, `avg_goals_per_match`, `highest_scoring_match`, `highest_match_home_team`, `highest_match_away_team`, `highest_match_goals`. The `highest_scoring_match` field should list “home_team vs away_team”.",
+  "source": "web://www.espn.com/soccer/scoreboard",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/soccer_scores"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/soccer_scores/soccer_scoreboard_summary.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/soccer_scores/soccer_scoreboard_summary.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds235",
+  "related_apps": ["vscode","python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_soccer_scoreboard_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/soccer_scores/soccer_scoreboard_summary.py",
+        "/home/user/analysis_results/soccer_scores/soccer_results_summary.csv"
+      ],
+      "dest": [
+        "soccer_scoreboard_summary.py",
+        "soccer_results_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["requests","beautifulsoup4","pandas"],
+        "contains_keywords": ["soccer", "scoreboard", "league", "home_team", "away_team", "avg_goals", "highest_scoring"],
+        "output_columns": ["league","avg_goals_per_match","highest_scoring_match","highest_match_home_team","highest_match_away_team","highest_match_goals"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false
+}

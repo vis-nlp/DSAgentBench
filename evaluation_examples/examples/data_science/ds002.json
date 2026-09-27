@@ -1,0 +1,111 @@
+{
+  "id": "ds002",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called `sulfur_ratio_analysis.py` in the `/home/user/analysis_results/` directory. Load the dataset `winequality-red.csv` (already in the same folder) using pandas. Create a new column named `sulfur_ratio` defined as `free sulfur dioxide / total sulfur dioxide`. Then: Find the mean wine quality where sulfur_ratio > 0.4. and Find the mean wine quality where sulfur_ratio <= 0.4.Round both mean values to two decimal places, and save them in a text file named `result.txt` in the same directory, in the format:`high_ratio_quality, low_ratio_quality`",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+            "path": "/home/user/analysis_results/winequality-red.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/sulfur_ratio_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/sulfur_ratio_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds_002",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_sulfur_ratio_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/sulfur_ratio_analysis.py",
+        "/home/user/analysis_results/winequality-red.csv",
+        "/home/user/analysis_results/result.txt"
+      ],
+      "dest": [
+        "sulfur_ratio_analysis.py",
+        "winequality-red.csv",
+        "result.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "result.txt"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

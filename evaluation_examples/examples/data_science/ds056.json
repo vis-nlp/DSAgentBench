@@ -1,0 +1,94 @@
+{
+  "id": "ds056",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `age_default_rate.ipynb` under `/home/user/analysis_results/`. The dataset `data.csv` is already in that folder. In the notebook, load the dataset using pandas. Create three age groups: '<40', '40–60', and '>60' based on the `age` column. For each age group, compute the default rate as the mean of `SeriousDlqin2yrs`. Round the default rates to three decimals and save the results as `age_default_rate.csv` in the same directory with the following columns: `AgeGroup,DefaultRate`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+            "path": "/home/user/analysis_results/data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/age_default_rate.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/age_default_rate.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds056",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_age_default_rate",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/age_default_rate.ipynb",
+        "/home/user/analysis_results/data.csv",
+        "/home/user/analysis_results/age_default_rate.csv"
+      ],
+      "dest": [
+        "age_default_rate.ipynb",
+        "data.csv",
+        "age_default_rate.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "age_default_rate.csv",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

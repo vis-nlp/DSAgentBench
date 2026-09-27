@@ -1,0 +1,82 @@
+{
+  "id": "ds174",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `earthquake_model_comparison.py` in the `/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/` directory. The dataset `earthquake_data_tsunami.csv` is already located in the same directory. In this script, load the dataset using pandas. Split data into 80/20 train-test sets. Apply MinMaxScaler to all numeric features. Train and evaluate three models using 5-fold cross-validation: Logistic Regression, Random Forest, and XGBoost. Compute mean F1-score and ROC-AUC for each model and identify which performs best. Save the result in a text file named `earthquake_model_comparison.txt` containing one line formatted as: `Best_Model: <model_name>, F1: <value>, ROC_AUC: <value>`.",
+  "source": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://ahmeduzaki/global-earthquake-tsunami-risk-assessment-dataset",
+            "path": "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_model_comparison.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_model_comparison.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds174",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_earthquake_model_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_model_comparison.py",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_data_tsunami.csv",
+        "/home/user/analysis_results/global-earthquake-tsunami-risk-assessment-dataset/earthquake_model_comparison.txt"
+      ],
+      "dest": [
+        "earthquake_model_comparison.py",
+        "earthquake_data_tsunami.csv",
+        "earthquake_model_comparison.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn", "xgboost"],
+        "contains_keywords": ["LogisticRegression", "RandomForestClassifier", "XGBClassifier", "roc_auc_score", "f1_score"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

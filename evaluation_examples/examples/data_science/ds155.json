@@ -1,0 +1,97 @@
+{
+  "id": "ds155",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `ridge_lasso_comparison.py` in the `/home/user/analysis_results/` directory. The dataset `cholesterol.csv` is already located in the same directory. In this script, load the dataset using pandas. Predict the target variable `num` using all other numeric features. Perform 5-fold cross-validation to compute the average R² score for both Ridge and Lasso regression models. Save the results to a CSV file named `ridge_lasso_results.csv` with three columns: Model,R2_Score,Better. The Better column should indicate which model performs best based on mean R². Round all R² values to four decimal places.",
+  "source": "openml://204",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://204",
+            "path": "/home/user/analysis_results/cholesterol.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/ridge_lasso_comparison.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/ridge_lasso_comparison.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds155",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_ridge_lasso_comparison",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/ridge_lasso_comparison.py",
+        "/home/user/analysis_results/cholesterol.csv",
+        "/home/user/analysis_results/ridge_lasso_results.csv"
+      ],
+      "dest": [
+        "ridge_lasso_comparison.py",
+        "cholesterol.csv",
+        "ridge_lasso_results.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["Ridge", "Lasso", "cross_val_score", "r2"],
+        "output_columns": ["Model", "R2_Score", "Better"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

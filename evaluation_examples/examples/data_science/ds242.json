@@ -1,0 +1,69 @@
+{
+  "id": "ds242",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named `mnist_class_similarity.py` under `/home/user/analysis_results/`. In this script: (1) Use the `openml` library to fetch the MNIST_784 dataset (OpenML ID 554). (2) Group samples by their digit labels (0–9) and compute the mean pixel-intensity vector for each class, forming a (10 × 784) matrix. (3) Compute pairwise cosine similarity between all 10 class mean vectors using sklearn’s `cosine_similarity`. (4) Identify the three most similar digit pairs (excluding self-pairs) with the highest cosine similarity values. (5) Save a text file named `mnist_class_similarity_summary.txt` containing one line in this exact format: `(a, b), (c, d), (e, f)` where each tuple represents a pair of digits.",
+  "source": "openml://554",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mnist_class_similarity.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mnist_class_similarity.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds242",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mnist_class_similarity",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mnist_class_similarity.py",
+        "/home/user/analysis_results/mnist_class_similarity_summary.txt"
+      ],
+      "dest": [
+        "mnist_class_similarity.py",
+        "mnist_class_similarity_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["openml", "pandas", "numpy", "sklearn"],
+        "contains_keywords": ["cosine_similarity", "groupby", "mean", "argsort"],
+        "output_format": ["(a, b), (c, d), (e, f)"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false
+}

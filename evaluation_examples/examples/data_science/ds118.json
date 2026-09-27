@@ -1,0 +1,98 @@
+{
+  "id": "ds118",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `underperforming_categories.py` in the `/home/user/analysis_results/` directory. Download the SQLite database `retail_data.db` from the provided source URL. Connect to this database and load the tables `sales`, `products`, and `category`. Calculate the average monthly revenue per category, then compute the overall average monthly revenue across all categories. Flag categories whose revenue is below 80 percent of the overall average. Save these underperforming categories to a text file named `underperforming_categories.txt` in the same directory.",
+  "source": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/retail_data.db",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/retail_data.db",
+            "path": "/home/user/analysis_results/retail_data.db"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/underperforming_categories.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/underperforming_categories.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds118",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_underperforming_categories",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/underperforming_categories.py",
+        "/home/user/analysis_results/retail_data.db",
+        "/home/user/analysis_results/underperforming_categories.txt"
+      ],
+      "dest": [
+        "underperforming_categories.py",
+        "retail_data.db",
+        "underperforming_categories.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "db_exists": true,
+        "text_file_exists": ["underperforming_categories.txt"],
+        "required_libraries": ["sqlite3", "pandas"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

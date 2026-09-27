@@ -1,0 +1,76 @@
+{
+  "id": "ds251",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `avg_humidity_analysis.py` in `/home/user/analysis_results/climate_energy/`. Load the file `global_climate_energy_2020_2024.csv` using pandas. Group the data by the `country` column and compute the average `humidity` for each country across all available years. Save the results to a text file named `avg_humidity_summary.txt` in the same directory.",
+  "source": "kaggle://emirhanakku/climate-and-energy-consumption-dataset-20202024",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/climate_energy"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://emirhanakku/climate-and-energy-consumption-dataset-20202024",
+            "path": "/home/user/analysis_results/climate_energy/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/climate_energy/avg_humidity_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/climate_energy/avg_humidity_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds251",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_avg_humidity",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/climate_energy/avg_humidity_analysis.py",
+        "/home/user/analysis_results/climate_energy/avg_humidity_summary.txt"
+      ],
+      "dest": [
+        "avg_humidity_analysis.py",
+        "avg_humidity_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "file_exists": ["avg_humidity_summary.txt"],
+        "required_libraries": ["pandas"],
+        "contains_keywords": ["humidity", "groupby", "country", "average"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

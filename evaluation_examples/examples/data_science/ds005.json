@@ -1,0 +1,114 @@
+{
+  "id": "ds005",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called wine_visualization.py in the /home/user/analysis_results/ directory. The dataset winequality-red.csv is already in the same folder. Load it using pandas, and create visualizations that show how alcohol content affects wine quality. The first chart should be a scatter plot of alcohol versus quality saved as chart1.png, and the second should be a boxplot showing the distribution of quality across different alcohol levels saved as chart2.png.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+            "path": "/home/user/analysis_results/winequality-red.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/wine_visualization.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/wine_visualization.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds_005",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_wine_visualization_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/wine_visualization.py",
+        "/home/user/analysis_results/winequality-red.csv",
+        "/home/user/analysis_results/chart1.png",
+        "/home/user/analysis_results/chart2.png"
+      ],
+      "dest": [
+        "wine_visualization.py",
+        "winequality-red.csv",
+        "chart1.png",
+        "chart2.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": ["chart1.png", "chart2.png"],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,93 @@
+{
+  "id": "ds025",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `antibiotic_kmeans.py` under `/home/user/analysis_results/`. The dataset `Antibiotics.csv` is already in that folder. In the script, load the data using pandas. Normalize all antibiotic inhibition columns (excluding any non-numeric columns like `Bacteria` or `Gram`). Use min–max scaling to bring each numeric column to the [0,1] range. Then apply `KMeans` clustering with `n_clusters=2` on the normalized antibiotic features. After fitting, assign each bacterium to its cluster. Save the results in `bacteria_clusters.csv` in the same directory with exactly two columns: `Bacteria` and `Cluster` (cluster label as an integer 0 or 1).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Antibiotics.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Antibiotics.csv",
+            "path": "/home/user/analysis_results/Antibiotics.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/antibiotic_kmeans.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/antibiotic_kmeans.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds025",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_antibiotic_kmeans",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/antibiotic_kmeans.py",
+        "/home/user/analysis_results/Antibiotics.csv",
+        "/home/user/analysis_results/bacteria_clusters.csv"
+      ],
+      "dest": [
+        "antibiotic_kmeans.py",
+        "Antibiotics.csv",
+        "bacteria_clusters.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas", "sklearn"],
+        "script_exists": true,
+        "expected_file": "bacteria_clusters.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

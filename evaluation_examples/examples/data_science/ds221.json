@@ -1,0 +1,90 @@
+{
+  "id": "ds221",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mnist_digit_ttest.py` in the `/home/user/analysis_results/mnist-in-csv/` directory. The dataset includes two CSV files already located in the same directory: `mnist_train.csv` and `mnist_test.csv`. In this script, load both datasets using pandas and merge them into a single DataFrame. Randomly select two distinct digit classes (e.g., 3 and 8). For each selected class, compute the mean pixel intensity averaged across all 784 pixels for each sample. Then, perform a Welch’s t-test to determine whether the mean intensities of the two selected classes differ significantly. Save the results to a text file named `mnist_digit_ttest_summary.txt` containing exactly one line formatted as: `t_statistic: <value>, p_value: <value>, Significant: <True/False>`.",
+  
+  "source": "kaggle://oddrationale/mnist-in-csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mnist-in-csv"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://oddrationale/mnist-in-csv",
+            "path": "/home/user/analysis_results/mnist-in-csv/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mnist-in-csv/mnist_digit_ttest.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mnist-in-csv/mnist_digit_ttest.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds221",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mnist_digit_ttest",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mnist-in-csv/mnist_digit_ttest.py",
+        "/home/user/analysis_results/mnist-in-csv/mnist_train.csv",
+        "/home/user/analysis_results/mnist-in-csv/mnist_test.csv",
+        "/home/user/analysis_results/mnist-in-csv/mnist_digit_ttest_summary.txt"
+      ],
+      "dest": [
+        "mnist_digit_ttest.py",
+        "mnist_train.csv",
+        "mnist_test.csv",
+        "mnist_digit_ttest_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "scipy"],
+        "contains_keywords": ["ttest_ind", "mean", "p_value"],
+        "output_format": ["t_statistic", "p_value", "Significant"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

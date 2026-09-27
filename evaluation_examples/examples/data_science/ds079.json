@@ -1,0 +1,89 @@
+{
+  "id": "ds079",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called diabetes_outcome_3d_heatmap.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset diabetes.csv and analyze how BMI, Glucose, and Age jointly influence diabetes outcome. Create two visualizations: (1) bmi_glucose_age_3d.png — a 3D scatter plot with axes (BMI, Glucose, Age), colored by Outcome; (2) bmi_glucose_heatmap.png — a 2D heatmap showing average Outcome rates across binned BMI (x-axis) and Glucose (y-axis) ranges (e.g., bins of 10). Save both plots in the same directory with appropriate titles, axis labels, and color legends.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/diabetes_outcome_3d_heatmap.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/diabetes_outcome_3d_heatmap.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds079",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_diabetes_3d_heatmap_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/diabetes_outcome_3d_heatmap.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/bmi_glucose_age_3d.png",
+        "/home/user/analysis_results/bmi_glucose_heatmap.png"
+      ],
+      "dest": [
+        "diabetes_outcome_3d_heatmap.ipynb",
+        "diabetes.csv",
+        "bmi_glucose_age_3d.png",
+        "bmi_glucose_heatmap.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["bmi_glucose_age_3d.png", "bmi_glucose_heatmap.png"],
+        "required_libraries": ["pandas", "plotly", "matplotlib", "seaborn"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

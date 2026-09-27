@@ -1,0 +1,97 @@
+{
+  "id": "ds054",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `missing_value_imputation.ipynb` under `/home/user/analysis_results/`. The dataset `data.csv` is already in that folder. In the notebook, load the dataset using pandas. Identify all columns with missing values (for example, `MonthlyIncome`, `NumberOfDependents`). Impute missing `MonthlyIncome` values with the median computed within each age group: '<40', '40–60', '>60'. Fill missing `NumberOfDependents` values with its mode. Save the cleaned dataset as `imputed_data.csv` in the same directory and also write a summary text file named `imputation_summary.txt` that lists which columns had missing values before imputation.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/data.csv",
+            "path": "/home/user/analysis_results/data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/missing_value_imputation.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/missing_value_imputation.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds054",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_missing_value_imputation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/missing_value_imputation.ipynb",
+        "/home/user/analysis_results/data.csv",
+        "/home/user/analysis_results/imputed_data.csv",
+        "/home/user/analysis_results/imputation_summary.txt"
+      ],
+      "dest": [
+        "missing_value_imputation.ipynb",
+        "data.csv",
+        "imputed_data.csv",
+        "imputation_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "expected_file": "imputation_summary.txt",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

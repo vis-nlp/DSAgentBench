@@ -1,0 +1,97 @@
+{
+  "id": "ds165",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `credit_feature_correlation.py` in the `/home/user/analysis_results/` directory. The dataset `credit_approval.csv` is already located in the same directory. In this script, load the dataset using pandas. Encode the target column 'A16' such that '+' becomes 1 and '−' becomes 0. Compute the Pearson correlation coefficients between all numeric features and the encoded target. Identify the three most positively correlated and three least correlated (most negative) features. Save the results to a CSV file named `credit_feature_correlation.csv` with columns: Feature,Correlation,Category, where Category should be 'Top' for the three most correlated and 'Bottom' for the three least correlated. Round all correlation values to four decimal places.",
+  "source": "openml://29",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://29",
+            "path": "/home/user/analysis_results/credit_approval.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/credit_feature_correlation.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/credit_feature_correlation.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds165",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_credit_feature_correlation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/credit_feature_correlation.py",
+        "/home/user/analysis_results/credit_approval.csv",
+        "/home/user/analysis_results/credit_feature_correlation.csv"
+      ],
+      "dest": [
+        "credit_feature_correlation.py",
+        "credit_approval.csv",
+        "credit_feature_correlation.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["corr", "replace", "pearson", "nlargest", "nsmallest"],
+        "output_columns": ["Feature", "Correlation", "Category"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

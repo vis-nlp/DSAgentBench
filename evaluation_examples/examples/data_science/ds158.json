@@ -1,0 +1,97 @@
+{
+  "id": "ds158",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `boston_group_summary.py` in the `/home/user/analysis_results/` directory. The dataset `boston.csv` is already located in the same directory. In this script, load the dataset using pandas. Group the data by `CHAS` and compute the mean and standard deviation of the numeric features `RM`, `LSTAT`, and `MEDV` for each group. After computing, sum all mean and standard deviation values across the groups. Save the result to a CSV file named `boston_group_summary.csv` with exactly one row and three columns: Sum_Mean,Sum_Std,Group_Count.",
+  "source": "openml://531",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://531",
+            "path": "/home/user/analysis_results/boston.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/boston_group_summary.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/boston_group_summary.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds158",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_boston_group_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/boston_group_summary.py",
+        "/home/user/analysis_results/boston.csv",
+        "/home/user/analysis_results/boston_group_summary.csv"
+      ],
+      "dest": [
+        "boston_group_summary.py",
+        "boston.csv",
+        "boston_group_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["groupby", "mean", "std", "sum"],
+        "output_columns": ["Sum_Mean", "Sum_Std", "Group_Count"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

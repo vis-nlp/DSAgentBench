@@ -1,0 +1,72 @@
+{
+  "id": "ds236",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `crypto_volatility_analysis.py` in the `/home/user/analysis_results/crypto_volatility/` directory. In this script: 1) Navigate to `https://www.coinmarketcap.com/` and scrape the top 50 cryptocurrencies by market capitalization, extracting for each: `name`, `symbol`, `price`, `24h_change`, `7d_change`, `market_cap`. 2) Load historical daily price data for each of the top 50 coins (e.g., the last 7 days), compute daily returns and then compute a 7-day volatility measure (standard deviation of daily returns). 3) Add a column `seven_day_volatility` to the dataset and identify the coins with the highest volatility. 4) Save the results to a CSV file named `crypto_volatility.csv` in the same directory with columns: `name`, `symbol`, `price`, `24h_change`, `7d_change`, `market_cap`, `seven_day_volatility`. 5) In the same directory, save a text file named `top_volatile_coins.txt` containing exactly one line formatted as: `Most_Volatile_Coins: <symbol1>,<symbol2>,<symbol3>` (list the top 3 coins by volatility).",
+  "source": "web://www.coinmarketcap.com/",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/crypto_volatility"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/crypto_volatility/crypto_volatility_analysis.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/crypto_volatility/crypto_volatility_analysis.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds236",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_crypto_volatility_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/crypto_volatility/crypto_volatility_analysis.py",
+        "/home/user/analysis_results/crypto_volatility/crypto_volatility.csv",
+        "/home/user/analysis_results/crypto_volatility/top_volatile_coins.txt"
+      ],
+      "dest": [
+        "crypto_volatility_analysis.py",
+        "crypto_volatility.csv",
+        "top_volatile_coins.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "text_exists": true,
+        "required_libraries": ["requests", "beautifulsoup4", "pandas", "numpy"],
+        "contains_keywords": ["coinmarketcap.com", "price", "24h_change", "7d_change", "market_cap", "volatility"],
+        "output_columns": ["name", "symbol", "price", "24h_change", "7d_change", "market_cap", "seven_day_volatility"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false
+}

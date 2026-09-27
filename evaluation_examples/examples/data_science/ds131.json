@@ -1,0 +1,76 @@
+{
+  "id": "ds131",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `customer_risk_analysis.py` in `/home/user/analysis_results/fraud_data/`. The dataset contains a few files. Load three files: `customer_data.csv`, `account_activity.csv`, and `transaction_records.csv`, all located in the same folder. Load these files using pandas and merge them on the `CustomerID` column. For each customer, compute the total and average transaction amount, as well as the account balance. Then calculate a new metric `RiskScore = (AverageTransactionAmount / AccountBalance) × 100`. Classify customers as `High Risk` (RiskScore > 70), `Moderate Risk` (40 ≤ RiskScore ≤ 70), or `Low Risk` (RiskScore < 40). Finally, aggregate the results by risk category, calculating both the average risk score and customer count for each category, and save the summary to a text file named `customer_risk_overview.txt` in the same directory.",
+  "source": "kaggle://goyaladi/fraud-detection-dataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results/fraud_data"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://goyaladi/fraud-detection-dataset",
+            "path": "/home/user/analysis_results/fraud_data/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/fraud_data/customer_risk_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/fraud_data/customer_risk_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds131",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_customer_risk_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/fraud_data/customer_risk_analysis.py",
+        "/home/user/analysis_results/fraud_data/customer_risk_overview.txt"
+      ],
+      "dest": [
+        "customer_risk_analysis.py",
+        "customer_risk_overview.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "file_exists": ["customer_risk_overview.txt"],
+        "required_libraries": ["pandas"],
+        "contains_keywords": ["High Risk", "Moderate Risk", "Low Risk"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+} 

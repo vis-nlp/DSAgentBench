@@ -1,0 +1,93 @@
+{
+  "id": "ds023",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `animal_descriptor_share.py` under `/home/user/analysis_results/`. The dataset `311_Animals_short.csv` is already in that folder. In the script, load the data using pandas. Within each `Agency`, identify the top 3 most frequent `Descriptor` values (for example, 'Neglected', 'Tortured'). For each selected descriptor, compute its percentage share of the total complaints within that agency: (descriptor count / total complaints of that agency) * 100, rounded to one decimal place. Save the results in a CSV file named `agency_descriptor_share.csv` in the same directory with exactly four columns: `Agency`, `Descriptor`, `Count`, and `Percentage`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/311_Animals_short.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/311_Animals_short.csv",
+            "path": "/home/user/analysis_results/311_Animals_short.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/animal_descriptor_share.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/animal_descriptor_share.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds023",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_animal_descriptor_share",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/animal_descriptor_share.py",
+        "/home/user/analysis_results/311_Animals_short.csv",
+        "/home/user/analysis_results/agency_descriptor_share.csv"
+      ],
+      "dest": [
+        "animal_descriptor_share.py",
+        "311_Animals_short.csv",
+        "agency_descriptor_share.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "agency_descriptor_share.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

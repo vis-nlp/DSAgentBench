@@ -1,0 +1,93 @@
+{
+  "id": "ds022",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called monthly_borough_complaints_viz.py in the /home/user/analysis_results/ directory. The dataset 311_Animals_short.csv is already available in that folder. Load it using pandas, extract a month–year (for example “2023-07”) from the “Created Date” column. Then compute the total number of complaints per month (overall) and also compute the total number of complaints per month for each borough. Create two visualizations: (1) a line chart showing the monthly total complaints trend over time, saved as monthly_trend.png; (2) a stacked area chart showing monthly complaints by borough over time, saved as borough_area_trend.png.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/311_Animals_short.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/311_Animals_short.csv",
+            "path": "/home/user/analysis_results/311_Animals_short.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/monthly_borough_complaints_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/monthly_borough_complaints_viz.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds022",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_monthly_borough_complaints_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/monthly_borough_complaints_viz.py",
+        "/home/user/analysis_results/monthly_trend.png",
+        "/home/user/analysis_results/borough_area_trend.png"
+      ],
+      "dest": [
+        "monthly_borough_complaints_viz.py",
+        "monthly_trend.png",
+        "borough_area_trend.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["monthly_trend.png", "borough_area_trend.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,97 @@
+{
+  "id": "ds163",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mnist_digit_variance.py` in the `/home/user/analysis_results/` directory. The dataset `mnist_784.csv` is already located in the same directory. In this script, load the dataset using pandas. For each digit class (0–9), compute the average and standard deviation of pixel intensities across all pixels. Identify the digit with the highest intra-class variance (i.e., the highest standard deviation). Save the results to a CSV file named `digit_intensity_variance.csv` with three columns: Digit,Avg_Intensity,Std_Intensity. The last row should include the digit with the maximum Std_Intensity and label it as `Highest_Variance_Digit` in the Digit column. Round all numeric values to four decimal places.",
+  "source": "openml://554",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://554",
+            "path": "/home/user/analysis_results/mnist_784.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/mnist_digit_variance.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/mnist_digit_variance.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds163",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mnist_digit_variance",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mnist_digit_variance.py",
+        "/home/user/analysis_results/mnist_784.csv",
+        "/home/user/analysis_results/digit_intensity_variance.csv"
+      ],
+      "dest": [
+        "mnist_digit_variance.py",
+        "mnist_784.csv",
+        "digit_intensity_variance.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["groupby", "mean", "std", "var"],
+        "output_columns": ["Digit", "Avg_Intensity", "Std_Intensity"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,98 @@
+{
+  "id": "ds103",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `diet_calorie_balance.py` in `/home/user/analysis_results/` directory. Connect to the SQLite database `meal.db` which is in the same directory, load the tables `meal_metadata` and `final_data`, and merge them on lowercase-trimmed `meal_name` and `diet_type` using an outer join. Replace missing `Calories_Burned` and `Calories` values with 0, then compute `calorie_balance = Calories_Burned - Calories`. Group by `diet_type` to calculate the average calorie balance (rounded to two decimals), sort the results in descending order, and print both the full summary and the diet type with the highest positive average calorie balance. Save the summary to a text file named `diet_calorie_balance.txt`.",
+  "source": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/meal.db",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/mizanur-rahman/sqlite-datasets/main/data/meal.db",
+            "path": "/home/user/analysis_results/meal.db"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/diet_calorie_balance.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/diet_calorie_balance.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds103",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_diet_calorie_balance",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/diet_calorie_balance.py",
+        "/home/user/analysis_results/meal.db",
+        "/home/user/analysis_results/diet_calorie_balance.txt"
+      ],
+      "dest": [
+        "diet_calorie_balance.py",
+        "meal.db",
+        "diet_calorie_balance.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "db_exists": true,
+        "text_file_exists": ["diet_calorie_balance.txt"],
+        "required_libraries": ["sqlite3", "pandas"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

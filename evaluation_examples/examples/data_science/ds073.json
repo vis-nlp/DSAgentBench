@@ -1,0 +1,94 @@
+{
+  "id": "ds073",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `standardize_diabetes.ipynb` inside `/home/user/analysis_results/`. The dataset `diabetes.csv` is already available in that folder. In the notebook, first replace all zero values in the continuous columns (`Glucose`, `BloodPressure`, `SkinThickness`, `Insulin`, `BMI`) with their respective column medians. Then, standardize all continuous variables (`Glucose`, `BloodPressure`, `SkinThickness`, `Insulin`, `BMI`, and `DiabetesPedigreeFunction`) using z-score normalization. Save the standardized dataset as `standardized_diabetes.csv` in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/standardize_diabetes.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/standardize_diabetes.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds073",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_standardize_diabetes",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/standardize_diabetes.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/standardized_diabetes.csv"
+      ],
+      "dest": [
+        "standardize_diabetes.ipynb",
+        "diabetes.csv",
+        "standardized_diabetes.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "standardized_diabetes.csv",
+        "required_libraries": ["pandas", "numpy", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

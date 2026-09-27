@@ -1,0 +1,93 @@
+{
+  "id": "ds031",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `yearly_std_summary.py` in the `/home/user/analysis_results/` directory. The dataset `MTA_Ridership_by_DATA_NY_GOV.csv` is already in that folder. In the script, load the data using pandas. Extract the year from the `Date` column (for example, '03/01/2020' → 2020). Then, for each year, compute the standard deviation of `Subways: Total Estimated Ridership` and `Buses: Total Estimated Ridership`. Round all numeric values to three decimals. Save the output as `yearly_std_summary.csv` in the same directory, with exactly these columns: `Year,Subway_Std,Buses_Std`.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/MTA_Ridership_by_DATA_NY_GOV.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/MTA_Ridership_by_DATA_NY_GOV.csv",
+            "path": "/home/user/analysis_results/MTA_Ridership_by_DATA_NY_GOV.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/yearly_std_summary.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/yearly_std_summary.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds031",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_yearly_std_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/yearly_std_summary.py",
+        "/home/user/analysis_results/MTA_Ridership_by_DATA_NY_GOV.csv",
+        "/home/user/analysis_results/yearly_std_summary.csv"
+      ],
+      "dest": [
+        "yearly_std_summary.py",
+        "MTA_Ridership_by_DATA_NY_GOV.csv",
+        "yearly_std_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "yearly_std_summary.csv"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

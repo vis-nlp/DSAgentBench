@@ -1,0 +1,92 @@
+{
+  "id": "ds125",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named `titanic_openml_summary.py` under `/home/user/analysis_results/`. In the script, use the `openml` library to fetch the Titanic dataset (ID 40945) from OpenML. Load it into a pandas DataFrame, print its column names, and compute the average passenger age (ignoring missing values). Save this value (rounded to two decimals) into a text file named `titanic_summary.txt` in the same folder.",
+
+  "source": "openml Titanic dataset (ID 40945)",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/titanic_openml_summary.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/titanic_openml_summary.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds125",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_openml_summary_task",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/titanic_openml_summary.py",
+        "/home/user/analysis_results/titanic_summary.txt"
+      ],
+      "dest": [
+        "titanic_openml_summary.py",
+        "titanic_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "result_file": "titanic_summary.txt",
+        "required_libraries": ["openml", "pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,93 @@
+{
+  "id": "ds047",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `return_volatility.py` under `/home/user/analysis_results/`. The dataset `dash-stock-ticker-demo.csv` is already in that folder. In the script, load the dataset using pandas. Add a new column `Return` calculated as ((AdjClose - AdjOpen) / AdjOpen) * 100. Then compute the standard deviation of this `Return` column (representing volatility), round it to two decimals, and save the result to a text file named `return_volatility.txt` in the same directory. The text file should contain only the numeric volatility value (no labels or extra text).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/dash-stock-ticker-demo.csv",
+            "path": "/home/user/analysis_results/dash-stock-ticker-demo.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/return_volatility.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/return_volatility.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds047",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_return_volatility",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/return_volatility.py",
+        "/home/user/analysis_results/dash-stock-ticker-demo.csv",
+        "/home/user/analysis_results/return_volatility.txt"
+      ],
+      "dest": [
+        "return_volatility.py",
+        "dash-stock-ticker-demo.csv",
+        "return_volatility.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "return_volatility.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

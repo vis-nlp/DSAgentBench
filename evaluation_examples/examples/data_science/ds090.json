@@ -1,0 +1,94 @@
+{
+  "id": "ds090",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `feature_variance_normalization.ipynb` in `/home/user/analysis_results/`. The dataset `iris-data.csv` is already available in that directory. In the notebook, load the dataset using pandas and select all numeric columns. Compute the variance of each feature before normalization. Then, apply Min–Max normalization to rescale all numeric features to the [0,1] range, and compute the variance again after normalization. Save both results as `feature_variance_comparison.csv` with columns: `Feature,Variance_Before,Variance_After` (rounded to three decimals).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/iris-data.csv",
+            "path": "/home/user/analysis_results/iris-data.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/feature_variance_normalization.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/feature_variance_normalization.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds090",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_feature_variance_normalization",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/feature_variance_normalization.ipynb",
+        "/home/user/analysis_results/iris-data.csv",
+        "/home/user/analysis_results/feature_variance_comparison.csv"
+      ],
+      "dest": [
+        "feature_variance_normalization.ipynb",
+        "iris-data.csv",
+        "feature_variance_comparison.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "feature_variance_comparison.csv",
+        "required_libraries": ["pandas", "numpy", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

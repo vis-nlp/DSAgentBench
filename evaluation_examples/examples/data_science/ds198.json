@@ -1,0 +1,90 @@
+{
+  "id": "ds198",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mobile_price_random_forest.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The dataset includes `train.csv` and `test.csv` files in the same directory. In this script, load the train and test data using pandas. Train a Random Forest Classifier to predict `price_range` using all available features in the train set. Evaluate the model on the test set and compute `accuracy`, `precision`, and `recall`. Save the results to a text file named `mobile_price_rf_summary.txt` in the same directory, formatted as: `Accuracy: <value>, Precision: <value>, Recall: <value>`. Round all metrics to four decimal places.",
+  
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/mobile_price_random_forest.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/mobile_price_random_forest.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds198",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mobile_price_random_forest",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/mobile_price_random_forest.py",
+        "/home/user/analysis_results/mobile-price-classification/train.csv",
+        "/home/user/analysis_results/mobile-price-classification/test.csv",
+        "/home/user/analysis_results/mobile-price-classification/mobile_price_rf_summary.txt"
+      ],
+      "dest": [
+        "mobile_price_random_forest.py",
+        "train.csv",
+        "test.csv",
+        "mobile_price_rf_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "sklearn"],
+        "contains_keywords": ["RandomForestClassifier", "accuracy_score", "precision_score", "recall_score"],
+        "output_format": ["Accuracy", "Precision", "Recall"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

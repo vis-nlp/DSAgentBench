@@ -1,0 +1,94 @@
+{
+  "id": "ds035",
+  "snapshot": "data_science",
+  "instruction": "Write a Python script named `stock_stability_score.py` under `/home/user/analysis_results/`. The dataset `all_stocks_5yr.csv` is already in that folder. In the script, load the data using pandas. For each row, compute the Stability value using the formula: stability = 1 - ((high - low) / close). Then calculate the average stability across all rows in the dataset. Round the final result to three decimals and save this single numeric value in a text file named `stability_score.txt` in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/all_stocks_5yr.csv",
+            "path": "/home/user/analysis_results/all_stocks_5yr.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/stock_stability_score.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/stock_stability_score.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds035",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_stock_stability_score",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/stock_stability_score.py",
+        "/home/user/analysis_results/all_stocks_5yr.csv",
+        "/home/user/analysis_results/stability_score.txt"
+      ],
+      "dest": [
+        "stock_stability_score.py",
+        "all_stocks_5yr.csv",
+        "stability_score.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas"],
+        "script_exists": true,
+        "expected_file": "stability_score.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}
+

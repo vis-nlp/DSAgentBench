@@ -1,0 +1,76 @@
+{
+  "id": "ds231",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `hn_frontpage_scraper.py` in the `/home/user/analysis_results/hn_scraper/` directory. In this script: (1) At the start and then once every hour for 24 hours, load the website `https://news.ycombinator.com/` and scrape all front-page posts, extracting the `title`, `score` (points), and `submission_time` for each post. (2) Store each hour’s results into a SQLite database named `hn_posts.db` with a table `posts` having columns: `timestamp_scraped`, `title`, `score`, `submission_time`. (3) After the 24-hour period completes, query the database to compute the most common keywords across all titles (you may split on whitespace, lower-case, remove common stopwords). Also compute for each keyword its average post score. (4) Produce a horizontal bar chart of the top 20 keywords by count with colour intensity representing average score, and save it as `hn_keyword_score.png` in the same directory. (5) Save a text file named `hn_keyword_summary.txt` containing exactly one line formatted as: `Top20_Keywords_AverageScores: <keyword1>=<avg_score1>,<keyword2>=<avg_score2>,...`.",
+  "source": "web://news.ycombinator.com/",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/hn_scraper"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/hn_scraper/hn_frontpage_scraper.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/hn_scraper/hn_frontpage_scraper.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds231",
+  "related_apps": ["vscode", "python", "sqlite3"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_hn_frontpage_scraper",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/hn_scraper/hn_frontpage_scraper.py",
+        "/home/user/analysis_results/hn_scraper/hn_posts.db",
+        "/home/user/analysis_results/hn_scraper/hn_keyword_score.png",
+        "/home/user/analysis_results/hn_scraper/hn_keyword_summary.txt"
+      ],
+      "dest": [
+        "hn_frontpage_scraper.py",
+        "hn_posts.db",
+        "hn_keyword_score.png",
+        "hn_keyword_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "database_exists": true,
+        "image_exists": true,
+        "text_exists": true,
+        "required_libraries": ["requests", "beautifulsoup4", "pandas", "matplotlib", "sqlite3"],
+        "contains_keywords": ["news.ycombinator.com", "front", "id=\"score_", "submission_time"],
+        "output_format": ["Top20_Keywords_AverageScores"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

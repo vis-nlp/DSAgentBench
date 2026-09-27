@@ -1,0 +1,72 @@
+{
+  "id": "ds234",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `data_science_salary_by_state.py` in the `/home/user/analysis_results/indeed_ds_salaries/` directory. In this script: 1) Navigate to `https://www.indeed.com/q-data-scientist-jobs.html` and scrape approximately 100 US job postings. For each posting, extract: `title`, `company`, `location` (state), and `salary` if listed. 2) Clean and standardize the salary values (e.g., convert hourly or monthly to yearly if needed). 3) Estimate the median salary per state. 4) Visualize the state-level median data-science salary as a US choropleth map and save the image as `ds_salary_by_state.png`. 5) Save a CSV named `ds_salary_by_state.csv` with columns: `state`, `median_salary`, `job_count`. 6) Ensure the script handles missing salary info (e.g., drop or mark as missing).",
+  "source": "web://www.indeed.com/q-data-scientist-jobs.html",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/indeed_ds_salaries"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/indeed_ds_salaries/data_science_salary_by_state.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/indeed_ds_salaries/data_science_salary_by_state.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds234",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_ds_salary_by_state",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/indeed_ds_salaries/data_science_salary_by_state.py",
+        "/home/user/analysis_results/indeed_ds_salaries/ds_salary_by_state.csv",
+        "/home/user/analysis_results/indeed_ds_salaries/ds_salary_by_state.png"
+      ],
+      "dest": [
+        "data_science_salary_by_state.py",
+        "ds_salary_by_state.csv",
+        "ds_salary_by_state.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "image_exists": true,
+        "required_libraries": ["requests", "beautifulsoup4", "pandas", "plotly", "geopandas", "matplotlib"],
+        "contains_keywords": ["Indeed", "data scientist", "salary", "state", "median"],
+        "output_columns": ["state", "median_salary", "job_count"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false
+}

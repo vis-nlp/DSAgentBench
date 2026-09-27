@@ -1,0 +1,90 @@
+{
+  "id": "ds220",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mnist_pca_tsne_analysis.py` in the `/home/user/analysis_results/mnist-in-csv/` directory. The dataset includes two CSV files already located in the same directory: `mnist_train.csv` and `mnist_test.csv`. In this script, load both datasets using pandas and merge them into a single DataFrame. Apply Principal Component Analysis (PCA) on pixel columns (1x1–28x28) to retain components explaining at least 95% of total variance, and record the exact number of components kept. Then, apply t-SNE to reduce the PCA-transformed data to 2D space. Compute cluster compactness as the average intra-class Euclidean distance per digit label. Save the results to a text file named `mnist_pca_tsne_summary.txt` containing exactly one line formatted as: `Explained_Variance_95%: <n_components>, Mean_IntraClass_Distance: <value>`.",
+  
+  "source": "kaggle://oddrationale/mnist-in-csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mnist-in-csv"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://oddrationale/mnist-in-csv",
+            "path": "/home/user/analysis_results/mnist-in-csv/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mnist-in-csv/mnist_pca_tsne_analysis.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mnist-in-csv/mnist_pca_tsne_analysis.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds220",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mnist_pca_tsne_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mnist-in-csv/mnist_pca_tsne_analysis.py",
+        "/home/user/analysis_results/mnist-in-csv/mnist_train.csv",
+        "/home/user/analysis_results/mnist-in-csv/mnist_test.csv",
+        "/home/user/analysis_results/mnist-in-csv/mnist_pca_tsne_summary.txt"
+      ],
+      "dest": [
+        "mnist_pca_tsne_analysis.py",
+        "mnist_train.csv",
+        "mnist_test.csv",
+        "mnist_pca_tsne_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn", "scipy"],
+        "contains_keywords": ["PCA", "TSNE", "fit_transform", "explained_variance_ratio_", "euclidean"],
+        "output_format": ["Explained_Variance_95%", "Mean_IntraClass_Distance"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

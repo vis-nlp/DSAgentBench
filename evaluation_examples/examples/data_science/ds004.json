@@ -1,0 +1,111 @@
+{
+  "id": "ds004",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called wine_regression_model.py in the /home/user/analysis_results/ directory. The dataset winequality-red.csv is already in the same folder. Load it using pandas, and build a Linear Regression model to predict the quality column using all other columns as features. Keep the last 10 percent of the dataset as the validation set and use the rest for training. Train the model, make predictions on the validation set, compute the Mean Absolute Error (MAE), round it to three decimal places, and save it in a text file named validation_mae.txt in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/winequality-red.csv",
+            "path": "/home/user/analysis_results/winequality-red.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/wine_regression_model.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/wine_regression_model.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds_004",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_wine_regression_mae",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/wine_regression_model.py",
+        "/home/user/analysis_results/winequality-red.csv",
+        "/home/user/analysis_results/validation_mae.txt"
+      ],
+      "dest": [
+        "wine_regression_model.py",
+        "winequality-red.csv",
+        "validation_mae.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas", "sklearn"],
+        "script_exists": true,
+        "expected_file": "validation_mae.txt"
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

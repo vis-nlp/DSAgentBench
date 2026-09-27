@@ -1,0 +1,90 @@
+{
+  "id": "ds196",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mobile_battery_correlation.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The dataset includes two CSV files: `train.csv` and `test.csv`, both located in the same directory. In this script, load both datasets using pandas and merge them into a single DataFrame. Compute the Pearson correlation between `battery_power` and `mobile_wt`, and separately between `battery_power` and `talk_time`. Identify which relationship is stronger in absolute magnitude. Save the results to a text file named `mobile_battery_correlation_summary.txt` containing one line formatted as: `Corr_Battery_Weight: <value>, Corr_Battery_TalkTime: <value>, Stronger_Relationship: <mobile_wt/talk_time>`. Round correlation values to four decimal places.",
+  
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/mobile_battery_correlation.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/mobile_battery_correlation.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds196",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mobile_battery_correlation",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/mobile_battery_correlation.py",
+        "/home/user/analysis_results/mobile-price-classification/train.csv",
+        "/home/user/analysis_results/mobile-price-classification/test.csv",
+        "/home/user/analysis_results/mobile-price-classification/mobile_battery_correlation_summary.txt"
+      ],
+      "dest": [
+        "mobile_battery_correlation.py",
+        "train.csv",
+        "test.csv",
+        "mobile_battery_correlation_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["corr", "battery_power", "mobile_wt", "talk_time"],
+        "output_format": ["Corr_Battery_Weight", "Corr_Battery_TalkTime", "Stronger_Relationship"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,94 @@
+{
+  "id": "ds075",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook named `threshold_recall_diabetes.ipynb` inside `/home/user/analysis_results/`. The dataset `diabetes.csv` is already located in that directory. In the notebook, load the data with pandas and train a Logistic Regression model using `Outcome` as the target and all remaining numeric features as predictors. After training, adjust the decision threshold for classification from the default 0.5 to 0.3, and compute the Recall value for class 1 under this new threshold. Save the Recall value (rounded to three decimals) into a text file named `threshold_recall.txt` in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/threshold_recall_diabetes.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/threshold_recall_diabetes.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds075",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_threshold_recall_diabetes",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/threshold_recall_diabetes.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/threshold_recall.txt"
+      ],
+      "dest": [
+        "threshold_recall_diabetes.ipynb",
+        "diabetes.csv",
+        "threshold_recall.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "threshold_recall.txt",
+        "required_libraries": ["pandas", "numpy", "sklearn"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

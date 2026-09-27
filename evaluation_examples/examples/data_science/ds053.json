@@ -1,0 +1,89 @@
+{
+  "id": "ds053",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a new notebook called wage_trend_analysis.ipynb in the /home/user/analysis_results/ directory. In this notebook, load the dataset Wage_Rigidity_Dataset.csv from the /home/user/analysis_results/ directory. Then create two visualizations: (1) wage_trend.png — a line chart showing All workers (hourly and non-hourly), Hourly workers, and Non-hourly workers over time; (2) industry_trend.png — a line chart comparing Construction, Finance, and Manufacturing over time. Ensure that both charts include clear titles, axis labels, legends, and save them in the same directory.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Wage%20Rigidity%20Dataset.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Wage%20Rigidity%20Dataset.csv",
+            "path": "/home/user/analysis_results/Wage_Rigidity_Dataset.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/wage_trend_analysis.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook", 
+          "/home/user/analysis_results/wage_trend_analysis.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds_025_jupyter_wage_trend",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Jupyter Notebook" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      }
+    ],
+    "func": "evaluate_jupyter_wage_trend_visualizations",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/wage_trend_analysis.ipynb",
+        "/home/user/analysis_results/Wage_Rigidity_Dataset.csv",
+        "/home/user/analysis_results/wage_trend.png",
+        "/home/user/analysis_results/industry_trend.png"
+      ],
+      "dest": [
+        "wage_trend_analysis.ipynb",
+        "Wage_Rigidity_Dataset.csv",
+        "wage_trend.png",
+        "industry_trend.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "csv_exists": true,
+        "images_exist": ["wage_trend.png", "industry_trend.png"],
+        "required_libraries": ["pandas", "matplotlib"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

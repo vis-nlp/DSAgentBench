@@ -1,0 +1,98 @@
+{
+  "id": "ds027",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called antibiotic_response_viz.py in the /home/user/analysis_results/ directory. The dataset Antibiotics.csv is already available in that folder. Load it using pandas. Then create two visualizations: (1) a heatmap showing the sensitivity of each bacterium (rows) to all three antibiotics (columns), saved as antibiotic_heatmap.png; and (2) a boxplot comparing the distributions of antibiotic responses grouped by Gram type, saved as gram_boxplot.png. Make sure axes, legends, and labels are clear and properly titled.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Antibiotics.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Antibiotics.csv",
+            "path": "/home/user/analysis_results/Antibiotics.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/antibiotic_response_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/antibiotic_response_viz.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds027",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_antibiotic_response_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/antibiotic_response_viz.py",
+        "/home/user/analysis_results/antibiotic_heatmap.png",
+        "/home/user/analysis_results/gram_boxplot.png"
+      ],
+      "dest": [
+        "antibiotic_response_viz.py",
+        "antibiotic_heatmap.png",
+        "gram_boxplot.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["antibiotic_heatmap.png", "gram_boxplot.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}
+

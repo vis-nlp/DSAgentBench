@@ -1,0 +1,97 @@
+{
+  "id": "ds159",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `boston_linear_regression.py` in the `/home/user/analysis_results/` directory. The dataset `boston.csv` is already located in the same directory. In this script, load the dataset using pandas. Split the data into an 80% training and 20% testing set. Train a Multiple Linear Regression model to predict the target variable `MEDV` using all other features. Evaluate model performance on the test set using R², Mean Absolute Error (MAE), and Root Mean Squared Error (RMSE). Save the results to a CSV file named `boston_linear_regression_results.csv` with exactly one row and three columns: R2,MAE,RMSE. Round all metric values to four decimal places.",
+  "source": "openml://531",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://531",
+            "path": "/home/user/analysis_results/boston.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/boston_linear_regression.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/boston_linear_regression.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds159",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_boston_linear_regression",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/boston_linear_regression.py",
+        "/home/user/analysis_results/boston.csv",
+        "/home/user/analysis_results/boston_linear_regression_results.csv"
+      ],
+      "dest": [
+        "boston_linear_regression.py",
+        "boston.csv",
+        "boston_linear_regression_results.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy", "sklearn"],
+        "contains_keywords": ["LinearRegression", "r2_score", "mean_absolute_error", "mean_squared_error"],
+        "output_columns": ["R2", "MAE", "RMSE"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

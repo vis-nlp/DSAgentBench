@@ -1,0 +1,94 @@
+{
+  "id": "ds063",
+  "snapshot": "data_science",
+  "instruction": "Within a Jupyter Notebook titled `summary_statistics.ipynb` under `/home/user/analysis_results/`, open the dataset `diabetes.csv` using pandas. For every numeric column, calculate the mean, median, and standard deviation. Store the results in a DataFrame with columns `Feature`, `Mean`, `Median`, and `Std`. Finally, export this table to `summary_stats.csv` in the same folder.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/diabetes.csv",
+            "path": "/home/user/analysis_results/diabetes.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/summary_statistics.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/summary_statistics.ipynb"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds063",
+  "related_apps": ["jupyter", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_summary_statistics",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/summary_statistics.ipynb",
+        "/home/user/analysis_results/diabetes.csv",
+        "/home/user/analysis_results/summary_stats.csv"
+      ],
+      "dest": [
+        "summary_statistics.ipynb",
+        "diabetes.csv",
+        "summary_stats.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "summary_stats.csv",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

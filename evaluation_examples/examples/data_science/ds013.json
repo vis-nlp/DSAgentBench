@@ -1,0 +1,93 @@
+{
+  "id": "ds013",
+  "snapshot": "data_science",
+  "instruction": "In Visual Studio Code, create a Python script named `ag_kmeans_summary.py` under `/home/user/analysis_results/`. The dataset `2011_us_ag_exports.csv` is already located in that folder. In the script, load the dataset using pandas and apply K-Means clustering (n_clusters=3) only on the numeric columns except `total exports`. After clustering, compute the average `total exports` for each cluster and save the results into a text file `cluster_summary.txt` in the same directory, with one line per cluster in the format `<cluster_label>,<average_total_exports>` rounded to two decimals and sorted by cluster label.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv",
+            "path": "/home/user/analysis_results/2011_us_ag_exports.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/ag_kmeans_summary.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/ag_kmeans_summary.py"]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds013",
+  "related_apps": ["vscode", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_ag_kmeans_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/ag_kmeans_summary.py",
+        "/home/user/analysis_results/2011_us_ag_exports.csv",
+        "/home/user/analysis_results/cluster_summary.txt"
+      ],
+      "dest": [
+        "ag_kmeans_summary.py",
+        "2011_us_ag_exports.csv",
+        "cluster_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "required_libraries": ["pandas", "sklearn"],
+        "script_exists": true,
+        "expected_file": "cluster_summary.txt"
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

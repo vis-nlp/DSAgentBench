@@ -1,0 +1,98 @@
+{
+  "id": "ds209",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `retail_top_store_holiday_analysis.py` in the `/home/user/analysis_results/retaildataset/` directory. The dataset includes three files already located in the same directory: `Features data set.csv`, `sales data-set.csv`, and `stores data-set.csv`. In this script, load and merge all three datasets using pandas on the `Store` column. Identify the top 3 stores with the highest mean Weekly_Sales during holiday weeks. For those stores, create: (a) a multi-line chart showing Weekly_Sales trends over time, one line per store, with holiday weeks visually highlighted using distinct markers or colors, saved as `top_stores_sales_trends.png`; and (b) a side-by-side boxplot comparing Weekly_Sales distributions between holiday and non-holiday weeks for the single top-performing store, saved as `holiday_comparison_boxplot.png`. Ensure all plots have clear legends, labeled axes, and titles.",
+  "source": "kaggle://manjeetsingh/retaildataset",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/retaildataset"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://manjeetsingh/retaildataset",
+            "path": "/home/user/analysis_results/retaildataset/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/retaildataset/retail_top_store_holiday_analysis.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/retaildataset/retail_top_store_holiday_analysis.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/209",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "func": "evaluate_retail_top_store_holiday_analysis_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/retaildataset/retail_top_store_holiday_analysis.py",
+        "/home/user/analysis_results/retaildataset/Features data set.csv",
+        "/home/user/analysis_results/retaildataset/sales data-set.csv",
+        "/home/user/analysis_results/retaildataset/stores data-set.csv",
+        "/home/user/analysis_results/retaildataset/top_stores_sales_trends.png",
+        "/home/user/analysis_results/retaildataset/holiday_comparison_boxplot.png"
+      ],
+      "dest": [
+        "retail_top_store_holiday_analysis.py",
+        "Features data set.csv",
+        "sales data-set.csv",
+        "stores data-set.csv",
+        "top_stores_sales_trends.png",
+        "holiday_comparison_boxplot.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "images_exist": [
+          "top_stores_sales_trends.png",
+          "holiday_comparison_boxplot.png"
+        ],
+        "required_libraries": ["pandas", "matplotlib", "seaborn"],
+        "contains_keywords": [
+          "plt.figure",
+          "lineplot",
+          "boxplot",
+          "savefig"
+        ]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}
+

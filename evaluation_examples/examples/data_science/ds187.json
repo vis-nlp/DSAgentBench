@@ -1,0 +1,103 @@
+{
+  "id": "ds187",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `student_exam_interaction_effect.py` in the `/home/user/analysis_results/student-exam-score-dataset-analysis/` directory. The dataset `student_exam_scores.csv` is already located in the same directory. In this script, load the dataset using pandas. Fit a multiple linear regression model predicting `exam_score` using `hours_studied`, `sleep_hours`, and their interaction term (`hours_studied * sleep_hours`). Report the estimated coefficient of the interaction term and state whether studying more while sleeping less increases or decreases predicted performance. Save the result to a text file named `student_exam_interaction_summary.txt` containing one line in the format: `Interaction_Coefficient: <value>, Effect: <Increases/Decreases>`.",
+  "source": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "mkdir",
+          "-p",
+          "/home/user/analysis_results/student-exam-score-dataset-analysis"
+        ]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://grandmaster07/student-exam-score-dataset-analysis",
+            "path": "/home/user/analysis_results/student-exam-score-dataset-analysis/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "touch",
+          "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_interaction_effect.py"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "code",
+          "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_interaction_effect.py"
+        ]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds187",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_student_exam_interaction_effect",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_interaction_effect.py",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_scores.csv",
+        "/home/user/analysis_results/student-exam-score-dataset-analysis/student_exam_interaction_summary.txt"
+      ],
+      "dest": [
+        "student_exam_interaction_effect.py",
+        "student_exam_scores.csv",
+        "student_exam_interaction_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "sklearn", "statsmodels"],
+        "contains_keywords": ["interaction", "hours_studied", "sleep_hours"],
+        "output_columns": ["Interaction_Coefficient", "Effect"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "ds243",
+  "snapshot": "data_science",
+  "instruction": "Open Visual Studio Code and create a Python script named `mnist_class_compactness.py` under `/home/user/analysis_results/`. In this script: (1) Use the `openml` library to fetch the MNIST_784 dataset (OpenML ID 554). (2) Group samples by their digit labels (0–9). (3) For each class, compute the variance of each of the 784 pixel features and take their sum, representing the class’s overall variance (compactness metric). (4) Identify which class has the smallest summed variance (`most_compact`) and which has the largest (`least_compact`). (5) Save the result to a JSON file named `mnist_class_compactness_summary.json` in the same directory, formatted exactly as: `{ \"most_compact\": <digit>, \"least_compact\": <digit> }`.",
+  "source": "openml://554",
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/"] }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mnist_class_compactness.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mnist_class_compactness.py"] }
+    }
+  ],
+  "trajectory": "trajectories/ds243",
+  "related_apps": ["vscode","python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mnist_class_compactness",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mnist_class_compactness.py",
+        "/home/user/analysis_results/mnist_class_compactness_summary.json"
+      ],
+      "dest": [
+        "mnist_class_compactness.py",
+        "mnist_class_compactness_summary.json"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["openml","pandas","numpy"],
+        "contains_keywords": ["groupby","var","sum","argmin","argmax"],
+        "output_format": ["most_compact","least_compact"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false
+}

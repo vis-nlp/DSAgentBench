@@ -1,0 +1,97 @@
+{
+  "id": "ds153",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `cholesterol_group_stats.py` in the `/home/user/analysis_results/` directory. The dataset `cholesterol.csv` is already located in the same directory. In this script, load the dataset using pandas. Group the data by `sex` and `cp`, and compute the mean and standard deviation of `thalach` and `chol` for each group. After computing, sum up all mean values and all standard deviation values across groups. Save the result to a CSV file named `grouped_cholesterol_summary.csv` with columns: Group_Count, Sum_Mean, Sum_Std.",
+  "source": "openml://204",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "openml://204",
+            "path": "/home/user/analysis_results/cholesterol.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/cholesterol_group_stats.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/cholesterol_group_stats.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds153",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_cholesterol_group_stats",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/cholesterol_group_stats.py",
+        "/home/user/analysis_results/cholesterol.csv",
+        "/home/user/analysis_results/grouped_cholesterol_summary.csv"
+      ],
+      "dest": [
+        "cholesterol_group_stats.py",
+        "cholesterol.csv",
+        "grouped_cholesterol_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "csv_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["groupby", "mean", "std", "sum"],
+        "output_columns": ["Group_Count", "Sum_Mean", "Sum_Std"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

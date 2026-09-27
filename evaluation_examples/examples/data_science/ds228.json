@@ -1,0 +1,92 @@
+{
+  "id": "ds228",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `worldbank_india_energy_emission_analysis.py` inside `/home/user/analysis_results/worldbank_data/`. First, open Google Chrome and navigate to `https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation`. From this, determine how to correctly form API requests. Then, construct and fetch data from two World Bank API endpoints for India: (1) Energy use (indicator `EG.USE.PCAP.KG.OE`), and (2) CO2 emissions per capita (indicator `EN.ATM.CO2E.PC`). Use `requests` to retrieve data from both endpoints, handling pagination if necessary. Extract the last 10 available years with both values, align them by year, and create a DataFrame with columns: `year`, `energy_use`, and `co2_emission`. Compute: (a) the Pearson correlation between energy use and CO2 emissions, and (b) the year showing the sharpest percentage drop in CO2 emissions relative to its previous year. Save both results to a text file named `india_energy_emission_summary.txt` formatted as: `Correlation: <value>, Sharpest_Emission_Drop_Year: <year>`.",
+  
+  "source": "web",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/worldbank_data"] }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["google-chrome", "--new-window", "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation"]
+      }
+    },
+    {
+      "type": "sleep",
+      "parameters": { "seconds": 5.0 }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/worldbank_data/worldbank_india_energy_emission_analysis.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/worldbank_data/worldbank_india_energy_emission_analysis.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds228",
+  "related_apps": ["chrome", "vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_worldbank_india_energy_emission_analysis",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/worldbank_data/worldbank_india_energy_emission_analysis.py",
+        "/home/user/analysis_results/worldbank_data/india_energy_emission_summary.txt"
+      ],
+      "dest": [
+        "worldbank_india_energy_emission_analysis.py",
+        "india_energy_emission_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy", "requests"],
+        "contains_keywords": [
+          "https://api.worldbank.org/v2/country/IN/indicator/EG.USE.PCAP.KG.OE",
+          "https://api.worldbank.org/v2/country/IN/indicator/EN.ATM.CO2E.PC",
+          "requests.get",
+          "json",
+          "corr",
+          "pct_change"
+        ],
+        "output_format": ["Correlation", "Sharpest_Emission_Drop_Year"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "medium"
+}

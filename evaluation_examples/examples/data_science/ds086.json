@@ -1,0 +1,90 @@
+{
+  "id": "ds086",
+  "snapshot": "data_science",
+  "instruction": "Using Jupyter Notebook, create a notebook named `region_turnout_summary.ipynb` inside `/home/user/analysis_results/`. The dataset `european_turnout.csv` is already in that folder. In the notebook, load the dataset using pandas and group the data by `region`. For each region, calculate: the average `euro_turnout`, the average `nat_turnout`, and the average difference defined as (`euro_turnout - nat_turnout`). Save the result as `region_turnout_summary.csv` in the same directory, with columns: `region`, `avg_euro_turnout`, `avg_nat_turnout`, `avg_difference` (rounded to two decimals).",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/european_turnout.csv",
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/european_turnout.csv",
+            "path": "/home/user/analysis_results/european_turnout.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": [
+          "bash",
+          "-c",
+          "cat > /home/user/analysis_results/region_turnout_summary.ipynb << 'EOF'\n{\n \"cells\": [],\n \"metadata\": {},\n \"nbformat\": 4,\n \"nbformat_minor\": 5\n}\nEOF"
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "python3",
+          "-m",
+          "notebook",
+          "/home/user/analysis_results/region_turnout_summary.ipynb"
+        ]
+      }
+    }
+  ],
+  "trajectory": "trajectories/ds086",
+  "related_apps": ["jupyter", "python"],
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Jupyter Notebook"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      }
+    ],
+    "func": "evaluate_region_turnout_summary",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/region_turnout_summary.ipynb",
+        "/home/user/analysis_results/european_turnout.csv",
+        "/home/user/analysis_results/region_turnout_summary.csv"
+      ],
+      "dest": [
+        "region_turnout_summary.ipynb",
+        "european_turnout.csv",
+        "region_turnout_summary.csv"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "notebook_exists": true,
+        "expected_file": "region_turnout_summary.csv",
+        "required_libraries": ["pandas", "numpy"]
+      }
+    }
+  },
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

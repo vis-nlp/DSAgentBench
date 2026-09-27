@@ -1,0 +1,89 @@
+{
+  "id": "ds200",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a Python script named `mobile_efficiency_ratio.py` in the `/home/user/analysis_results/mobile-price-classification/` directory. The dataset includes `train.csv` and `test.csv` already located in the same directory. In this script, load both files using pandas and merge them into a single DataFrame. Compute a new feature `efficiency_ratio = (battery_power * talk_time) / mobile_wt`. Then, group the data by the combination of `dual_sim` and `four_g`, computing the mean efficiency_ratio for each group. Identify the group (pair of dual_sim and four_g values) with the maximum mean efficiency_ratio. Save the result to a text file named `mobile_efficiency_summary.txt` in the format: `Max_Efficiency_Group: (dual_sim, four_g)`. Dual_sim and four_g values should be integers (0 or 1).",
+  "source": "kaggle://iabhishekofficial/mobile-price-classification",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": { "command": ["mkdir", "-p", "/home/user/analysis_results/mobile-price-classification"] }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "kaggle://iabhishekofficial/mobile-price-classification",
+            "path": "/home/user/analysis_results/mobile-price-classification/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": { "command": ["touch", "/home/user/analysis_results/mobile-price-classification/mobile_efficiency_ratio.py"] }
+    },
+    {
+      "type": "launch",
+      "parameters": { "command": ["code", "/home/user/analysis_results/mobile-price-classification/mobile_efficiency_ratio.py"] }
+    }
+  ],
+
+  "trajectory": "trajectories/ds200",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": { "window_name": "Visual Studio Code" }
+      },
+      {
+        "type": "sleep",
+        "parameters": { "seconds": 2.0 }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": [
+            "python",
+            "-c",
+            "import pyautogui; pyautogui.hotkey('ctrl','s');"
+          ]
+        }
+      }
+    ],
+    "func": "evaluate_mobile_efficiency_ratio",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/mobile-price-classification/mobile_efficiency_ratio.py",
+        "/home/user/analysis_results/mobile-price-classification/train.csv",
+        "/home/user/analysis_results/mobile-price-classification/test.csv",
+        "/home/user/analysis_results/mobile-price-classification/mobile_efficiency_summary.txt"
+      ],
+      "dest": [
+        "mobile_efficiency_ratio.py",
+        "train.csv",
+        "test.csv",
+        "mobile_efficiency_summary.txt"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "text_exists": true,
+        "required_libraries": ["pandas", "numpy"],
+        "contains_keywords": ["efficiency_ratio", "groupby", "dual_sim", "four_g", "mean"],
+        "output_format": ["Max_Efficiency_Group"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}

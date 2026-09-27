@@ -1,0 +1,97 @@
+{
+  "id": "ds026",
+  "snapshot": "data_science",
+  "instruction": "Using Visual Studio Code, create a new Python script called antibiotics_sensitivity_viz.py in the /home/user/analysis_results/ directory. The dataset Antibiotics.csv is already available in that folder. Load it using pandas. Then create two visualizations: (1) a bar chart comparing the mean antibiotic sensitivity grouped by Gram type (saved as mean_sensitivity_bar.png), and (2) a scatter plot with Penicillin on the x-axis, Streptomycin on the y-axis, and color representing Gram type (saved as antibiotic_scatter.png). Make sure axes, legends, and labels are clear and properly titled.",
+  "source": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Antibiotics.csv",
+
+  "config": [
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["mkdir", "-p", "/home/user/analysis_results"]
+      }
+    },
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/Antibiotics.csv",
+            "path": "/home/user/analysis_results/Antibiotics.csv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "command",
+      "parameters": {
+        "command": ["touch", "/home/user/analysis_results/antibiotics_sensitivity_viz.py"]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": ["code", "/home/user/analysis_results/antibiotics_sensitivity_viz.py"]
+      }
+    }
+  ],
+
+  "trajectory": "trajectories/ds026",
+  "related_apps": ["vscode", "python"],
+
+  "evaluator": {
+    "postconfig": [
+      {
+        "type": "activate_window",
+        "parameters": {
+          "window_name": "Visual Studio Code"
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 2.0
+        }
+      },
+      {
+        "type": "execute",
+        "parameters": {
+          "command": ["python", "-c", "import pyautogui; pyautogui.hotkey('ctrl','s');"]
+        }
+      },
+      {
+        "type": "sleep",
+        "parameters": {
+          "seconds": 1.0
+        }
+      }
+    ],
+    "func": "evaluate_antibiotics_sensitivity_viz_quality",
+    "result": {
+      "type": "vm_file",
+      "multi": true,
+      "path": [
+        "/home/user/analysis_results/antibiotics_sensitivity_viz.py",
+        "/home/user/analysis_results/mean_sensitivity_bar.png",
+        "/home/user/analysis_results/antibiotic_scatter.png"
+      ],
+      "dest": [
+        "antibiotics_sensitivity_viz.py",
+        "mean_sensitivity_bar.png",
+        "antibiotic_scatter.png"
+      ]
+    },
+    "expected": {
+      "type": "rule",
+      "rules": {
+        "script_exists": true,
+        "images_exist": ["mean_sensitivity_bar.png", "antibiotic_scatter.png"],
+        "required_libraries": ["pandas"]
+      }
+    }
+  },
+
+  "proxy": false,
+  "fixed_ip": false,
+  "possibility_of_env_change": "low"
+}
