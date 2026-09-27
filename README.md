@@ -1,6 +1,10 @@
 <h1 align="center">DSAgentBench: Can Agents Automate End-to-End Data-Science Workflows in Real Computer Environments?</h1>
 
 <p align="center">
+  <strong>Accepted to EMNLP 2026 (main conference).</strong>
+</p>
+
+<p align="center">
   <strong>Benchmarking computer-use agents on end-to-end data-science workflows in realistic desktop environments</strong>
 </p>
 
